@@ -13,8 +13,36 @@
       \paragraph{}
       [TODO]
 
+    \section{Notación}
+    \label{sec:formulation_notation}
+
+      \paragraph{}
+      [TODO]
+
+
     \section{Formulación básica}
     \label{sec:formulation_basic_formulation}
+
+      \paragraph{}
+      [TODO]
+      \begin{eqfloat}
+				\begin{equation}
+					\begin{array}{rr@{}ll}
+  					\text{Minimizar} & \displaystyle\sum\limits_{k \in K}\sum\limits_{(i, j) \in A}  c_{ij}^{k}x_{ij}^{k} &                 & \\
+						\text{sujeto a}	 & \displaystyle\sum\limits_{k \in K}\sum\limits_{j: (i, j) \in A} x_{0j}^{k} \ &= 1,                      & \forall i \in P \cup D \\
+                             & \displaystyle\sum\limits_{j: (0, j) \in A} x_{i,n+\tilde{n} + 1}^{k}  \ &= 1, 	                          & \forall k \in K \\
+                             & \displaystyle\sum\limits_{i: (i, n + \tilde{n} + 1) \in A} x_{ij}^{k} \ &= 1, 	                          & \forall k \in K \\
+                             & \displaystyle\sum\limits_{i: (i, j) \in A} x_{ij}^{k} - \sum\limits_{j: (j, i) \in A} x_{ij}^{k} \ &= 0, & \forall j \in P \cup D, \forall k \in K \\
+                             & x_{ij}^{k} = 1, \implies B_{j}^{k} \ &\geq B_{i}^{k} + d_{i} + t_{ij}^{k} 	                          & \forall (i, j) \in A, \forall k \in K \\
+                             & x_{ij}^{k} = 1, \implies Q_{j}^{k} \ &= Q_{i}^{k} + q_{j} 	                          & \forall (i, j) \in A, \forall k \in K \\
+                             & max\{0, q_{i}\} \ &\leq Q_{i}^k 	                          & \forall i \in V, \forall k \in K \\
+                             & Q_{i}^k \ &\leq min\{C^{k}, C^{k} + q_{i}\} 	                          & \forall i \in V, \forall k \in K \\
+														 &                               	x_{j} 	&\in \{0,1\}, 	                 & \forall j \in \{1,...,n\} \\
+					\end{array}
+				\end{equation}
+				\caption{[TODO]}
+				\label{eq:basic_formulation}
+			\end{eqfloat}
 
       \paragraph{}
       [TODO]

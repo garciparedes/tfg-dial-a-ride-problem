@@ -1,0 +1,20 @@
+\ProvidesPackage{mylinearprogramming}
+
+\usepackage[margin=25pt, labelfont=bf]{caption}
+\usepackage{amsmath, amsfonts, pifont, float, color, url}
+
+\usepackage{aliascnt}
+\newaliascnt{eqfloat}{equation}
+\newfloat{eqfloat}{h}{eqflts}
+\floatname{eqfloat}{Ecuación}
+
+\newcommand*{\ORGeqfloat}{}
+\let\ORGeqfloat\eqfloat
+\def\eqfloat{%
+  \let\ORIGINALcaption\caption
+  \def\caption{%
+    \addtocounter{equation}{-1}%
+    \ORIGINALcaption
+  }%
+  \ORGeqfloat
+}
