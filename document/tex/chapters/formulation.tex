@@ -25,10 +25,21 @@
       \label{sec:formulation_optimization_problems}
 
         \paragraph{}
-        La clase de \emph{problemas de optimización} representa una de las áreas de investigación más interesante en la actualidad, ya que muchas de las innovaciones obtenidas en dicho campo permiten resolver problemas aplicables al mundo real de manera práctica que antes únicamente podían ser resueltos teóricamente. En concreto, los problemas de optimización son aquellos que se basan en la minimización (o maximización) de una determinada función objetivo (posiblemente vectorial) de manera que se satisfaga un conjunto de restricciones previamente fijadas sobre un conjunto de variables de decisión que afectan mutuamente a la satisfacibilidad de las restricciones y el valor de la función objetivo.
+        La clase de \emph{problemas de optimización} representa una de las áreas de investigación más interesante en la actualidad, ya que muchas de las innovaciones obtenidas en dicho campo permiten resolver problemas aplicables al mundo real de manera práctica que antes únicamente podían ser resueltos teóricamente. En concreto, los problemas de optimización son aquellos que se basan en la minimización (o maximización) de una determinada función objetivo (posiblemente vectorial, lo cual define modelos multiobjetivo) de manera que se satisfaga un conjunto de restricciones previamente fijadas sobre un conjunto de variables de decisión que afectan mutuamente a la satisfacibilidad de las restricciones y el valor de la función objetivo.
 
         \paragraph{}
-        Dichas variables de decisión pueden ser tanto categóricas como numéricas (discretas o continuas), lo cual genera una gran cantidad de subproblemas diferences (Nótese que las variables categóricas con $k$ niveles diferentes pueden ser representadas de manera sencilla a partir de $k-1$ variables binarias). De la misma manera, tanto el valor de función objetivo como las restricciones pueden tener una naturaleza muy diferente: estas pueden estar formadas por funciones lineales de las variables de decisión, como por complicadas funciones no lineales que complican el proceso de obtención del valor óptimo del problema.
+        Dichas variables de decisión pueden ser tanto categóricas como numéricas (discretas o continuas), lo cual genera una gran cantidad de subproblemas diferences (Nótese que las variables categóricas con $k$ niveles diferentes pueden ser representadas de manera sencilla a partir de $k-1$ variables binarias). De la misma manera, tanto el valor de función objetivo como las restricciones pueden tener una naturaleza muy diferente: estas pueden estar formadas por funciones lineales de las variables de decisión, como por complicadas funciones no lineales que complican el proceso de obtención del valor óptimo del problema. De manera matemática, la \cref{eq:general_optimization_formulation} define la formulación de optimización, donde tanto las funciones $f_i(\cdot)$ como $g_k(\cdot)$ son funciones arbitrarias que proyectan el vector de variables de decisión $n$-dimensional $\mathbf{x}$ en un espacio unidimensional (generando un valor escalar).
+
+        \begin{eqfloat}
+          \begin{equation}
+            \begin{array}{rr@{}ll}
+              \underset{\mathbf{x} \in R^n}{\text{Minimizar}} & f_i(\mathbf{x}) &                 ,& \forall i \in \{1,...,I\} \\
+              \text{sujeto a}	 & g_k(\mathbf{x}) \ &\leq 0, & \forall k \in \{1,...,K\}
+            \end{array}
+          \end{equation}
+          \caption{Formulación del modelo de Optimización General}
+          \label{eq:general_optimization_formulation}
+        \end{eqfloat}
 
         \paragraph{}
         Muchos de los problemas que resolvemos a diario en nuestra vida cotidiana son en cierta medida \emph{problemas de optimización}, desde qué elementos decidimos añadir a nuestra mochila cada día (basados en restricciones de capacidad, funciones objetivo de utilidad y variables de decisión binarias) hasta el la detección del rostro por nuestros teléfonos móviles para aplicar un filtro de la manera más realista posible en una videollamada (basados en restricciones de forma, funciones objetivo multidimensionales y millones de variables de decisión numéricas).
@@ -37,7 +48,32 @@
       \label{sec:formulation_linear_problems}
 
         \paragraph{}
-        [TODO]
+        Una de las categorías de problemas de optimización más ampliamente estudiados por su relativa simplicidad (ya se han desarrollado métodos capaces de obtener soluciones óptimas en un número reducido de pasos) y su gran capacidad de modelización ante muchas situaciones del mundo real son los \emph{problemas de optimización lineal}. Dichos problemas se caracterizan por estar compuestos por variables de decisión compuestas por transformaciones lineales respecto de la función objetivo. Esto quiere decir que tanto el valor de la función objetivo como las posibles restricciones escritas en forma de desigualdades están compuestas por sumas de las variables de decisión multiplicadas por determinados pesos.
+
+        \paragraph{}
+        En la \cref{eq:linear_optimization_formulation} se muestra a modo de ejemplo la formulación de un problema de optimización lineal (del cual se hablará posteriormente). Como se puede apreciar, en este caso las funciones arbitrarias definidas en la formulación general han sido sustituidas por transformaciones lineales respecto de las variables de decisión. Para la resolución de problemas de este tipo se han desarrollado una gran cantidad de métodos, entre los que destaca un algoritmo altamente eficiente el cual se conoce como \emph{Simplex} \cite{klee1970good}. Este algoritmo se basa en pivotaje entre soluciones de manera que tras cada iteracción se llegue a una solución igual o mejor. Una de las mayores ventajas de la formulación de un problema como lineal es que algoritmos como \emph{Simplex} proporcionan garantias de optimalidad al alcanzar el valor óptimo al terminar completamente su ejecución.
+
+        \begin{eqfloat}
+          \begin{equation}
+            \begin{array}{rr@{}ll}
+              \text{Minimizar} & \sum\limits_{i = 1}^{N}\sum\limits_{j = 1}^{M}  c_{ij}x_{ij} &                 & \\
+              \text{sujeto a}	 & \sum\limits_{i = 1}^{N} x_{ij} \ &= s_{i}, & \forall i \in \{1,...,N\} \\
+                               & \sum\limits_{j = 1}^{M} x_{ij} \ &= d_{j}, & \forall j \in \{1,...,M\} \\
+                               &                               	x_{ij} 	&\geq 0, 	                 & \forall i \in \{1,...,N\},\forall j \in \{1,...,M\}
+            \end{array}
+          \end{equation}
+          \caption{Formulación de un modelo de Optimización Lineal (Problema de Transporte)}
+          \label{eq:linear_optimization_formulation}
+        \end{eqfloat}
+
+        \paragraph{}
+        A pesar de que el algoritmo \emph{Simplex} siempre proporcione resultados óptimos, en algunas ocasiones no se posee la capacidad suficiente de cálculo para llegar a la mejor solución. Por lo tanto, se han desarrollado una gran cantidad de métodos conocidos como \emph{heurísticos} (de los cuáles se hablará más en detalle en el \cref{chap:heuristics} y \cref{chap:metaheuristics}) que a pesar de proporcionar unos buenos resultados, no ofrecen ninguna garantia de optimalidad. Por contra, también existen otros métodos exactos que son capaces de llegar al valor óptimo utilizando menor cantidad de recursos (algunos de los cuales se describen en el \cref{chap:exacts}).
+
+        \paragraph{}
+        Antes de describir algunos de los ejemplos y aplicaciones reales más destacadas basadas en \emph{problemas de optimización lineal}, es necesario describir unos de los problemas más populares de esta categoria, el cual se conoce como \emph{Problema de Transporte} y se caracteriza por permitir representar de manera matemática la tarea sobre cómo distribuir un conjunto de recursos procedentes de $N$ puntos de origen hasta $M$ puntos de destino, donde cada trayecto tiene un coste diferente, y cada origen y destino unas capacidades de oferta y demanda. La formulación sobre dicho problema se corresponde con la utilizada a modo de ejemplo en la \cref{eq:linear_optimization_formulation}.
+
+        \paragraph{}
+        Sin embargo, los problemas de optimización lineal permiten representar una amplia cantidad de situaciones de nuestra vida diaria. Entre ellos se encuentran los \emph{problemas de mezclas} (donde se pretende generar un compuesto con unas ciertas características a partir de la combinación de otros tratando de reducir los costes) aunque los problemas de optimización lineal también son de gran utilidad en el ámbito de la economia y los estudios de mercado, permitiendo representar de una manera relativamente sencilla el comportamiento de los clientes ante cambios de precio u otras variables más elaboradas.
 
       \subsection{Problemas de Optimización Combinatoria}
       \label{sec:formulation_combinatorial_problems}
