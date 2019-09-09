@@ -33,7 +33,7 @@
         \begin{eqfloat}
           \begin{equation}
             \begin{array}{rr@{}ll}
-              \underset{\mathbf{x} \in R^n}{\text{Minimizar}} & f_i(\mathbf{x}) &                 ,& \forall i \in \{1,...,I\} \\
+              \underset{\mathbf{x} \in \mathbb{R}^{n}}{\text{Minimizar}} & f_i(\mathbf{x}) &                 ,& \forall i \in \{1,...,I\} \\
               \text{sujeto a}	 & g_k(\mathbf{x}) \ &\leq 0, & \forall k \in \{1,...,K\}
             \end{array}
           \end{equation}
@@ -62,7 +62,7 @@
                                &                               	x_{ij} 	&\geq 0, 	                 & \forall i \in \{1,...,N\},\forall j \in \{1,...,M\}
             \end{array}
           \end{equation}
-          \caption{Formulación de un modelo de Optimización Lineal (Problema de Transporte)}
+          \caption{Formulación de un modelo de \emph{Optimización Lineal}. En concreto, el \emph{Problema de Transporte}}
           \label{eq:linear_optimization_formulation}
         \end{eqfloat}
 
@@ -81,12 +81,42 @@
         \paragraph{}
         [TODO]
 
+        \begin{eqfloat}
+          \begin{equation}
+            \begin{array}{rr@{}ll}
+              \text{Maximizar} & \sum\limits_{i = 1}^{N} u_{i}x_{i} &                 & \\
+              \text{sujeto a}	 & \sum\limits_{i = 1}^{N} w_{i}x_{i} \ &\leq W, & \forall i \in \{1,...,N\} \\
+                               &                             	x_{i} 	&\in \mathbb{N}, 	                 & \forall i \in \{1,...,N\}
+            \end{array}
+          \end{equation}
+          \caption{Formulación de un modelo de \emph{Optimización Combinatoria}. En concreto, el \emph{Problema de la Mochila}}
+          \label{eq:combinatorial_optimization_formulation}
+        \end{eqfloat}
 
-      \subsection{Problemas de Rutas}
+
+        \paragraph{}
+        [TODO]
+
+
+      \subsection{Optimización de de Rutas}
       \label{sec:formulation_routing_problems}
 
         \paragraph{}
         [TODO]
+
+        \begin{eqfloat}
+          \begin{equation}
+            \begin{array}{rr@{}ll}
+              \text{Minimizar} & \sum\limits_{i = 0}^{N}\sum\limits_{j = 1, j \neq i}^{N} c_{ij}x_{ij} & & \\
+              \text{sujeto a}	 & \sum\limits_{i = 0, i \neq j}^{N} x_{ij} \ &= 1, & \forall i \in \{1,...,N\} \\
+                               & \sum\limits_{j = 0, j \neq i}^{N} x_{ij} \ &= 1, & \forall j \in \{1,...,N\} \\
+                               & u_{i} - u_{j} + Nx_{ij} \ &\leq N - 1, & 1 \leq i \neq j \leq N \\
+                               &                             	x_{ij} 	&\in \{0, 1\}, 	                 & \forall i \in \{1,...,N\},\forall j \in \{1,...,N\}
+            \end{array}
+          \end{equation}
+          \caption{Formulación de un modelo de \emph{Optimización de Rutas}. En concreto, el \emph{Problema del viajero}}
+          \label{eq:combinatorial_optimization_formulation}
+        \end{eqfloat}
 
 
       \subsection{Problemas de Recogidas y Entregas}
