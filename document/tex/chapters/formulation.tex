@@ -79,7 +79,13 @@
       \label{sec:formulation_combinatorial_problems}
 
         \paragraph{}
-        [TODO]
+        Uno de los factores más relevantes cuando se trata de \emph{problemas de optimización lineal} se refiere a l naturaleza de las variables de decisión, en que (como se ha comentado anteriormente) estas pueden ser de una naturaleza continua o discreta. En este sentido, los problemas pueden clasificarse en 4 categorías: problemas de optimización continua puros (donde existen métodos muy eficientes que permiten ser resueltos en un tiempo razonable), problemas de \emph{optimización discretos}, problemas de optimización binaria (o de \emph{optimización combinatoria}) y problema de optimización mixtos (donde mezclan ambos tipos de variables).
+
+        \paragraph{}
+        A pesar de que la exigencia de que las variables de decisión sean discretas en un primer momento puede parecer muy sencilla en un primer momento (por ser muy intuitiva a nivel conceptual), esta complica mucho la labor de optimización del problema. En modo abstracto, esto se debe a que si el espacio de soluciones de un problema de optimización lineal era visto como un prima en un espacio $n$-dimensional (donde $n$ es el número de variables de decisión) y los puntos de interés se refieren a los vértices, que presentarán el máximo/mínimo valor óptimo, en el caso de las variables discretas el prima se transforma en una estructura \say{pixelada} lo cual incrementa de manera exponencial el número de vértices (y por tanto de puntos de evaluación) del problema en la búsqueda del valor óptimo.
+
+        \paragraph{}
+        Las dificultades descritas en el párrafo anterior provocan que la clase de problemas de optimización de variables discretas, entre los que se encuentra la de los problemas de optimización combinatoria (a la cuál a su vez pertenecen los de rutas, de los que se hablará posterirmente), hacen que el espacio de soluciones se extienda de tal manera que para casos relativemente pequeños, este sea inabordable. A pesar de existir métodos exactos (de los cuales se hablará en el \cref{chap:exacts}), la mayor parte de la literatura sobre este tema se ha dedicado a la investigación de métodos que a pesar de no ofrecer garantías de optimalidad, proporcionan un buen acuerdo entre eficiencia computacional y calidad de las soluciones obtenidas (de los cuales se hablará en los \cref{chap:heuristics,chap:metaheuristics}).
 
         \begin{eqfloat}
           \begin{equation}
@@ -93,9 +99,11 @@
           \label{eq:combinatorial_optimization_formulation}
         \end{eqfloat}
 
+        \paragraph{}
+        [TODO: Describe some combinatorial optimization examples and real applications.]
 
         \paragraph{}
-        [TODO]
+        [TODO: Conclude the subsection.]
 
 
       \subsection{Optimización de de Rutas}
