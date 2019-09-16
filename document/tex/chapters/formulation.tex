@@ -85,14 +85,14 @@
         A pesar de que la exigencia de que las variables de decisión sean discretas en un primer momento puede parecer muy sencilla en un primer momento (por ser muy intuitiva a nivel conceptual), esta complica mucho la labor de optimización del problema. En modo abstracto, esto se debe a que si el espacio de soluciones de un problema de optimización lineal era visto como un prima en un espacio $n$-dimensional (donde $n$ es el número de variables de decisión) y los puntos de interés se refieren a los vértices, que presentarán el máximo/mínimo valor óptimo, en el caso de las variables discretas el prima se transforma en una estructura \say{pixelada} lo cual incrementa de manera exponencial el número de vértices (y por tanto de puntos de evaluación) del problema en la búsqueda del valor óptimo.
 
         \paragraph{}
-        Las dificultades descritas en el párrafo anterior provocan que la clase de problemas de optimización de variables discretas, entre los que se encuentra la de los problemas de optimización combinatoria (a la cuál a su vez pertenecen los de rutas, de los que se hablará posterirmente), hacen que el espacio de soluciones se extienda de tal manera que para casos relativemente pequeños, este sea inabordable. A pesar de existir métodos exactos (de los cuales se hablará en el \cref{chap:exacts}), la mayor parte de la literatura sobre este tema se ha dedicado a la investigación de métodos que a pesar de no ofrecer garantías de optimalidad, proporcionan un buen acuerdo entre eficiencia computacional y calidad de las soluciones obtenidas (de los cuales se hablará en los \cref{chap:heuristics,chap:metaheuristics}).
+        Las dificultades descritas en el párrafo anterior provocan que la clase de problemas de optimización de variables discretas, entre los que se encuentra la de los problemas de optimización combinatoria (a la cuál a su vez pertenecen los de rutas, de los que se hablará posterirmente), hacen que el espacio de soluciones se extienda de tal manera que para casos relativemente pequeños, este sea inabordable. A pesar de existir métodos exactos (de los cuales se hablará en el \cref{chap:exacts}), la mayor parte de la literatura sobre este tema se ha dedicado a la investigación de métodos que a pesar de no ofrecer garantías de optimalidad, proporcionan un buen acuerdo entre eficiencia computacional y calidad de las soluciones obtenidas (los cuales se detallan en los \cref{chap:heuristics,chap:metaheuristics}).
 
         \begin{eqfloat}
           \begin{equation}
             \begin{array}{rr@{}ll}
               \text{Maximizar} & \sum\limits_{i = 1}^{N} u_{i}x_{i} &                 & \\
               \text{sujeto a}	 & \sum\limits_{i = 1}^{N} w_{i}x_{i} \ &\leq W, & \forall i \in \{1,...,N\} \\
-                               &                             	x_{i} 	&\in \mathbb{N}, 	                 & \forall i \in \{1,...,N\}
+                               &                             	x_{i} 	&\in \{0, 1\}, 	                 & \forall i \in \{1,...,N\}
             \end{array}
           \end{equation}
           \caption{Formulación de un modelo de \emph{Optimización Combinatoria}. En concreto, el \emph{Problema de la Mochila}}
@@ -100,11 +100,10 @@
         \end{eqfloat}
 
         \paragraph{}
-        [TODO: Describe some combinatorial optimization examples and real applications.]
+        Los problemas de \emph{optimización combinatatoria} se caracterizan porque las variables de decisión del modelo son de caracter binario. Dicha razón permite representar situaciones muy interesantes y diversas del mundo real, lo cual ha hecho que los campos de aplicaciones de este tipo de problemas sean desde la generación de rutas de vehículos con garantías de conectividad, hasta problemas de decisión relacionados con la toma o no de una determinada acción. Dentro de los problemas de decisión, existe uno que destaca sobre el resto por su relativa simplicidad teórica, pero a la vez extremada practicidad, el cual se conoce como \emph{problema de la mochila}. A pesar de tener muchas vertientes y extensiones, la idea básica de este es la de maximizar el valor en el proceso de selección de un subconjunto de elementos, dadas unas limitaciones de capacidad y un valor determinado para cada producto. La \say{dificultad} de este modelo reside en que los elementos no pueden ser escogidos parcialmente, por lo que surge un problema de combinatoria entre los elementos que añadir o no al subconjunto que forma la solución. A modo de ejemplo, en la \cref{eq:combinatorial_optimization_formulation} se muestra la versión más básica del \emph{problema de la mochila}, donde tal y como se puede apreciar, las variables de decisión tan solo pueden tomar valores $\{0, 1\}$ lo cual determina la presencia o no del elemento $i$-ésimo en el subconjunto solución.
 
         \paragraph{}
-        [TODO: Conclude the subsection.]
-
+        Tal y como se ha remarcado a lo largo de todo el apartado, es especialmente importante remarcar que la mayor dificultad surgida al añadir las restriciones en el soporte de las variables de decisión genera un mayor espacio de puntos de evaluación, lo cual complica extremadamente los métodos de generación de soluciones. Por contra, esta dificultad amplia en gran medida la capacidad de representación de los modelos, lo cual es algo beneficioso ya que permite aprovechar en mayor medida recursos que de otra forma serían imposibles de aprovechar de la misma manera.
 
       \subsection{Optimización de de Rutas}
       \label{sec:formulation_routing_problems}
