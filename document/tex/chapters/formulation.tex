@@ -14,7 +14,7 @@
       El problema de recogidas y entregas (\emph{Pickup and Delivery}), o \emph{PDP} en modo abreviado representa una de las modelizaciones más interesantes en el ámbito de los problemas de \emph{optimización combinatoria}. Esto se debe a la gran cantidad de situaciones del mundo real que pueden ser representadas siguiendo dicho esquema. Sin embargo, antes de profundizar en los aspectos más detallados que caracterizan el problema de recogidas y entregas, es necesario describir el contexto del mismo, así como la clase a la cual pertenece. Una vez se haya completado dicha tarea, se estará en condiciones necesarias para poder describir tanto la versión básica como las extensiones más interesantes, tanto desde el punto de vista de los aspectos matemáticos, como desde la cantidad de situaciones reales que permiten resolver.
 
       \paragraph{}
-      En cuanto a la organización del capítulo, en este apartado se describe de manera detallada el contexto del problema desde el punto de vista de la clase de problemas matemáticos a la que pertenecen (\cref{sec:formulation_optimization_problems,sec:formulation_linear_problems,sec:formulation_combinatorial_problems,sec:formulation_routing_problems}), las características generales que presenta (\cref{sec:formulation_picup_and_delivery_problems}) y algunas de las situaciones de gran relevancia para nuestra sociedad que están siendo resueltas siguiendo la modelización \emph{PDP} (\cref{sec:formulation_applications}).
+      En cuanto a la organización del capítulo, en este apartado se describe de manera detallada el contexto del problema desde el punto de vista de la clase de problemas matemáticos a la que pertenecen (\cref{sec:formulation_optimization_problems,sec:formulation_linear_problems,sec:formulation_combinatorial_problems,sec:formulation_routing_problems}), las características generales que presenta (\cref{sec:formulation_picup_and_delivery_problems}) y algunas de las situaciones de gran relevancia para nuestra sociedad que están siendo resueltas siguiendo la modelización \emph{PDP} (\cref{sec:formulation_picup_and_delivery_problems_applications}).
 
       [TODO: continuar descripción del resto de apartados del capítulo]
 
@@ -85,7 +85,7 @@
         A pesar de que la exigencia de que las variables de decisión sean discretas en un primer momento puede parecer muy sencilla en un primer momento (por ser muy intuitiva a nivel conceptual), esta complica mucho la labor de optimización del problema. En modo abstracto, esto se debe a que si el espacio de soluciones de un problema de optimización lineal era visto como un prima en un espacio $n$-dimensional (donde $n$ es el número de variables de decisión) y los puntos de interés se refieren a los vértices, que presentarán el máximo/mínimo valor óptimo, en el caso de las variables discretas el prima se transforma en una estructura \say{pixelada} lo cual incrementa de manera exponencial el número de vértices (y por tanto de puntos de evaluación) del problema en la búsqueda del valor óptimo.
 
         \paragraph{}
-        Las dificultades descritas en el párrafo anterior provocan que la clase de problemas de optimización de variables discretas, entre los que se encuentra la de los problemas de optimización combinatoria (a la cuál a su vez pertenecen los de rutas, de los que se hablará posterirmente), hacen que el espacio de soluciones se extienda de tal manera que para casos relativemente pequeños, este sea inabordable. A pesar de existir métodos exactos (de los cuales se hablará en el \cref{chap:exacts}), la mayor parte de la literatura sobre este tema se ha dedicado a la investigación de métodos que a pesar de no ofrecer garantías de optimalidad, proporcionan un buen acuerdo entre eficiencia computacional y calidad de las soluciones obtenidas (los cuales se detallan en los \cref{chap:heuristics,chap:metaheuristics}).
+        Las dificultades descritas en el párrafo anterior provocan que la clase de problemas de optimización de variables discretas, entre los que se encuentra la de los problemas de optimización combinatoria (a la cuál a su vez pertenecen los de rutas, de los que se hablará posterirmente), hacen que el espacio de soluciones se extienda de tal manera que para casos relativamente pequeños, este sea inabordable. A pesar de existir métodos exactos (de los cuales se hablará en el \cref{chap:exacts}), la mayor parte de la literatura sobre este tema se ha dedicado a la investigación de métodos que a pesar de no ofrecer garantías de optimalidad, proporcionan un buen acuerdo entre eficiencia computacional y calidad de las soluciones obtenidas (los cuales se detallan en los \cref{chap:heuristics,chap:metaheuristics}).
 
         \begin{eqfloat}
           \begin{equation}
@@ -143,10 +143,26 @@
         \end{eqfloat}
 
         \paragraph{}
-        [TODO]
+        Tal y como se puede apreciar a partir del ejemplo anterior, modelar problemas de optimización de rutas es una tarea relativamente sencilla. Sin embargo, es importante remarcar que en la formulación de la \cref{eq:routing_problem_formulation} (\emph{problema del viajante}) únicamente se requiere visitar todas las tareas y la solución óptima se consigue encontrando aquella que menor coste proporcione. Sin embargo, el marco de \emph{problemas de rutas} permite modelar situaciones mucho más complicadas. Esto se consigue ampliando las restricciones descritas inicialmente. Algunas de las más comunes se describen a continuación:
+
+        \begin{itemize}
+
+          \item \emph{Capacidad}: Muchos de los problemas de rutas se basan en cargar y/o recoger una determinada mercancia para después llevar al almacen (u otro destino), por lo tanto es necesario tener en cuenta la capacidad del vehículo así como tener constancia de la ocupación del mismo en cada momento de la ruta. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en el \cref{sec:formulation_capacity_restrictions}.
+
+          \item \emph{Ventanas Temporales}: Las tareas no siempre perduran a lo largo del tiempo, sino que tienen unas determinadas franjas temporales en que pueden ser servidas, por lo que dicha información debe ser incluida en la formulación del modelo para que este sea lo más próximo posible a la realidad. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en la \cref{sec:formulation_time_window_restrictions}.
+
+          \item \emph{Duración}: Existen ocasiones en que es necesario imponer restricciones de duracción a lo largo de la ruta. Dichas restricciones pueden ser de diferentes tipos, desde el punto de vista de la duración total de la ruta, así como del tiempo que pasa desde el principio de la ruta hasta que se visita una determinada tarea, desde que se visita una determinada tarea hasta el final de la ruta, etc. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en los \cref{sec:formulation_route_duration_restrictions,sec:formulation_trip_duration_restrictions}.
+
+        \end{itemize}
+
+        \paragraph{}
+        Hasta ahora, se han descrito los \emph{problemas de rutas} en los que únicamente se considera un vehículo. Sin embargo, es relativamente sencillo ampliar la formulación a casos en los cuales el modelo permite la utilización de variaos vehículos. Nótese que esto no es equivalente a la construcción de un modelo para cada vehículo ya que el objetivo es que estos se repartan tareas entre si. Para ello existen distintas formulaciones, entre las que destacan la utilización de modelos de $3$ índices (añadiendo una nueva dimensión a $X$ que determina el vehículo) o de $2$ índices (añadiendo nuevas restricciones que restringen el solapamiento de rutas). Cada una de estas alternativas presentan ventajas y desventajas que se describen más en detalle para el caso del \emph{problema de recogidas y entregas} en el \cref{sec:formulation_basic_formulation}.
 
         \subsubsection{Diferencias entre Optimización de Rutas y Secuenciación de Tareas}
         \label{sec:routing_problems_vs_job_shop_scheduling}
+
+          \paragraph{}
+          Argumentos basado en \cite{beck2003vehicle}.
 
           \paragraph{}
           [TODO]
@@ -160,12 +176,11 @@
         \paragraph{}
         [TODO]
 
+        \subsubsection{Applicaciones Reales}
+        \label{sec:formulation_picup_and_delivery_problems_applications}
 
-      \subsection{Applicaciones Reales}
-      \label{sec:formulation_applications}
-
-        \paragraph{}
-        [TODO]
+          \paragraph{}
+          [TODO]
 
     \section{Notación}
     \label{sec:formulation_notation}
@@ -217,6 +232,12 @@
 
       \paragraph{}
       [TODO]
+
+      \subsection{Capacidad}
+      \label{sec:formulation_capacity_restrictions}
+
+        \paragraph{}
+        [TODO]
 
       \subsection{Ventanas Temporales}
       \label{sec:formulation_time_window_restrictions}
