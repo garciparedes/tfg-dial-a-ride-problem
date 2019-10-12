@@ -158,17 +158,34 @@
         \paragraph{}
         Hasta ahora, se han descrito los \emph{problemas de rutas} en los que únicamente se considera un vehículo. Sin embargo, es relativamente sencillo ampliar la formulación a casos en los cuales el modelo permite la utilización de variaos vehículos. Nótese que esto no es equivalente a la construcción de un modelo para cada vehículo ya que el objetivo es que estos se repartan tareas entre si. Para ello existen distintas formulaciones, entre las que destacan la utilización de modelos de $3$ índices (añadiendo una nueva dimensión a $X$ que determina el vehículo) o de $2$ índices (añadiendo nuevas restricciones que restringen el solapamiento de rutas). Cada una de estas alternativas presentan ventajas y desventajas que se describen más en detalle para el caso del \emph{problema de recogidas y entregas} en el \cref{sec:formulation_basic_formulation}.
 
-        \subsubsection{Diferencias entre Optimización de Rutas y Secuenciación de Tareas}
+        \subsubsection{Relación con problemas de Secuenciación de Tareas}
         \label{sec:routing_problems_vs_job_shop_scheduling}
 
           \paragraph{}
-          Argumentos basado en \cite{beck2003vehicle}.
+          Tras la descripción de los \emph{problemas de rutas} es fácil darse cuenta de la gran similitud que existe con los \emph{problemas de secuenciación de tareas} ya que, al igual que estos, se basan en la optimización de un conjunto de tareas a servir. Antes de proceder con la relación y diferencias entre ambas categorías es necesario detallar que por \emph{problemas de secuenciación de tareas} nos referimos a problemas \emph{Job-Shop Scheduling}, en los cuales el objetivo es la planificación de una serie de tareas codependientes entre si de tal manera que estas se consigan resolver optimizando la duración total.
 
           \paragraph{}
-          [TODO]
+          A pesar de que el enfoque conceptual es muy similar y tal (y como se expone en \cite{beck2003vehicle} existen diferencias muy sutiles desde el punto de vista de la formulación), tanto el objetivo como el contexto de ambas categorías de problemas es muy diferente. En \cite{beck2003vehicle} se exponen $5$ razones por las cuales deben ser considerados como dos problemas diferentes, las cuales se proceden a enumerar a continuación:
+
+          \begin{itemize}
+
+            \item Recursos disponibles: Generalmente los \emph{problemas de rutas} planifican un número elevado de vehículos mientras que los \emph{problemas de secuenciación} suelen poseer un número reducido de servidores.
+
+            \item Dependencias temporales: Los \emph{problemas de rutas} presentan tareas independientes entre si (excepto en \emph{problemas de recogidas y entregas} como se describe en próximos apartados) mientras que los \emph{problemas de secuenciación} presentan una elevada componente de dependencias temporales entre las tareas.
+
+            \item Estructura de tiempo: En los \emph{problemas de rutas} el mayor peso temporal se corresponde en el proceso de enlace entre una tarea y la siguiente, mientras que en el \emph{problema de secuenciación} el peso temporal reside principalmente en la duracción de la propia tarea.
+
+            \item Función Objetivo: En la mayoría de casos los \emph{problemas de rutas} tratan de reducir los costes para generar los trayectos óptimos, mientras que en los \emph{problemas de optimización} el objetivo es minimizar la duración total del proceso (desde el inicio de la primera tarea hasta la finalización de la última).
+
+            \item Ventanas Temporales: Por lo general, la mayoría de \emph{problemas de rutas} se caracterizan por estar compuestos por \say{amplias} ventanas temporales, mientras que los \emph{problemas de secuenciación} suelen tener intervalos mucho más ajustados.
+
+          \end{itemize}
+
+          \paragraph{}
+          A pesar de que dichas diferencias se refieren más a la estructura de los datos del problema, estas también afectan en cierta manera a la forma de definir la formulación. Dichas diferencias son apreciables sobre todo desde el punto de vista de la definición de la función objetivo. Sin embargo, en el aspecto en que más se diferencian entre si es en la estrategia de resolución a seguir en cada caso desde el punto de vista de la utilización de heurísticas de búsqueda. Es fácil darse cuenta de que las estrategias que funcionen de manera adecuada con los \emph{problemas de rutas} probablemente no se comporten como deberían en \emph{problemas de secuenciación}, y viceversa. Por todas estas razones, deben ser estudiados como problemas diferentes a pesar de tener muchas similitudes entre si.
 
         \paragraph{}
-        [TODO]
+        Tal y como se ha descrito a lo largo del apartado, los problemas de rutas representan un marco de modelización muy interesante que permite representar una gran cantidad de situaciones reales, desde el caso más sencillo relacionado con el \emph{problema del viajante} hasta modelizaciones muy complejas como las de empresas de reparto a gran escala que requieren de la construcción de rutas de reparto que aprovechen al máximo los recursos de la misma. El ejemplo más notable en este campo es el sistema de distribución de productos de empresas como \emph{Amazon} dado que sin técnicas de optimización sería imposible alcanzar un nivel de servicio similar sin caer en costes de servicio inmanejables.
 
       \subsection{Problemas de Recogidas y Entregas}
       \label{sec:formulation_picup_and_delivery_problems}
