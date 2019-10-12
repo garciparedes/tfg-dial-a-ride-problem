@@ -62,7 +62,7 @@
                                &                               	x_{ij} 	&\geq 0, 	                 & \forall i \in \{1,...,N\},\forall j \in \{1,...,M\}
             \end{array}
           \end{equation}
-          \caption{Formulación de un modelo de \emph{Optimización Lineal}. En concreto, el \emph{Problema de Transporte}}
+          \caption{Formulación de un modelo de \emph{Optimización Lineal}. En concreto, el \emph{Problema de Transporte}.}
           \label{eq:linear_optimization_formulation}
         \end{eqfloat}
 
@@ -70,7 +70,7 @@
         A pesar de que el algoritmo \emph{Simplex} siempre proporcione resultados óptimos, en algunas ocasiones no se posee la capacidad suficiente de cálculo para llegar a la mejor solución. Por lo tanto, se han desarrollado una gran cantidad de métodos conocidos como \emph{heurísticos} (de los cuáles se hablará más en detalle en el \cref{chap:heuristics} y \cref{chap:metaheuristics}) que a pesar de proporcionar unos buenos resultados, no ofrecen ninguna garantia de optimalidad. Por contra, también existen otros métodos exactos que son capaces de llegar al valor óptimo utilizando menor cantidad de recursos (algunos de los cuales se describen en el \cref{chap:exacts}).
 
         \paragraph{}
-        Antes de describir algunos de los ejemplos y aplicaciones reales más destacadas basadas en \emph{problemas de optimización lineal}, es necesario describir unos de los problemas más populares de esta categoria, el cual se conoce como \emph{Problema de Transporte} y se caracteriza por permitir representar de manera matemática la tarea sobre cómo distribuir un conjunto de recursos procedentes de $N$ puntos de origen hasta $M$ puntos de destino, donde cada trayecto tiene un coste diferente, y cada origen y destino unas capacidades de oferta y demanda. La formulación sobre dicho problema se corresponde con la utilizada a modo de ejemplo en la \cref{eq:linear_optimization_formulation}.
+        Antes de describir algunos de los ejemplos y aplicaciones reales más destacadas basadas en \emph{problemas de optimización lineal}, es necesario describir unos de los problemas más populares de esta categoria, el cual se conoce como \emph{problema de transporte} y se caracteriza por permitir representar de manera matemática la tarea sobre cómo distribuir un conjunto de recursos procedentes de $N$ puntos de origen hasta $M$ puntos de destino, donde cada trayecto tiene un coste diferente, y cada origen y destino unas capacidades de oferta y demanda. La formulación sobre dicho problema se corresponde con la utilizada a modo de ejemplo en la \cref{eq:linear_optimization_formulation}.
 
         \paragraph{}
         Sin embargo, los problemas de optimización lineal permiten representar una amplia cantidad de situaciones de nuestra vida diaria. Entre ellos se encuentran los \emph{problemas de mezclas} (donde se pretende generar un compuesto con unas ciertas características a partir de la combinación de otros tratando de reducir los costes) aunque los problemas de optimización lineal también son de gran utilidad en el ámbito de la economia y los estudios de mercado, permitiendo representar de una manera relativamente sencilla el comportamiento de los clientes ante cambios de precio u otras variables más elaboradas.
@@ -79,7 +79,7 @@
       \label{sec:formulation_combinatorial_problems}
 
         \paragraph{}
-        Uno de los factores más relevantes cuando se trata de \emph{problemas de optimización lineal} se refiere a l naturaleza de las variables de decisión, en que (como se ha comentado anteriormente) estas pueden ser de una naturaleza continua o discreta. En este sentido, los problemas pueden clasificarse en 4 categorías: problemas de optimización continua puros (donde existen métodos muy eficientes que permiten ser resueltos en un tiempo razonable), problemas de \emph{optimización discretos}, problemas de optimización binaria (o de \emph{optimización combinatoria}) y problema de optimización mixtos (donde mezclan ambos tipos de variables).
+        Uno de los factores más relevantes cuando se trata de \emph{problemas de optimización lineal} se refiere a l naturaleza de las variables de decisión, en que (como se ha comentado anteriormente) estas pueden ser de una naturaleza continua o discreta. En este sentido, los problemas pueden clasificarse en 4 categorías: problemas de optimización continua puros (donde existen métodos muy eficientes que permiten ser resueltos en un tiempo razonable), problemas de \emph{optimización entera}, problemas de optimización binaria (o de \emph{optimización combinatoria}) y problema de optimización mixtos (donde mezclan ambos tipos de variables). Para profundizar más en el tema de la \emph{optimización entera} y \emph{optimización combinatoria} se recomienda \cite{wolsey2014integer}
 
         \paragraph{}
         A pesar de que la exigencia de que las variables de decisión sean discretas en un primer momento puede parecer muy sencilla en un primer momento (por ser muy intuitiva a nivel conceptual), esta complica mucho la labor de optimización del problema. En modo abstracto, esto se debe a que si el espacio de soluciones de un problema de optimización lineal era visto como un prima en un espacio $n$-dimensional (donde $n$ es el número de variables de decisión) y los puntos de interés se refieren a los vértices, que presentarán el máximo/mínimo valor óptimo, en el caso de las variables discretas el prima se transforma en una estructura \say{pixelada} lo cual incrementa de manera exponencial el número de vértices (y por tanto de puntos de evaluación) del problema en la búsqueda del valor óptimo.
@@ -95,7 +95,7 @@
                                &                             	x_{i} 	&\in \{0, 1\}, 	                 & \forall i \in \{1,...,N\}
             \end{array}
           \end{equation}
-          \caption{Formulación de un modelo de \emph{Optimización Combinatoria}. En concreto, el \emph{Problema de la Mochila}}
+          \caption{Formulación de un modelo de \emph{Optimización Combinatoria}. En concreto, el \emph{Problema de la Mochila}.}
           \label{eq:combinatorial_optimization_formulation}
         \end{eqfloat}
 
@@ -105,11 +105,28 @@
         \paragraph{}
         Tal y como se ha remarcado a lo largo de todo el apartado, es especialmente importante remarcar que la mayor dificultad surgida al añadir las restriciones en el soporte de las variables de decisión genera un mayor espacio de puntos de evaluación, lo cual complica extremadamente los métodos de generación de soluciones. Por contra, esta dificultad amplia en gran medida la capacidad de representación de los modelos, lo cual es algo beneficioso ya que permite aprovechar en mayor medida recursos que de otra forma serían imposibles de aprovechar de la misma manera.
 
-      \subsection{Optimización de de Rutas}
+      \subsection{Optimización de Rutas}
       \label{sec:formulation_routing_problems}
 
         \paragraph{}
-        [TODO]
+        Los problemas de optimización descritos hasta ahora permiten abarcar una gran cantidad de situaciones basadas en tratar de aprovechar en mayor medida uno o más recursos disponibles sobre una colección de restricciones. En el caso de los problemas de \emph{optimización combinatoria}, dicho proceso de aprovechamiento de recursos puede ser visto como un conjunto de problemas de decisión codependientes entre si sobre la utilización (o no) de cada uno de ellos. Sin embargo, en dichos problemas la relación de codependencia no queda fijada de manera explícita, sino que esta es marcada por cada problema concreto. Entonces, tiene sentido pensar que distintos problemas puedan presentar similitudes desde el punto de vista de las relaciones de dependencia entre sus variables de decisión. Los problemas de \emph{optimización de rutas} fueron desarrollados inicialmente como el \emph{problema del viajante} siendo una de los primeros papers que describen de manera detallada su formulación \cite{miller1960integer}. Con el paso de los años se ha desarrollado un amplio marco de conocimiento alrededor de este tipo de problemas, entre los que destaca especialmente \cite{toth2002vehicle}. Estos problemas surgen precisamente como una subcategoría englobada dentro del conjunto de los problemas de \emph{optimización combinatoria}. La restrición que más caracteriza este tipo de problemas se basa en el mantenimiento tanto de orden en el cumplimiento de tareass como del mantenimiento de un concepto de estado a lo largo dicho proceso. Dicho estado en algunos subproblemas es muy débil, mientras que en otros representa una componente muy importante durante el proceso de resolución del mismo.
+
+        \paragraph{}
+        En muchos casos, los problemas de \emph{optimización de rutas} pueden resumirse de la siguiente manera: Dada una colección de tareas a realizar en un determinado lugar del espacio (con posibles restricciones de orden, duración, capacidad, etc.) así como una colección de vehículos cuya función es moverse de un punto a otro en del espacio generado por las tareas (con posibles restricciones de duración, capacidad, etc.) generando un determinado incremento de coste, se trata de encontrar la \emph{ruta} (o \emph{tour}) para cada vehículo que satisface más y/o con menor coste las tareas disponibles. Entonces, dicho marco engloba una gran grantidad de problemas de optimización caracterizados por dicha restricción, donde están contenidos problemas relativamente dispares, desde el \emph{problema del viajante} (que se describirá brevemente a continuación) como el \emph{problema de recogidas y entregas} (que se describirá de manera más detallada en próximos apartados).
+
+        \paragraph{}
+        Una de las características más importantes desde el punto de vista de la resolución en este tipo de problemas es la estructura secuencial que estos presentan, así como el elevado número de variables de decisión necesario para su formulación formal. Dichas características conllevan interesantes peculiaridades que convierten en prácticamente inabordable la búsqueda de soluciones factibles utilizando técnicas de resolución genéricas. Por contra, proporcionan ciertas ventajas y simplificaciones sobre el espacio de soluciones las cuales permiten tomar una gran ventaja a métodos de resolución específicos. Entre ellas, la idea que más destaca es la una reducción de orden logarítmico del tamaño del espacio de soluciones conforme las tareas van siendo selecionadas.
+
+        \paragraph{}
+        Para la formulación de problemas de \emph{optimización de rutas}, se utiliza una serie de restricciones comunes para poder modelar situaciones coherentes. Para ello en la \cref{eq:combinatorial_optimization_formulation} se incluye la formulación de un problema de rutas que será utilizado a modo de ejemplo. Dicha formulación se corresponde con la versión más simple del \emph{problema del viajante}. Es importante remarcar que la modelización de este problema asume que únicamente existe un vehículo. Antes de proceder con la descripción de las restricciónes es necesario describir mínimamente la notación que se utiliza en este caso: Suponemos que el problema está compuesto por $N$ tareas, que el punto de inicio se indexa con la posición $0$ (y que también deberá ser la posición final), que las variables de decisión $x_{ij}$ representan la acción de que el vehículo se desplace desde la tarea $i$-ésima hasta la tarea $j$-ésima (por lo que $X$ será una matriz de tamaño $(N + 1) x (N + 1)$) y los movimientos conllevas un coste determinado por $c_{ij}$. Además, se añade un vector auxiliar de variables de decisión $U$ de longitud $N$ el cual se explicará posterirmente. A continuación se describen dichas restricciones:
+
+        \begin{itemize}
+
+          \item \textbf{Unicidad}: Dado que este tipo de problemas se basan en la construcción de rutas cuyo objetivo principal es visitar una colección de tareas que representan una determinada posición en una superficie espacial, es necesario restringir el número de veces que estas se visitan a únicamente una. La forma de llevar a cabo esto es restringiendo el número de \emph{enlaces} entre cualquier otra tarea y la tarea encuestión (así como la tarea en cuestión y cualquier otra tarea) a uno. Esto impone tanto la restricción citada, como que todas las tareas tengan que ser visitadas (existen técnicas para relajar dicha restricción en problemas no factibles totalmente mediante la redefinición como un \emph{problemas multiobjetivo}). Entonces, en la formulación de la \cref{eq:routing_problem_formulation} las dos primeras restricciones generan la propiedad de unicidad.
+
+          \item \textbf{Secuencialidad}: Además de construir rutas que permitan visitar todas las tareas del problema determinadas en el problema, también es necesario que dichas rutas cumplan las restricciones de secuencialidad entre un \say{enlace} y el siguiente. Comunmente este tipo de restricciones se conocen como de eliminación de subtours y es un tema ampliamente estudiado en la literatura entre las que destacan las de \emph{Miller-Tucker-Zemlin} descritas en \cite{miller1960integer}. Sin embargo, también se han desarrollado soluciones específicas para problemas de rutas tal y como se describe en \cite{desrochers1991improvements}. En su versión más simple, estas restricciones se basan en el apoyo de un vector de variables de decisión (en nuestro caso $U$) que anotan el orden (a partir del índice o del momento temporal dependiendo de la formulación utilizada) de las tareas a partir de la cual se apoyan las restricciones para que los \say{enlaces} tengan una relación secuencial entre si. En el caso de la formulación descrita en la \cref{eq:routing_problem_formulation} esto se consigue a partir de la tercera restricción (que \say{asigna} y obliga a que exista la relación de orden en los índices anotados en el vector $U$).
+
+        \end{itemize}
 
         \begin{eqfloat}
           \begin{equation}
@@ -121,10 +138,21 @@
                                &                             	x_{ij} 	&\in \{0, 1\}, 	                 & \forall i \in \{1,...,N\},\forall j \in \{1,...,N\}
             \end{array}
           \end{equation}
-          \caption{Formulación de un modelo de \emph{Optimización de Rutas}. En concreto, el \emph{Problema del viajero}}
-          \label{eq:combinatorial_optimization_formulation}
+          \caption{Formulación de un modelo de \emph{Optimización de Rutas}. En concreto, el \emph{Problema del viajante}.}
+          \label{eq:routing_problem_formulation}
         \end{eqfloat}
 
+        \paragraph{}
+        [TODO]
+
+        \subsubsection{Diferencias entre Optimización de Rutas y Secuenciación de Tareas}
+        \label{sec:routing_problems_vs_job_shop_scheduling}
+
+          \paragraph{}
+          [TODO]
+
+        \paragraph{}
+        [TODO]
 
       \subsection{Problemas de Recogidas y Entregas}
       \label{sec:formulation_picup_and_delivery_problems}
