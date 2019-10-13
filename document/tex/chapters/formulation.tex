@@ -233,18 +233,65 @@
     \label{sec:formulation_notation}
 
       \paragraph{}
-      [TODO]
+      Una vez contextualizado de una manera detallada el \emph{problema Dial-a-Ride} es fácil intuir cuáles son los factores que más complican la implementación y el uso de métodos que permitan resolver instancias reales que tan frecuentemente se producen en situaciones del mundo real. En este caso, el \emph{problema Dial-a-Ride} es relativamente sencillo desde el punto de vista conceptual (tal y como se ha indicado anteriormente, se trata de cumplir un conjunto de tareas de transporte desde un punto de recogida hasta un punto de entrega a partir del uso de un conjunto de vehículos). Sin embargo, a pesar de su sencillez conceptual, en muchas ocasiones es complicado representar el problema en lenguaje matemático. Por dicha razón, es de vital importancia definir una nomenclatura común a lo largo de todo el trabajo que permita facilitar la representación matemática de las ideas que se pretende transmitir. Para ello, se incluye este apartado, el cual (como se ha comentado previamente) pretende servir como una guía de referencia que clarifique el sentido de ciertas definiciones futuras.
 
-      \begin{itemize}
-        \item $V_{i}$: [TODO]
-        \item $A_{l}$: [TODO]
-        \item $G$: [TODO]
-        \item $K_{k}$: [TODO]
-        \item $x_{ij}^{k}$: [TODO]
-        \item $r_{ij}$: [TODO]
-        \item $u_{ij}$: [TODO]
-        \item $w_{ij}$: [TODO]
-      \end{itemize}
+      \paragraph{}
+      A pesar de lo expuesto en el párrafo anterior, la tarea de definir una nomenclatura común y aplicable a las posteriores explicaciones no es una tarea sencilla. La dificultad surge principalmente porque los términos no siempre se utilizan de la misma manera y en ocasiones son muy dependientes del contexto. Sin embargo, esto se tratará de hacer en la medida de lo posible. Una vez introducido el apartado, se procede a enumerar todos los términos necesarios para comprender adecuadamente el \emph{problema Dial-a-Ride} para posteriormente definir las variables que se utilizarán en los procesos de formulación, así como en los posteriores métodos de resolución en subsiguientes capítulos.
+
+      \subsection{Palabras clave}
+      \label{sec:formulation_keywords}
+
+        \paragraph{}
+        A pesar de que para la formulación del problema no sea estrictamente necesario detallar las palabras clave que se utilizan para tratar el problema (y sus correspondientes métodos de resolución), se cree que estos pueden faciliar el entendimiento posterior de las variables utilizadas. Además, estos conceptos serán de vital importancia para definir los métodos de resolución basados en heurísticas y metaheurísticas en capítulos posteriores.
+
+        \begin{itemize}
+
+          \item \textbf{Posición}: Vector de coordenadas que representa el lugar en que se ha de realizar una determinada acción (recoger o entregar) para resolver la instancia del problema.
+
+          \item \textbf{Superficie}: El subespacio formado por el conjunto de todas las posiciones que forman la instancia del problema. Este es quien define la métrica de distancia (tanto espacial como temporal) entre las distintas posiciones del problemas.
+
+          \item \textbf{Viaje}: Está compuesto por las posiciones de recogida y entrega de una mercancia. Además contiene información necesaria para poder proceder a su realización, como las ventanas temporales de recogida y entrega, la capacidad (o el tamaño de la carga a desplazar), el tiempo máximo admisible desde la recogida hasta la entrega el tiempo de servicio en las posiciones de recogida y entrega, etc. En la literatura es común diferenciar entre dos tipos de viajes a partir de las ventanas temporales. Cuando estas se fijan sobre la posición de recogida se denominan \emph{outbound} mientras que cuando se hacen sobre la posición de entrega son denominadas \emph{inbound}. Sin embargo, esto es simplemente terminología del problema ya que desde un punto de vista de la formulación del modelo ambos conceptos podrían ser aplicados a la vez sobre un viaje si se fijan de manera pertinente las ventanas temporales.
+
+          \item \textbf{Trabajo}: Representa el conjunto de todos los viajes a realizar durante una determinada instancia del problema.
+
+          \item \textbf{Vehículo}: Representa el actor encargado de llevar a cabo un subconjunto de viajes que permiten resolver una instancia del problema de manera parcial (o completa). Se define por una posicion inicial, así como otra final, así como por una determinada capacidad máxima y un tiempo máximo de servicio. Además, tiene asociada una determinada ventana temporal.
+
+          \item \textbf{Flota}: Está compuesta por el conjunto de todos los vehículos disponibles para resolver la instancia del problema. En ciertas ocasiones el tamaño de la flota de vehículos es fija, mientras que en otras ocasiones se permite que la instancia del problema sea planificada con tantos vehículos como sea posible. Dichas ideas se discutirán posteriormente.
+
+          \item \textbf{Parada}: Representa la acción de visitar una determinada posición por un vehículo. Esta está compuesta por el instante de tiempo en que se visita así como la razón, la cual puede ser una recogida o entrega referida a un determinado viaje.
+
+          \item \textbf{Viaje Planificado}: Representa el enlace entre un viaje y sus dos correspondientes paradas (la de recogida y la de entrega), que (como se ha dicho previamente) mantienen los instantes de tiempo en que sucede.
+
+          \item \textbf{Ruta}: Representa una serie de viajes planificados por un determinado vehículo.
+
+          \item \textbf{Planificación}: Está formada por el conjunto de rutas que permiten resolver la instancia del problema.
+
+          \item \textbf{Resultado}: Está compuesta por la planificación que resuelve parcial (o totalmente) la instancia del problema, junto con la correspondiente flota de vehículos y el trabajo formado por un conjunto de viajes a realizar.
+
+        \end{itemize}
+
+        \paragraph{}
+        Una vez, descritas las palabras clave más importantes es fácil darse cuenta de que los conceptos más importantes para la resolución del \emph{problema Dial-a-Ride} son el de \emph{viaje} y el de \emph{ruta}, ya que son quienes contienen la información tanto del qué resolver (\emph{viae}), como del cómo resolver (\emph{ruta}).
+
+      \subsection{Variables}
+      \label{sec:formulation_variables}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{itemize}
+          \item $V_{i}$: [TODO]
+          \item $A_{l}$: [TODO]
+          \item $G$: [TODO]
+          \item $K_{k}$: [TODO]
+          \item $x_{ij}^{k}$: [TODO]
+          \item $r_{ij}$: [TODO]
+          \item $u_{ij}$: [TODO]
+          \item $w_{ij}$: [TODO]
+        \end{itemize}
+
+        \paragraph{}
+        [TODO]
 
       \paragraph{}
       [TODO]
