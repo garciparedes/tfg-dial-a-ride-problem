@@ -20,7 +20,14 @@
     \label{sec:formulation_contextualization}
 
       \paragraph{}
-      A continuación se procede a describir la clase de problemas matemáticos a la cual pertenece el problema \emph{Dial-a-Ride}. Dicha descripción se llevará a cabo de fuera hacia dentro, esto es desde la categoría de problemas más amplia hasta la más concreta, pasando por una breve contextualización así como ejemplificación de problemas similares.
+      A continuación se procede a describir la clase de problemas matemáticos a la cual pertenece el problema \emph{Dial-a-Ride}. Dicha descripción se llevará a cabo de fuera hacia dentro, esto es desde la categoría de problemas más amplia hasta la más concreta, pasando por una breve contextualización así como ejemplificación de problemas similares. En la \cref{img:formulation_dial_a_ride_contextualization} se muestra un breve resumen gráfico acerca de las clases de problemas que se describen.
+
+      \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.4\textwidth]{dial_a_ride_context}
+        \caption{Contextualización del \emph{Problema Dial-a-Ride} desde el punto de vista de la jerarquía de problemas a la que pertenece.}
+        \label{img:formulation_dial_a_ride_contextualization}
+      \end{figure}
 
       \subsection{Problemas de Optimización}
       \label{sec:formulation_optimization_problems}
@@ -250,7 +257,9 @@
 
           \item \textbf{Superficie}: El subespacio formado por el conjunto de todas las posiciones que forman la instancia del problema. Este es quien define la métrica de distancia (tanto espacial como temporal) entre las distintas posiciones del problemas.
 
-          \item \textbf{Viaje}: Está compuesto por las posiciones de recogida y entrega de una mercancia. Además contiene información necesaria para poder proceder a su realización, como las ventanas temporales de recogida y entrega, la capacidad (o el tamaño de la carga a desplazar), el tiempo máximo admisible desde la recogida hasta la entrega el tiempo de servicio en las posiciones de recogida y entrega, etc. En la literatura es común diferenciar entre dos tipos de viajes a partir de las ventanas temporales. Cuando estas se fijan sobre la posición de recogida se denominan \emph{outbound} mientras que cuando se hacen sobre la posición de entrega son denominadas \emph{inbound}. Sin embargo, esto es simplemente terminología del problema ya que desde un punto de vista de la formulación del modelo ambos conceptos podrían ser aplicados a la vez sobre un viaje si se fijan de manera pertinente las ventanas temporales.
+          \item \textbf{Servicio}: Está compuesto por una posición, un tiempo para ser efectuado, y una ventana temporal.
+
+          \item \textbf{Viaje}: Está compuesto por los servicios de recogida y entrega de una mercancia. Además contiene información necesaria para poder proceder a su realización, es decir, la capacidad (o el tamaño de la carga a desplazar), el tiempo máximo admisible desde la recogida hasta la entrega el tiempo de servicio en las posiciones de recogida y entrega, etc. En la literatura es común diferenciar entre dos tipos de viajes a partir de las ventanas temporales. Cuando estas se fijan sobre la posición de recogida se denominan \emph{outbound} mientras que cuando se hacen sobre la posición de entrega son denominadas \emph{inbound}. Sin embargo, esto es simplemente terminología del problema ya que desde un punto de vista de la formulación del modelo ambos conceptos podrían ser aplicados a la vez sobre un viaje si se fijan de manera pertinente las ventanas temporales.
 
           \item \textbf{Trabajo}: Representa el conjunto de todos los viajes a realizar durante una determinada instancia del problema.
 
@@ -281,31 +290,38 @@
 
         \begin{itemize}
 
-          \item $V_{i}$: [TODO]
+          \item $P$: Conjunto de nodos  generado por las posiciones referidas a recogidas. Esto es el conjunto formado por la secuencia $\{1, 2, ..., n\}$.
 
-          \item $A_{l}$: [TODO]
+          \item $D$: Conjunto de nodos  generado por las posiciones referidas a entregas. Esto es el conjunto formado por la secuencia $\{n + 1, n + 2, ..., 2n\}$.
 
-          \item $G$: [TODO]
+          \item $N$: Conjunto de nodos generado por todas las posiciones de la superficie. Esto es el conjunto formado por $\{0, 2n +1 \} \cup P \cup D$.
 
-          \item $K_{k}$: [TODO]
+          \item $A_{(i, j)}$: El arista que se encarga de relacionar el nodo definidos por la posición $i$-ésima con el nodo definido por la posición $j$-ésima. Nótese por tanto que inicialmente la cardinalidad es de $card(N) ^2$. Sin embargo, asumiendo que no se pueda dar la situación de visitar un nodo desde si mismo (para respetar las restricciones de unicidad) este número se reduce a $card(N) (card(N) - 1)$. Sin embargo, es fácil darse cuenta de que muchos de los aristas serán marcados como \say{prohibidos} por las restricciones del modelo (No se puede visitar una posición de entrega antes que su correspondiente posición de recogida).
 
-          \item $c_{ij}$: [TODO]
+          \item $G = (N, A)$: El grafo generado por el conjunto de nodos sobre el conjunto de aristas, sobre el cual se apoya toda la planificación.
 
-          \item $t_{ij}$: [TODO]
+          \item $K_{k}$: Conjunto de índices generados por los vehículos disponibles para resolver el problema.
 
-          \item $e_{i}$: [TODO]
+          \item $c_{ij}$: Coste por moverse del nodo $i$-ésimo al nodo $j$-ésimo.
 
-          \item $l_{i}$: [TODO]
+          \item $t_{ij}$: Tiempo para moverse del nodo $i$-ésimo al nodo $j$-ésimo.
 
-          \item $d_{i}$: [TODO]
+          \item $e_{i}$: Cota inferior de la ventana temporal sobre el nodo $i$-ésimo.
 
-          \item $q_{i}$: [TODO]
+          \item $l_{i}$: Cota superior de la ventana temporal sobre el nodo $i$-ésimo.
 
-          \item $L_{k}$: [TODO]
+          \item $d_{i}$: Tiempo de servicio sobre el nodo $i$-ésimo.
 
-          \item $T_{k}$: [TODO]
+          \item $q_{i}$: Capacidad del servicio sobre el nodo $i$-ésimo. Nótese que para los nodos $0$ y $2n + 1$ la capacidad a servir deberá ser $0$ mientras que se deberá cumplir que $q_{i} \geq 0$ si $i \in P$ y $q_{i} = q_{i - n}$ si $i \in D$.
 
-          \item $Q_{k}$: [TODO]
+          \item $T_{k}$: Duración máxima de ruta por el vehículo $k$-ésimo.
+
+          \item $Q_{k}$: Capacidad máxima del vehículo $k$-ésimo.
+
+          \item $E_{k}$: Cota inferior de la ventana temporal sobre el vehículo $k$-ésimo.
+
+          \item $L_{k}$: Cota superior de la ventana temporal sobre el vehículo $k$-ésimo.
+
         \end{itemize}
 
         \paragraph{}
@@ -315,13 +331,13 @@
       \label{sec:formulation_variables}
 
         \paragraph{}
-        Por último, se procede a definir el significado de las variables que se utilizan en el mismo. A continuación se incluye el listado junto con su correspondiente definicion.
+        Por último, se procede a definir el significado de las variables que se utilizan en el mismo. A continuación se incluye el listado junto con su correspondiente definicion. Antes de nada es importante remarcar que existen dos formulaciones populares: basadas en $3$ índices (la cual se seguirá en la fomulación básica) y basadas en $2$ índices (la cual se expone en futuros apartados). En este caso se describe la de 3 índices por ser más general. A pesar de ello es trivial entender la simplificación cuando se trate de la de $2$ índices.
 
         \begin{itemize}
-          \item $x_{ij}^{k}$: [TODO]
-          \item $r_{ij}$: [TODO]
-          \item $u_{ij}$: [TODO]
-          \item $w_{ij}$: [TODO]
+          \item $x_{ij}^{k}$: Variable de naturaleza binaria que toma el valor $1$ cuando existe un enlace entre los nodos $i$-ésimo y $j$-ésimo llevado a cabo por el vehículo $k$-ésimo
+          \item $u_{i}^{k}$: Variable de decisión continua que representa el instante de tiempo en que comienza la ruta generada por el vehículo $k$-ésimo llega al nodo $i$-ésimo.
+          \item $r_{i}^{k}$: Variable de decisión continua que representa la duración de la ruta generada por el vehículo $k$-ésimo en el nodo $i$-ésimo.
+          \item $w_{i}^{k}$: Variable de decisión continua que representa la capacidad ocupada en la ruta generada por el vehículo $k$-ésimo en el nodo $i$-ésimo.
         \end{itemize}
 
         \paragraph{}
