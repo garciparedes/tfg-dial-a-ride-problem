@@ -236,7 +236,7 @@
       Una vez contextualizado de una manera detallada el \emph{problema Dial-a-Ride} es fácil intuir cuáles son los factores que más complican la implementación y el uso de métodos que permitan resolver instancias reales que tan frecuentemente se producen en situaciones del mundo real. En este caso, el \emph{problema Dial-a-Ride} es relativamente sencillo desde el punto de vista conceptual (tal y como se ha indicado anteriormente, se trata de cumplir un conjunto de tareas de transporte desde un punto de recogida hasta un punto de entrega a partir del uso de un conjunto de vehículos). Sin embargo, a pesar de su sencillez conceptual, en muchas ocasiones es complicado representar el problema en lenguaje matemático. Por dicha razón, es de vital importancia definir una nomenclatura común a lo largo de todo el trabajo que permita facilitar la representación matemática de las ideas que se pretende transmitir. Para ello, se incluye este apartado, el cual (como se ha comentado previamente) pretende servir como una guía de referencia que clarifique el sentido de ciertas definiciones futuras.
 
       \paragraph{}
-      A pesar de lo expuesto en el párrafo anterior, la tarea de definir una nomenclatura común y aplicable a las posteriores explicaciones no es una tarea sencilla. La dificultad surge principalmente porque los términos no siempre se utilizan de la misma manera y en ocasiones son muy dependientes del contexto. Sin embargo, esto se tratará de hacer en la medida de lo posible. Una vez introducido el apartado, se procede a enumerar todos los términos necesarios para comprender adecuadamente el \emph{problema Dial-a-Ride} para posteriormente definir las variables que se utilizarán en los procesos de formulación, así como en los posteriores métodos de resolución en subsiguientes capítulos.
+      A pesar de lo expuesto en el párrafo anterior, la tarea de definir una nomenclatura común y aplicable a las posteriores explicaciones no es una tarea sencilla. La dificultad surge principalmente porque los términos no siempre se utilizan de la misma manera y en ocasiones son muy dependientes del contexto. Sin embargo, esto se tratará de hacer en la medida de lo posible. Una vez introducido el apartado, en el \cref{sec:formulation_keywords} se procede a enumerar todos los términos necesarios para comprender adecuadamente el \emph{problema Dial-a-Ride} para posteriormente definir las variables que se utilizarán en los procesos de formulación, así como en los posteriores métodos de resolución en subsiguientes capítulos. Seguidamente, en el \cref{sec:formulation_constants} se definen las Constantes que se utilizan en las formulaciones matemáticas y, finalmente, en el \cref{sec:formulation_variables} se describen las variables de decisión necesarias para llevar a cabo la formulación básica del problema.
 
       \subsection{Palabras clave}
       \label{sec:formulation_keywords}
@@ -273,17 +273,51 @@
         \paragraph{}
         Una vez, descritas las palabras clave más importantes es fácil darse cuenta de que los conceptos más importantes para la resolución del \emph{problema Dial-a-Ride} son el de \emph{viaje} y el de \emph{ruta}, ya que son quienes contienen la información tanto del qué resolver (\emph{viae}), como del cómo resolver (\emph{ruta}).
 
-      \subsection{Variables}
+      \subsection{Constantes}
+      \label{sec:formulation_constants}
+
+        \paragraph{}
+        El siguiente paso antes de proceder a la descripción del \emph{problema Dial-a-Ride} de manera matemática a través de su formulación es definir el significado de las constantes que se utilizan en el mismo. A continuación se incluye el listado junto con su correspondiente definicion.
+
+        \begin{itemize}
+
+          \item $V_{i}$: [TODO]
+
+          \item $A_{l}$: [TODO]
+
+          \item $G$: [TODO]
+
+          \item $K_{k}$: [TODO]
+
+          \item $c_{ij}$: [TODO]
+
+          \item $t_{ij}$: [TODO]
+
+          \item $e_{i}$: [TODO]
+
+          \item $l_{i}$: [TODO]
+
+          \item $d_{i}$: [TODO]
+
+          \item $q_{i}$: [TODO]
+
+          \item $L_{k}$: [TODO]
+
+          \item $T_{k}$: [TODO]
+
+          \item $Q_{k}$: [TODO]
+        \end{itemize}
+
+        \paragraph{}
+        Nótese la equivalencia conceptual entre las definiciones descritas en este apartado con respecto al apartado anterior (de \emph{Palabras clave}). Se ha decidido describir los dos enfoques para permitir una mayor versatilidad (y comprension) a lo largo del documento.
+
+      \subsection{Variables de decisión}
       \label{sec:formulation_variables}
 
         \paragraph{}
-        [TODO]
+        Por último, se procede a definir el significado de las variables que se utilizan en el mismo. A continuación se incluye el listado junto con su correspondiente definicion.
 
         \begin{itemize}
-          \item $V_{i}$: [TODO]
-          \item $A_{l}$: [TODO]
-          \item $G$: [TODO]
-          \item $K_{k}$: [TODO]
           \item $x_{ij}^{k}$: [TODO]
           \item $r_{ij}$: [TODO]
           \item $u_{ij}$: [TODO]
@@ -291,10 +325,10 @@
         \end{itemize}
 
         \paragraph{}
-        [TODO]
+        A pesar de que dichas variables de decisión serán las utilizadas principalemente durante el proceso de formulación de los problemas, puede darse el caso de que en algunas situaciones concretas (para tratar de corregir la linealidad de restricciones, simplificarlas o algún paso similar, se utilicen variables diferentes).
 
       \paragraph{}
-      [TODO]
+      Para concluir el apartado se quiere remarcar lo siguiente: Tal y como se ha repetido en varias ocasiones a lo largo del mismo, es de vital importancia definir de manera adecuada la notación utilizada para así simplificar en la medida de lo posible la aclaración de los conceptos que se construyen posteriormente a partir de la misma. En este caso se pretende seguir una notación común que después sea aplicable a la definición de los distintos métodos de resolución. Por lo tanto se ha preferido llevar a cabo de la manera más general posible.
 
     \section{Formulación básica}
     \label{sec:formulation_basic_formulation}
