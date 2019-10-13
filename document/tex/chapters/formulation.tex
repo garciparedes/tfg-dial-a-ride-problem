@@ -14,7 +14,7 @@
       El problema \emph{Dial-a-Ride}, o \emph{DARP} en modo abreviado representa una de las modelizaciones más interesantes en el ámbito de los problemas de \emph{optimización combinatoria}. Esto se debe a la gran cantidad de situaciones del mundo real que pueden ser representadas siguiendo dicho esquema. Sin embargo, antes de profundizar en los aspectos más detallados que caracterizan el problema de recogidas y entregas, es necesario describir el contexto del mismo, así como la clase a la cual pertenece. Una vez se haya completado dicha tarea, se estará en condiciones necesarias para poder describir tanto la versión básica como las extensiones más interesantes, tanto desde el punto de vista de los aspectos matemáticos, como desde la cantidad de situaciones reales que permiten resolver.
 
       \paragraph{}
-      En cuanto a la organización del capítulo, en el \cref{sec:formulation_contextualization} se describe de manera detallada el problema \emph{Dial-a-Ride} desde el punto de vista de la jerarquía de clases a la cual pertenecen siguiendo un enfoque descendente (o \emph{top-down}) en los \cref{sec:formulation_optimization_problems,sec:formulation_linear_problems,sec:formulation_combinatorial_problems,sec:formulation_generalized_pickup_and_delivery_problems,sec:formulation_routing_pickup_and_delivery_problems,sec:formulation_dial_a_ride_problems}. Seguidamente, en el apartado \cref{sec:formulation_notation} se indica la notación que se pretende seguir a lo largo del documento (y que pretende ser utilizada a modo de referencia en capítulos posteriores). El siguiente paso es determinar la \emph{Formulación Básica}, lo cual se lleva a cabo en el \cref{sec:formulation_basic_formulation}. Posteriormente se indican restricciones addicionales en el \cref{sec:formulation_aditional_restrictions} para después hablar acerca de las posibles \emph{Funciones Objetivo} en el \cref{sec:formulation_objective_functions}. En el \cref{sec:formulation_real_time} se discuten las peculiaridades del problema cuando se aplica en situaciones en tiempo real. Finalmente, en el \cref{sec:formulation_conclusions} se describen brevemente los aspectos más importantes del capítulo.
+      En cuanto a la organización del capítulo, en el \cref{sec:formulation_contextualization} se describe de manera detallada el problema \emph{Dial-a-Ride} desde el punto de vista de la jerarquía de clases a la cual pertenecen siguiendo un enfoque descendente (o \emph{top-down}) en los \cref{sec:formulation_optimization_problems,sec:formulation_linear_problems,sec:formulation_combinatorial_problems,sec:formulation_generalized_pickup_and_delivery_problems,sec:formulation_routing_pickup_and_delivery_problems,sec:formulation_dial_a_ride_problems}. Seguidamente, en el apartado \cref{sec:formulation_notation} se indica la notación que se pretende seguir a lo largo del documento (y que pretende ser utilizada a modo de referencia en capítulos posteriores). El siguiente paso es determinar la \emph{Formulación Básica}, lo cual se lleva a cabo en el \cref{sec:formulation_basic_formulation}. Posteriormente se describen otras formulaciones equivalentes en el \cref{sec:formulation_other_formulations} para después discutir posibles extensiones del problema en el \cref{sec:formulation_extensions}. Seguidamente, en el \cref{sec:formulation_real_time} se comentan las peculiaridades del modelo cuando se aplica en situaciones en tiempo real. Finalmente, en el \cref{sec:formulation_conclusions} se describen brevemente los aspectos más importantes del capítulo.
 
     \section{Contextualización del problema}
     \label{sec:formulation_contextualization}
@@ -151,11 +151,11 @@
 
         \begin{itemize}
 
-          \item \emph{Capacidad}: Muchos de los problemas generalizados de recogidas y entregas se basan en cargar y/o recoger una determinada mercancia para después llevar al almacén (u otro destino), por lo tanto es necesario tener en cuenta la capacidad del vehículo así como tener constancia de la ocupación del mismo en cada momento de la ruta. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en el \cref{sec:formulation_capacity_restrictions}.
+          \item \emph{Capacidad}: Muchos de los problemas generalizados de recogidas y entregas se basan en cargar y/o recoger una determinada mercancia para después llevar al almacén (u otro destino), por lo tanto es necesario tener en cuenta la capacidad del vehículo así como tener constancia de la ocupación del mismo en cada momento de la ruta. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en el \cref{sec:formulation_basic_formulation}.
 
-          \item \emph{Ventanas Temporales}: Las tareas no siempre perduran a lo largo del tiempo, sino que tienen unas determinadas franjas temporales en que pueden ser servidas, por lo que dicha información debe ser incluida en la formulación del modelo para que este sea lo más próximo posible a la realidad. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en la \cref{sec:formulation_time_window_restrictions}.
+          \item \emph{Ventanas Temporales}: Las tareas no siempre perduran a lo largo del tiempo, sino que tienen unas determinadas franjas temporales en que pueden ser servidas, por lo que dicha información debe ser incluida en la formulación del modelo para que este sea lo más próximo posible a la realidad. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en el \cref{sec:formulation_basic_formulation}.
 
-          \item \emph{Duración}: Existen ocasiones en que es necesario imponer restricciones de duracción a lo largo de la ruta. Dichas restricciones pueden ser de diferentes tipos, desde el punto de vista de la duración total de la ruta, así como del tiempo que pasa desde el principio de la ruta hasta que se visita una determinada tarea, desde que se visita una determinada tarea hasta el final de la ruta, etc. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en los \cref{sec:formulation_route_duration_restrictions,sec:formulation_trip_duration_restrictions}.
+          \item \emph{Duración}: Existen ocasiones en que es necesario imponer restricciones de duracción a lo largo de la ruta. Dichas restricciones pueden ser de diferentes tipos, desde el punto de vista de la duración total de la ruta, así como del tiempo que pasa desde el principio de la ruta hasta que se visita una determinada tarea, desde que se visita una determinada tarea hasta el final de la ruta, etc. Dicha descripción se amplia para el caso de los \emph{problemas de recogidas y entregas} en el \cref{sec:formulation_basic_formulation}.
 
         \end{itemize}
 
@@ -238,18 +238,25 @@
       \begin{itemize}
         \item $V_{i}$: [TODO]
         \item $A_{l}$: [TODO]
+        \item $G$: [TODO]
         \item $K_{k}$: [TODO]
+        \item $x_{ij}^{k}$: [TODO]
+        \item $r_{ij}$: [TODO]
+        \item $u_{ij}$: [TODO]
+        \item $w_{ij}$: [TODO]
       \end{itemize}
 
       \paragraph{}
       [TODO]
 
-
     \section{Formulación básica}
     \label{sec:formulation_basic_formulation}
 
       \paragraph{}
-      Modelización basada en \cite{parragh2008survey}. [TODO]
+      [TODO]
+
+      \paragraph{}
+       Formulación basada en \cite{cordeau2006branch}.
 
 
       \begin{eqfloat}
@@ -274,57 +281,69 @@
       \paragraph{}
       [TODO]
 
-    \section{Restricciones Addicionales}
-    \label{sec:formulation_aditional_restrictions}
+    \section{Otras formulaciones}
+    \label{sec:formulation_other_formulations}
 
       \paragraph{}
       [TODO]
 
-      \subsection{Capacidad}
-      \label{sec:formulation_capacity_restrictions}
+      \subsection{Formulación de 2 índices (1)}
+      \label{sec:formulation_two_index_1_formulation}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Ventanas Temporales}
-      \label{sec:formulation_time_window_restrictions}
+        \paragraph{}
+        Formulación basada en \cite{ropke2007models}
+
+        \subsection{Formulación de 2 índices (2)}
+      \label{sec:formulation_two_index_2_formulation}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Duración de viaje}
-      \label{sec:formulation_trip_duration_restrictions}
-
         \paragraph{}
-        [TODO]
+        Formulación basada en \cite{ropke2007models}
 
-      \subsection{Duración de ruta}
-      \label{sec:formulation_route_duration_restrictions}
-
-        \paragraph{}
-        [TODO]
-
-    \section{Funciones Objetivo}
-    \label{sec:formulation_objective_functions}
+    \section{Extensiones}
+    \label{sec:formulation_extensions}
       [TODO]
 
-      \subsection{Pickup and Delivery}
-      \label{sec:formulation_pickup_and_delivery}
+      \subsection{Variaciones en la Función Objetivo}
+      \label{sec:formulation_extensions_objective_functions}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Dial a Ride}
-      \label{sec:formulation_dial_a_ride}
+        \begin{enumerate}
+
+          \item \textbf{Pickup and Delivery}: [TODO]
+
+          \item \textbf{Dial a Ride}: [TODO]
+
+          \item \textbf{Taxi Sharing}: [TODO]
+
+        \end{enumerate}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Taxi Sharing}
-      \label{sec:formulation_taxi_sharing}
+      \subsection{Modelos para vehículos eléctricos}
+      \label{sec:formulation_extensions_electric}
 
         \paragraph{}
         [TODO]
+
+        \paragraph{}
+        Basado en \cite{erdougan2012green}.
+
+      \subsection{Modelos para vehículos autónomos}
+      \label{sec:formulation_extensions_autonomous}
+
+        \paragraph{}
+        Basado en \cite{dial1995autonomous,bongiovanni2019electric}.
+
+
 
     \section{Tiempo Real}
     \label{sec:formulation_real_time}
