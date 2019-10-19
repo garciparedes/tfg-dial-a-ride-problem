@@ -449,25 +449,27 @@
       \label{sec:formulation_basic_darp_accumulation}
 
         \paragraph{}
-        [TODO]
+        En problemas basados en el mantenimiento de un cierto nivel de estado para la planificación, donde este se basa en incrementos y decrementos sobre determinadas variables, es necesario incluir distintas restricciones que \say{asignen} a las variables relacionadas sus corresponientes valores. En el caso del \emph{problema Dial-a-Ride} es necesario mantener la información tanto del instante de tiempo como de la capacidad con que se llega a la posición de un determinado servicio. Dichas restricciones pueden ser expresadas de distintas formas, siendo algunas de ellas muy intuitivas pero no lineales. En este caso, se incluye la versión lineal tanto para tiempos como para capacidades en las \cref{eq:formulation_basic_darp_accumulation_1,eq:formulation_basic_darp_accumulation_2} respectivamente.
 
         \begin{align}
+        \label{eq:formulation_basic_darp_accumulation_1}
           u_{i}^{k} + d_{i} + t_{ij} - M_{ij}^k (1 - x_{ij}^k) \ &\leq u_{j}^{k}, & \forall i,j \in V, \forall k \in K \\
+        \label{eq:formulation_basic_darp_accumulation_2}
           w_{i}^{k} + q_{j} - W_{ij}^k (1 - x_{ij}^k) \ &\leq w_{j}^{k}, & \forall i,j \in V, \forall k \in K
         \end{align}
 
         \paragraph{}
-        [TODO]
+        Las restricciones inicialmente no lineales pueden ser vistas como implicaciones en el sentido siguiente: \say{Si se utiliza el enlace entre las posiciones $i$-ésima y $j$-ésima, entonces el incremento será de $y$}. Para linearizar este tipo de restricciones sobre variables de decisión de carácter binario, se puede utilizar una cota superior. En \cite{cordeau2006branch} se indica que los valores descritos en las \cref{eq:formulation_basic_darp_time_linearization,eq:formulation_basic_darp_capacity_linearization} son suficientes para tiempos y capacidad respectivamente.
 
         \begin{align}
         \label{eq:formulation_basic_darp_time_linearization}
           M_{ij}^k &= max\{0, l_{i} + d_{i} + t_{ij} - e_{j}\} \\
-        \label{eq:eq:formulation_basic_darp_capacity_linearization}
+        \label{eq:formulation_basic_darp_capacity_linearization}
           W_{ij}^k &= Q_{k} + min\{0, q_{i}\}
         \end{align}
 
         \paragraph{}
-        [TODO]
+        Las restricciones definidas en este apartado permiten mantener el estado a nivel de tiempo y capacidad para cada ruta en cada parada de la misma. Sin embargo, estas no aportan ninguna restricción sobre la lógica del problema. A pesar de ello, es necesario incluirlas en la formulación para poder apoyarnos en ellas durante la definición de las restricciones propiamente relacionadas con la lógica del problema.
 
       \subsection{Restricciones de Tiempo y Capacidad}
       \label{sec:formulation_basic_darp_time_capacity}
@@ -485,7 +487,9 @@
           w_{i}^{k} \ &\leq Q_{k} + min\{0, q_{i}\}, & \forall i \in V, \forall k \in K
         \end{align}
 
-
+        \paragraph{}
+        [TODO]
+        
     \section{Otras formulaciones}
     \label{sec:formulation_other_formulations}
 
