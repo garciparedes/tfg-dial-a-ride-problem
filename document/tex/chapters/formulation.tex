@@ -475,21 +475,37 @@
       \label{sec:formulation_basic_darp_time_capacity}
 
         \paragraph{}
-        [TODO]
+        Una vez descritas todas aquellas restricciones que permiten mantener de manera coherente tanto la unicidad y secuenciación de paradas, como el estado a lo largo de las rutas, se pueden añadir las restricciones más específicas y que utilizan al resto como base.
 
         \begin{align}
+        \label{eq:formulation_basic_darp_time_capacity_1}
           u_{2n+1}^{k} - u_{0}^{k} \ &\leq T_{k}, & \forall k \in K \\
+        \label{eq:formulation_basic_darp_time_capacity_2}
           e_{i} \ &\leq u_{i}^{k}, & \forall i \in V, \forall k \in K \\
+        \label{eq:formulation_basic_darp_time_capacity_3}
           u_{i}^{k} \ &\leq l_{i}, & \forall i \in V, \forall k \in K \\
+        \label{eq:formulation_basic_darp_time_capacity_4}
           t_{i, n + i}^{k} \ &\leq u_{n+i}^{k} - (u_{i}^{k} + d_{i}), & \forall i \in P, \forall k \in K \\
+        \label{eq:formulation_basic_darp_time_capacity_5}
           u_{n+i}^{k} - (u_{i}^{k} + d_{i}) \ &\leq L_{k}, & \forall i \in P, \forall k \in K \\
+        \label{eq:formulation_basic_darp_time_capacity_6}
           max\{0, q_{i}\} \ &\leq w_{i}^{k}, & \forall i \in V, \forall k \in K \\
+        \label{eq:formulation_basic_darp_time_capacity_7}
           w_{i}^{k} \ &\leq Q_{k} + min\{0, q_{i}\}, & \forall i \in V, \forall k \in K
         \end{align}
 
         \paragraph{}
-        [TODO]
-        
+        En primer lugar, es necesario fijar un  tiempo máximo de ruta, lo cual se puede llevar a cabo apoyandose en las variables de estado de tiempo, mediante la restricción descrita en la \cref{eq:formulation_basic_darp_time_capacity_1}. De manera similar, para respectar las ventanas temporales de llegada a cada posición para poder cumplir con un servicio es necesario utilizar las restricciones definidas en las \cref{eq:formulation_basic_darp_time_capacity_2,eq:formulation_basic_darp_time_capacity_3} que controlan los tiempo más tempranos y tardíos de llegada respectivamente.
+
+        \paragraph{}
+        La restricción que diferencia el \emph{problema de recogidas y entregas} del \emph{problema Dial-a-Ride} consiste en la fijación de un tiempo máximo de trayecto por cada viaje. Esto es el tiempo que pasa desde el servicio de recogida hasta el de entrega para un viaje concreto. Las restricciones corresponientes se incluye en las \cref{eq:formulation_basic_darp_time_capacity_4,eq:formulation_basic_darp_time_capacity_5}.
+
+        \paragraph{}
+        Finalmente, es necesario restringir de manera apropiada la capacidad máxima que el vehículo puede tranportar durante cada etapa de la ruta. Para ello, se han de actualizar de manera coherente tanto las cargas como las descargas, lo cual queda resuelto con las restricciones de acumulación descritas anteriormente. Por lo tanto, en este caso, tan solo es necesario asegurar que la capacidad resultante tras cada servicio siempre se encuentre dentro del intervalo válido ($[0, Q_{k}]$). Esto se puede llevar a cabo de manera sencilla mediante el uso de las restricciones definidas en las \cref{eq:formulation_basic_darp_time_capacity_6,eq:formulation_basic_darp_time_capacity_7}.
+
+      \paragraph{}
+      [TODO]
+
     \section{Otras formulaciones}
     \label{sec:formulation_other_formulations}
 
