@@ -135,7 +135,7 @@
 
           \item \textbf{Unicidad}: Dado que este tipo de problemas se basan en la construcción de rutas cuyo objetivo principal es visitar una colección de tareas que representan una determinada posición en un hiperplano espacial, es necesario restringir el número de veces que estas se visitan a únicamente una. La forma de llevar a cabo esto es restringiendo el número de \emph{enlaces} entre cualquier otra tarea y la tarea encuestión (así como la tarea en cuestión y cualquier otra tarea) a uno. Esto impone tanto la restricción citada, como que todas las tareas tengan que ser visitadas (existen técnicas para relajar dicha restricción en problemas no factibles totalmente mediante la redefinición como un \emph{problemas multiobjetivo}). Entonces, en la formulación de la \cref{eq:routing_problem_formulation} las dos primeras restricciones generan la propiedad de unicidad.
 
-          \item \textbf{Secuencialidad}: Además de construir rutas que permitan visitar todas las tareas del problema determinadas en el problema, también es necesario que dichas rutas cumplan las restricciones de secuencialidad entre un \say{enlace} y el siguiente. Comunmente este tipo de restricciones se conocen como de eliminación de subtours y es un tema ampliamente estudiado en la literatura entre las que destacan las de \emph{Miller-Tucker-Zemlin} descritas en \cite{miller1960integer}. Sin embargo, también se han desarrollado soluciones específicas para problemas generalizados de recogidas y entregas tal y como se describe en \cite{desrochers1991improvements}. En su versión más simple, estas restricciones se basan en el apoyo de un vector de variables de decisión (en nuestro caso $U$) que anotan el orden (a partir del índice o del momento temporal dependiendo de la formulación utilizada) de las tareas a partir de la cual se apoyan las restricciones para que los \say{enlaces} tengan una relación secuencial entre si. En el caso de la formulación descrita en la \cref{eq:routing_problem_formulation} esto se consigue a partir de la tercera restricción (que \say{asigna} y obliga a que exista la relación de orden en los índices anotados en el vector $U$).
+          \item \textbf{Secuencialidad}: Además de construir rutas que permitan visitar todas las tareas del problema determinadas en el problema, también es necesario que dichas rutas cumplan las restricciones de secuencialidad entre un \say{enlace} y el siguiente. Típicamente este tipo de restricciones se conocen como de eliminación de subtours y es un tema ampliamente estudiado en la literatura entre las que destacan las de \emph{Miller-Tucker-Zemlin} descritas en \cite{miller1960integer}. Sin embargo, también se han desarrollado soluciones específicas para problemas generalizados de recogidas y entregas tal y como se describe en \cite{desrochers1991improvements}. En su versión más simple, estas restricciones se basan en el apoyo de un vector de variables de decisión (en nuestro caso $U$) que anotan el orden (a partir del índice o del momento temporal dependiendo de la formulación utilizada) de las tareas a partir de la cual se apoyan las restricciones para que los \say{enlaces} tengan una relación secuencial entre si. En el caso de la formulación descrita en la \cref{eq:routing_problem_formulation} esto se consigue a partir de la tercera restricción (que \say{asigna} y obliga a que exista la relación de orden en los índices anotados en el vector $U$).
 
         \end{itemize}
 
@@ -225,7 +225,7 @@
         A pesar de que el \emph{problema Dial-a-Ride} pertenece a la categoría de \emph{problemas de recogidas y entregas}, este se caracteriza porque la mercancia a transportar está formada por personas (siendo el ejemplo más significativo el problema de planificación de una compañía de taxis), lo cual implica la creación de restricciones adicionales. Típicamente se añaden restricciones que limitan la duración máxima de cada uno de los viajes a un tiempo máximo, algo que no es tan importante en el caso de mercancias pero si en el de personas.
 
         \paragraph{}
-        [TODO]
+        [TODO: Hablar sobre las descripciones definidas en \cite{cordeau2007dial}]
 
         \subsubsection{Aplicaciones en Situaciones Reales}
         \label{sec:formulation_dial_a_ride_applications}
@@ -336,12 +336,11 @@
         \begin{itemize}
           \item $x_{ij}^{k}$: Variable de naturaleza binaria que toma el valor $1$ cuando existe un enlace entre los nodos $i$-ésimo y $j$-ésimo llevado a cabo por el vehículo $k$-ésimo
           \item $u_{i}^{k}$: Variable de decisión continua que representa el instante de tiempo en que comienza la ruta generada por el vehículo $k$-ésimo llega al nodo $i$-ésimo.
-          \item $r_{i}^{k}$: Variable de decisión continua que representa la duración de la ruta generada por el vehículo $k$-ésimo en el nodo $i$-ésimo.
           \item $w_{i}^{k}$: Variable de decisión continua que representa la capacidad ocupada en la ruta generada por el vehículo $k$-ésimo en el nodo $i$-ésimo.
         \end{itemize}
 
         \paragraph{}
-        A pesar de que dichas variables de decisión serán las utilizadas principalemente durante el proceso de formulación de los problemas, puede darse el caso de que en algunas situaciones concretas (para tratar de corregir la linealidad de restricciones, simplificarlas o algún paso similar, se utilicen variables diferentes).
+        A pesar de que dichas variables de decisión serán las utilizadas principalmente durante el proceso de formulación de los problemas, puede darse el caso de que en algunas situaciones concretas (para tratar de corregir la linealidad de restricciones, simplificarlas o algún paso similar, se utilicen variables diferentes).
 
       \paragraph{}
       Para concluir el apartado se quiere remarcar lo siguiente: Tal y como se ha repetido en varias ocasiones a lo largo del mismo, es de vital importancia definir de manera adecuada la notación utilizada para así simplificar en la medida de lo posible la aclaración de los conceptos que se construyen posteriormente a partir de la misma. En este caso se pretende seguir una notación común que después sea aplicable a la definición de los distintos métodos de resolución. Por lo tanto se ha preferido llevar a cabo de la manera más general posible.
@@ -350,33 +349,142 @@
     \label{sec:formulation_basic_formulation}
 
       \paragraph{}
-      [TODO]
-
-      \paragraph{}
-       Formulación basada en \cite{cordeau2006branch}.
-
+      Tras contextualizar de una manera detallada el \emph{problema Dial-a-Ride}, tanto desde el punto de vista de la situación que pretende resolver, partiendo desde una base muy general (\emph{Problemas de Optimización} en el \cref{sec:formulation_optimization_problems}) hasta las características concretas del mismo (\emph{Problemas Dial-a-Ride} en el \cref{sec:formulation_dial_a_ride_problems}), así como la descripción de la notación que se utiliza a lo largo del documento, tanto desde una perspectiva de bocabulario como matemática, ya se está en condiciones suficientes como para presentar la formulación específica para dicho problema. En este caso, se describe la formulación básica (u original) formada por 3 índices en el tensor tridimensional que contine las variables de decición binarias $x_{ij}^{k}$. En la literatura existen distintas representaciones de la misma, entre las que se encuentran \cite{cordeau2006branch,ropke2007models,cordeau2007dial} entre otros. Sin embargo, en este caso se ha preferido mostrar una versión más cercana a la formulación como modelo lineal, simplificando previamente las restricciones no lineales, las variables redundates etc.
 
       \begin{eqfloat}
 				\begin{equation}
 					\begin{array}{rr@{}ll}
-  					\text{Minimizar} & \displaystyle\sum\limits_{k \in K}\sum\limits_{(i, j) \in A}  c_{ij}^{k}x_{ij}^{k} &                 & \\
-						\text{sujeto a}	 & \displaystyle\sum\limits_{k \in K}\sum\limits_{j: (i, j) \in A} x_{0j}^{k} \ &= 1,                      & \forall i \in P \cup D \\
-                             & \displaystyle\sum\limits_{j: (0, j) \in A} x_{i,n+\tilde{n} + 1}^{k}  \ &= 1, 	                          & \forall k \in K \\
-                             & \displaystyle\sum\limits_{i: (i, n + \tilde{n} + 1) \in A} x_{ij}^{k} \ &= 1, 	                          & \forall k \in K \\
-                             & \displaystyle\sum\limits_{i: (i, j) \in A} x_{ij}^{k} - \sum\limits_{j: (j, i) \in A} x_{ij}^{k} \ &= 0, & \forall j \in P \cup D, \forall k \in K \\
-                             & x_{ij}^{k} = 1, \implies B_{j}^{k} \ &\geq B_{i}^{k} + d_{i} + t_{ij}^{k} 	                          & \forall (i, j) \in A, \forall k \in K \\
-                             & x_{ij}^{k} = 1, \implies Q_{j}^{k} \ &= Q_{i}^{k} + q_{j} 	                          & \forall (i, j) \in A, \forall k \in K \\
-                             & max\{0, q_{i}\} \ &\leq Q_{i}^k 	                          & \forall i \in V, \forall k \in K \\
-                             & Q_{i}^k \ &\leq min\{C^{k}, C^{k} + q_{i}\} 	                          & \forall i \in V, \forall k \in K \\
-														 &                               	x_{j} 	&\in \{0,1\}, 	                 & \forall j \in \{1,...,n\} \\
+  					\text{Minimizar}
+              & \displaystyle\sum\limits_{k \in K}\sum\limits_{j \in V}\sum\limits_{i \in V}  c_{ij}^{k}x_{ij}^{k} &
+                & \\
+						\text{sujeto a}
+              & \displaystyle\sum\limits_{k \in K}\sum\limits_{j \in V} x_{ij}^{k} \ &= 1,
+                & \forall i \in P \\
+              & \displaystyle\sum\limits_{i \in V} x_{0i}^{k}  \ &= 1,
+                & \forall k \in K \\
+              & \displaystyle\sum\limits_{i \in V} x_{i,2n+1}^{k}  \ &= 1,
+                & \forall k \in K \\
+              & \displaystyle\sum\limits_{j \in V} x_{ij}^{k} - \sum\limits_{j \in V} x_{n+i,j}^{k} \ &= 0,
+                & \forall i \in P, \forall k \in K \\
+              & \displaystyle\sum\limits_{j \in V} x_{ji}^{k} - \sum\limits_{j \in V} x_{ij}^{k} \ &= 0,
+                & \forall i \in P \cup D, \forall k \in K \\
+              & u_{i}^{k} + d_{i} + t_{ij} - M_{ij}^k (1 - x_{ij}^k) \ &\leq u_{j}^{k},
+                & \forall i,j \in V, \forall k \in K \\
+              & w_{i}^{k} + q_{j} - W_{ij}^k (1 - x_{ij}^k) \ &\leq w_{j}^{k},
+                & \forall i,j \in V, \forall k \in K \\
+              & u_{2n+1}^{k} - u_{0}^{k} \ &\leq T_{k},
+                & \forall k \in K \\
+              & e_{i} \ &\leq u_{i}^{k},
+                & \forall i \in V, \forall k \in K \\
+              & u_{i}^{k} \ &\leq l_{i},
+                & \forall i \in V, \forall k \in K \\
+              & t_{i, n + i}^{k} \ &\leq u_{n+i}^{k} - (u_{i}^{k} + d_{i}),
+                & \forall i \in P, \forall k \in K \\
+              & u_{n+i}^{k} - (u_{i}^{k} + d_{i}) \ &\leq L_{k},
+                & \forall i \in P, \forall k \in K \\
+              & max\{0, q_{i}\} \ &\leq w_{i}^{k},
+                & \forall i \in V, \forall k \in K \\
+              & w_{i}^{k} \ &\leq Q_{k} + min\{0, q_{i}\},
+                & \forall i \in V, \forall k \in K \\
+							& x_{ij}^k \ &\in \{0,1\},
+                & \forall i,j \in V, \forall k \in K \\
 					\end{array}
 				\end{equation}
-				\caption{[TODO]}
-				\label{eq:basic_formulation}
+				\caption{Formulación del modelo basado en $3$ índices para el \emph{Problema Dial-a-Ride}.}
+				\label{eq:formulation_basic_darp}
 			\end{eqfloat}
 
       \paragraph{}
-      [TODO]
+      En la \cref{eq:formulation_basic_darp} se muestran tanto las restricciones como la función objetivo del problema. En este último caso, es sencillo darse cuenta de que el valor a optimizar en el modelo básico es el coste total de la planificación, que viene dado por la acumulación de costes para cada enlace entre posiciones generadas por los servicios del problema. Esto se puede ver de forma sencilla en la \cref{eq:formulation_basic_darp_optimization_function}.
+
+      \begin{equation}
+      \label{eq:formulation_basic_darp_optimization_function}
+        \displaystyle\sum\limits_{k \in K}\sum\limits_{j \in V}\sum\limits_{i \in V}  c_{ij}^{k}x_{ij}^{k}
+      \end{equation}
+
+      \paragraph{}
+      En cuanto a las restricciones, estas pueden ser agrupadas en tres grupos principales: restricciones de unicidad (\cref{sec:formulation_basic_darp_uniqueness}), de conectividad (\cref{sec:formulation_basic_darp_connectivity}), de acumulación (\cref{sec:formulation_basic_darp_accumulation}), y de tiempo y capacidad (\cref{sec:formulation_basic_darp_time_capacity}). A continuación se describen un poco más en detalle los distintos grupos de restricciones.
+
+      \subsection{Restricciones de Unicidad}
+      \label{sec:formulation_basic_darp_uniqueness}
+
+        \paragraph{}
+        Tal y como se ha indicado previamente en el \cref{sec:formulation_generalized_pickup_and_delivery_problems}, las restricciones de unicidad en los problemas de rutado son las encargadas de asegurarse de que cada servicio sea realizada una única vez, así como que sea realizada obligatoriamente. En este caso, se pretende además de que distintos vehículos no realicen el mismo servicio. Dicha restricción se muestra en la \cref{eq:formulation_basic_darp_uniqueness_1}. Es interesante darse cuenta de que esta restricción tan solo se aplica a los servicios correspondientes a recogidas. La razón de ello, es que por transitividad procedente de otro conjunto de restricciones seria redundante.
+
+        \paragraph{}
+        Dicho conjunto addional de restricciones se refiere a la necesidad de que si una ruta visita la posición correspondiente a un servicio de recogida, entonces será necesario que también visite la posición del correspondiente servicio de entrega. Esto es necesario en el \emph{problema Dial-a-Ride} ya que tal y como se comentó previamente, en este caso las mercancias no son intercambiables entre distintos pares de recogida/entrega. La restricción correspondiente se describe en la \cref{eq:formulation_basic_darp_uniqueness_2}.
+
+        \begin{align}
+        \label{eq:formulation_basic_darp_uniqueness_1}
+          \displaystyle\sum\limits_{k \in K}\sum\limits_{j \in V} x_{ij}^{k} \ &= 1, & \forall i \in P \\
+        \label{eq:formulation_basic_darp_uniqueness_2}
+          \displaystyle\sum\limits_{j \in V} x_{ij}^{k} - \sum\limits_{j \in V} x_{n+i,j}^{k} \ &= 0, & \forall i \in P, \forall k \in K
+        \end{align}
+
+        \paragraph{}
+        Una vez añadidas dichas restricciones, ya se puede asegurar que para llegar a una solución factible del problema, todas las posiciones en que se localizan sus correspondientes servicios hayan sido visitadas, así como que las posiciones de inicio y fin de ruta se cumplan.
+
+      \subsection{Restricciones de Secuenciación}
+      \label{sec:formulation_basic_darp_connectivity}
+
+        \paragraph{}
+        Las restricciones de secuenciación (las cuales se comentaron brevemente en el \cref{sec:formulation_generalized_pickup_and_delivery_problems}) se refieren a la necesidad de que tras cada parada en un servicio, únicamente se pueda continuar hacia otro servicio. Es decir, que no surjan problemas relacionados con la secuencialidad de la ruta. Esto se lleva a cabo a partir de la restricción descrita en la \cref{eq:formulation_basic_darp_connectivity_1}. Nótese que esto tan solo se aplica a las posiciones relacionadas con servicios, ya que las posiciones referidas al inicio y fin de ruta, el comportamiento ha de ser diferente.
+
+        \paragraph{}
+        Dicho comportamiento requiere que las posiciones de inicio y fin de ruta sean visitadas por todas las rutas (por lo que no se aplica ni la unicidad ni la secuencialidad). Sin embargo, es necesario ser capaz de controlar las posiciones de origen y destino de la planificación (que típicamente coinciden aunque podría no ser así). Asumiendo que todas las rutas comienzan y terminan en las posiciones $0$ y $2n + 1$ respectivamente, es necesario añadir las restricciones descritas en las \cref{eq:formulation_basic_darp_connectivity_2,eq:formulation_basic_darp_connectivity_3}.
+
+        \begin{align}
+        \label{eq:formulation_basic_darp_connectivity_1}
+          \displaystyle\sum\limits_{j \in V} x_{ji}^{k} - \sum\limits_{j \in V} x_{ij}^{k} \ &= 0, & \forall i \in P \cup D, \forall k \in K \\
+        \label{eq:formulation_basic_darp_connectivity_2}
+          \displaystyle\sum\limits_{i \in V} x_{0i}^{k}  \ &= 1,     & \forall k \in K \\
+        \label{eq:formulation_basic_darp_connectivity_3}
+          \displaystyle\sum\limits_{i \in V} x_{i,2n+1}^{k}  \ &= 1, & \forall k \in K
+        \end{align}
+
+        \paragraph{}
+        Una vez incluidas las restricciones de secuencialidad, ya es posible conseguir rutas válidas desde el punto de vista de las posiciones que se visitan y el orden entre estas. Sin embargo, estas no tienen en cuenta ni tiempos ni capacidades por lo que es necesario añadir un conjunto de restricciones addicionales para poder modelar de manera completa el \emph{problema Dial-a-Ride}.
+
+      \subsection{Restricciones de Acumulación}
+      \label{sec:formulation_basic_darp_accumulation}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{align}
+          u_{i}^{k} + d_{i} + t_{ij} - M_{ij}^k (1 - x_{ij}^k) \ &\leq u_{j}^{k}, & \forall i,j \in V, \forall k \in K \\
+          w_{i}^{k} + q_{j} - W_{ij}^k (1 - x_{ij}^k) \ &\leq w_{j}^{k}, & \forall i,j \in V, \forall k \in K
+        \end{align}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{align}
+        \label{eq:formulation_basic_darp_time_linearization}
+          M_{ij}^k &= max\{0, l_{i} + d_{i} + t_{ij} - e_{j}\} \\
+        \label{eq:eq:formulation_basic_darp_capacity_linearization}
+          W_{ij}^k &= Q_{k} + min\{0, q_{i}\}
+        \end{align}
+
+        \paragraph{}
+        [TODO]
+
+      \subsection{Restricciones de Tiempo y Capacidad}
+      \label{sec:formulation_basic_darp_time_capacity}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{align}
+          u_{2n+1}^{k} - u_{0}^{k} \ &\leq T_{k}, & \forall k \in K \\
+          e_{i} \ &\leq u_{i}^{k}, & \forall i \in V, \forall k \in K \\
+          u_{i}^{k} \ &\leq l_{i}, & \forall i \in V, \forall k \in K \\
+          t_{i, n + i}^{k} \ &\leq u_{n+i}^{k} - (u_{i}^{k} + d_{i}), & \forall i \in P, \forall k \in K \\
+          u_{n+i}^{k} - (u_{i}^{k} + d_{i}) \ &\leq L_{k}, & \forall i \in P, \forall k \in K \\
+          max\{0, q_{i}\} \ &\leq w_{i}^{k}, & \forall i \in V, \forall k \in K \\
+          w_{i}^{k} \ &\leq Q_{k} + min\{0, q_{i}\}, & \forall i \in V, \forall k \in K
+        \end{align}
+
 
     \section{Otras formulaciones}
     \label{sec:formulation_other_formulations}
