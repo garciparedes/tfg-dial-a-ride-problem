@@ -45,29 +45,45 @@
         \label{img:solving_simplex}
       \end{figure}
 
+      \paragraph{}
+      Hasta ahora, en este apartado se ha descrito únicamente el proceso de resolución mediante algunos métodos exactos. Sin embargo, no se ha realizado ninguna particularización sobre el problema \emph{Dial-a-Ride}. Por tanto, es momento de definir el punto de enlace entre la definición del método y el problema en cuestión. Tal y como se ha descrito a lo largo del \cref{chap:formulation} el problema \emph{Dial-a-Ride} se enmarca dentro de los problemas de \emph{optimización lineal}. En la \cref{eq:formulation_basic_darp} se describe la formulación de $3$ índices para este problema, incluyendo tanto las variables de decisión como las restricciones que lo componen. En cuanto a la estrategia de enumeración, es fácil darse cuenta de que esta puede llevarse a cabo tomando todas las combinaciones posibles para las variables binarias del problema (lo cual tal y como se ha comentado anteriormente es algo inabordable en problemas no demostrativos). En cuanto a la estrategia de resolución basada en el algoritmo \emph{Simplex}, tal y como se ilustra en \cite{klee1970good} es posible construir la matriz simplex a partir de la matriz de restricciones generada por el problema en forma lineal.
+
+      \paragraph{}
+      A lo largo de la literatura relacionada con métodos de resolución exactos para el problema \emph{Dial-a-Ride}, existen un gran número de referencias basadas en el estudio de técnicas basadas en \emph{Branch and Bound} que tratan de tomar ventaja de alguna manera de la estructura del problema para así simplificar el camino hasta la solución óptima. En el siguiente apartado se describen de manera más detallada los conceptos en que se apoya este método.
+
       \subsection{Branch and Bound}
       \label{sec:solving_branch_bound}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Branch and Cut}
-      \label{sec:solving_branch_cut}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[width=0.4\textwidth]{branch-and-bound-tree}
+          \caption{Ejemplo de ramificación del problema mediante el algoritmo \emph{Branch and Bound}.}
+          \label{img:branch_and_bound}
+        \end{figure}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Branch and Price}
-      \label{sec:solving_branch_price}
+        \subsubsection{Branch and Cut}
+        \label{sec:solving_branch_cut}
 
-        \paragraph{}
-        [TODO]
+          \paragraph{}
+          [TODO]
 
-      \subsection{Branch and Cut and Price}
-      \label{sec:solving_branch_cut_price}
+        \subsubsection{Branch and Price}
+        \label{sec:solving_branch_price}
 
-        \paragraph{}
-        [TODO]
+          \paragraph{}
+          [TODO]
+
+        \subsubsection{Branch and Cut and Price}
+        \label{sec:solving_branch_cut_price}
+
+          \paragraph{}
+          [TODO]
 
       \paragraph{}
       [TODO]
