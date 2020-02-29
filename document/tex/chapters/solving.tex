@@ -55,7 +55,10 @@
       \label{sec:solving_branch_bound}
 
         \paragraph{}
-        [TODO]
+        Se pueden englobar en la categoría de algoritmos \emph{Branch and Bound} todos aquellos que basan su estrategia de resolución en comenzar por una versión relajada del problema base para posteriormente realizar un proceso jerarquico de cambios sobre la estructura del problema hasta alcanzar el valor óptimo del mismo. Esta estrategia es muy usada sobre problemas de \emph{optimización entera} ya que facilita en gran medida la problemática generada por las variables de decisión de carácter discreto del problema.
+
+        \paragraph{}
+        La estrategia habitual consiste en partir de una versión del problema sobre la cual las restricciones sobre variables discretas se han relajado a valores sobre intervalos. Es decir, supongamos que la variable de decisión $x$ únicamente puede tomar valores enteros entre $1$ y $5$, lo que es equivalente a $x \in \{1,2,3,4,5\}$. Entonces, una relajación lineal podría venir dada por la transformación en $1 \leq x \leq 5$ la cual es más sencilla de resolver por el algoritmo \emph{Simplex}. Posteriormente, el resto de pasos de ramificación consisten en añadir restriciones (mediante la generación de filas o columnas) que permitan satisfacer las restricciones del problema original.
 
         \begin{figure}[ht]
           \centering
@@ -65,7 +68,10 @@
         \end{figure}
 
         \paragraph{}
-        [TODO]
+        Es importante tener en cuenta que las relajaciones aplicadas al problema inicial para aplicar el algoritmo \emph{Branch and Bound} no tienen por qué ser de naturaleza lineal, si no que se pueden aplicar sobre otros tipos de restricciones. Un ejemplo de ello se podría dar eliminando por ejemplo las restricciones de duración máximo de viaje en el problema \emph{Dial-a-Ride}, o la eliminación de restrcciones de ventana temporal en el problema \emph{Pickup and Delivery with Time Windows}. Una vez generada una solución factible sobre estos casos, el proceso de ramificación consistirá en \say{modificar} dicha solución hasta alcanzar aquella que cumpla todas las restricciones (de tiempo máximo de viaje, de ventanas temporales, etc.).
+
+        \paragraph{}
+        Dependiendo de la estrategia de ramificación del algoritmo, este se denomina de distintas maneras. Cuando la ramificación se basa en la generación de filas el algorimo se conoce como \emph{Branch and Cut}, mientras que si la estrategia se basa en la generación de columnas este se denomina \emph{Branch and Price}. Por último, cuando la estrategia se basa en la combinación de ambos entonces el algorimo es denominado \emph{Branch and Cut and Price}.
 
         \subsubsection{Branch and Cut}
         \label{sec:solving_branch_cut}
