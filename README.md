@@ -1,8 +1,8 @@
-# TFG: Pickup and Delivery
+# TFG: Scalable solving methods for the Dial-a-Ride Problem
 
 ## Description
 
-Final Degree Project of Statistics Degree based on the Pickup and Delivery Problem (PDP).
+Final Degree Project of Statistics Degree based on the Dial-a-Ride Problem (DARP).
 
 ## Contents
 
