@@ -11,7 +11,17 @@
     \label{sec:solving_introduction}
 
       \paragraph{}
-      [TODO]
+      Los problemas de \emph{optimización combinatoria} constituyen una de las categorías más interesantes dentro del área de la optimización de variables. Esto se debe a la gran aplicabilidad de los mismos en situaciones de la vida real, así como la gran reducción de costes que se puede alcanzar cuando estos son aplicados en los puntos estratégicos de cualquier proceso de producción.
+
+      \paragraph{}
+      Sin embargo, esta categoría de problemas de optimización presenta un mayor grado de dificultad en su resolución, tal y como se ha indicado a lo largo del \cref{chap:formulation}. Entre otros, esto se debe a la imposibilidad de utilizar técnicas basadas en gradientes (que en problemas con variables de decisión continuas proporcionan simplifican mucho su resolución). Puesto que estas técnicas no son aplicables, la estrategia alternativa se basa en la enumeración de posibles configuraciones de variables de manera inteligente hasta alcanzar aquella que genere el resultado óptimo para la instancia del problema que se pretenda resolver.
+
+      \paragraph{}
+      Por tanto, a pesar de no ser posible el apoyo en técnicas basadas en gradientes, si que existe la aternativa basada en enumeración de configuraciones como enfoque para dar con el óptimo. A pesar de ello, es fácil darse cuenta de que esta estrategia no es lo suficientemente potente como para permitir resolver problemas reales (o incluso de pequeño tamaño). La dificultad radica en la explosión combinatoria generada por la enumeración de soluciones. Por ejemplo, en un problema compuesto por $20$ variables de decisión de naturaleza binaria, el número de configuraciones a evaluar alcanzaría el valor de $2^{20} = 1048576$, lo cual no es escalable a problemas de gran tamaño, donde hay cientos o miles de variables de decisión con las que trabajar.
+
+      \paragraph{}
+      A pesar de esta dificultad, es posible enfrentarse a problemas de \emph{optimización combinatoria} de tamaños relativamente grande teniendo en cuenta distintas estrategias que permiten ignorar un gran número de configuraciones no factibles dadas las restricciones descritas por el problema en cuestión. Es por ello que muchos de los métodos de resolución se apoyan en estas garantias para enfocar la búsqueda sobre un subespacio de configuraciones factibles. Otra de las ideas más utilizadas por los métodos de resolución es apoyarse en los resultados de evaluación de configuraciones anteriores para que el coste computacional de evaluación de configuraciones actuales sea mucho menor. Dicho estrategia algorítmica se conoce como \emph{Programación Dinámica}, la cual se describe en mayor detalle en \cite{bellman1954theory}.
+
 
     \section{Métodos de Resolución Exactos}
     \label{sec:solving_exacts}

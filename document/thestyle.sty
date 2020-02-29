@@ -48,3 +48,10 @@
 \usepackage[section]{placeins}
 \usepackage[hidelinks]{hyperref}
 \usepackage[spanish]{cleveref}
+
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
