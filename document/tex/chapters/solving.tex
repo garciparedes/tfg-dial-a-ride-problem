@@ -77,7 +77,10 @@
         \label{sec:solving_branch_cut}
 
           \paragraph{}
-          [TODO]
+          Tal y como se ha comentado anteriormente, los algoritmos \emph{Branch and Cut} consisten en una caracterización del algoritmo general de ramificación donde el proceso de \say{estrechamiento} del problema relajado para cumplir con todas las restricciones impuestas por el problema que se pretende resolver viene dado por la adicción de planos de corte a partir de nuevas restricciones. Es por ello que este método se apoya en estrategias de generación de filas.
+
+          \paragraph{}
+          Para el caso del problema \emph{Dial-a-Ride}, en \cite{cordeau2006branch} se propone una implementación completa para basada en el algoritmo \emph{Branch and Cut} la cual se basa en la generación inicial de una solución del problema relajado (para el cual se eliminan las restricciones que imponen variables de decisión binarias) y posteriormente a partir de un proceso de ramificación se añaden restricciones adiccionales que fuerzan a las variables de naturaleza binaria con valores no binarios a tomar uno de los dos valores (ahí surge el proceso de ramificación). Para detectar sobre qué variable concreta generar el corte en cada caso, la estrategia seguida se apoya en la definición de unas heurísticas que generan una lista ordenada sobre la cual seleccionar dicha variable. En la línea de este enfoque, también es interesante remarcar \cite{ropke2007models} donde además se propone un modelo de programación lineal basado en 2 índices, que a pesar de no representar el mismo caso que el problema \emph{Dial-a-Ride} sus diferencias son mínimas (número indeterminado de vehículos, todos los vehículos con misma capacidad, etc.).
 
         \subsubsection{Branch and Price}
         \label{sec:solving_branch_price}
