@@ -77,25 +77,28 @@
         \label{sec:solving_branch_cut}
 
           \paragraph{}
-          Tal y como se ha comentado anteriormente, los algoritmos \emph{Branch and Cut} consisten en una caracterización del algoritmo general de ramificación donde el proceso de \say{estrechamiento} del problema relajado para cumplir con todas las restricciones impuestas por el problema que se pretende resolver viene dado por la adicción de planos de corte a partir de nuevas restricciones. Es por ello que este método se apoya en estrategias de generación de filas.
+          Tal y como se ha comentado anteriormente, los algoritmos \emph{Branch and Cut} consisten en una caracterización del algoritmo general de ramificación donde el proceso de \say{estrechamiento} de la versión relajada para cumplir con todas las restricciones impuestas por el problema viene dado por la adicción de planos de corte a partir de nuevas restricciones. Es por ello que este método se apoya en estrategias de generación de filas.
 
           \paragraph{}
-          Para el caso del problema \emph{Dial-a-Ride}, en \cite{cordeau2006branch} se propone una implementación completa para basada en el algoritmo \emph{Branch and Cut} la cual se basa en la generación inicial de una solución del problema relajado (para el cual se eliminan las restricciones que imponen variables de decisión binarias) y posteriormente a partir de un proceso de ramificación se añaden restricciones adiccionales que fuerzan a las variables de naturaleza binaria con valores no binarios a tomar uno de los dos valores (ahí surge el proceso de ramificación). Para detectar sobre qué variable concreta generar el corte en cada caso, la estrategia seguida se apoya en la definición de unas heurísticas que generan una lista ordenada sobre la cual seleccionar dicha variable. En la línea de este enfoque, también es interesante remarcar \cite{ropke2007models} donde además se propone un modelo de programación lineal basado en 2 índices, que a pesar de no representar el mismo caso que el problema \emph{Dial-a-Ride} sus diferencias son mínimas (número indeterminado de vehículos, todos los vehículos con misma capacidad, etc.).
+          Para el caso del problema \emph{Dial-a-Ride}, en \cite{cordeau2006branch} se propone una implementación completa basada en el algoritmo \emph{Branch and Cut} la cual se apoya en la generación inicial de una solución del problema relajado (para el cual se eliminan las restricciones que imponen variables de decisión binarias, permitiendo que estas tomen cualquier valor en el intervalo $[0, 1]$) para posteriormente, a partir de un proceso de ramificación añadir restricciones adiccionales que fuerzan a las variables de naturaleza binaria con valores no binarios a tomar un valor válido (ahí surge el proceso de ramificación). Para detectar sobre qué variable concreta generar el corte en cada caso, la estrategia seguida se apoya en la definición de unas heurísticas que generan una lista ordenada sobre la cual seleccionar dicha variable. En la línea de este enfoque, también es interesante remarcar \cite{ropke2007models} donde además se propone un modelo de programación lineal basado en 2 índices, que a pesar de no representar el mismo caso que el problema \emph{Dial-a-Ride}, sus diferencias son mínimas (número indeterminado de vehículos, todos los vehículos con misma capacidad, etc.).
 
         \subsubsection{Branch and Price}
         \label{sec:solving_branch_price}
 
           \paragraph{}
-          [TODO]
+          Del mismo modo que el método \emph{Branch and Cut} es una estrategia de generación de filas enmarcada dentro de la familia de algoritmos \emph{Branch and Bound}, el método \emph{Branch and Price} es la versión correspondiente cuya estrategia se basa en la generación de columnas sobre la matriz de restricciones del problema de programación lineal. Es decir, se basa en la inclusión de nuevas variables sobre una versión relajada del problema inicial. Puesto que puede dar lugar a confusión, es necesario detallar cómo se puede llevar esto a cabo para reflejar de manera adecuada la diferencia respecto del método de generación de filas. Mientras que en la estrategia de generación de filas, la relajación se produce permitiendo que las variables de decisión tomen valores que no satisfacen las restricciones originales, en este caso el enfoque consiste en resolver una versión más simple del problema original para después, mediante un proceso iterativo, ampliar el alcance del problema simplificado hasta alcanzar la definición del mismo que satisfaga todas las restricciones de la versión original. El proceso de ramificación surge cuando no es posible satisfacer las condiciones impuestas tras la inclusión de nuevas variables, donde esta es forzada con la esperanza de que sea satisfecha en la siguiente iteracción, creando una ramificación por cada posible alternativa.
+
+          \paragraph
+          Aplicado al problema \emph{Dial-a-Ride}, una posible estrategia se apoya en limitar los aristas disponibles del grafo en una primera iteracción, para posteriormente aplicar un proceso inclusión/eliminación de aristas del grafo para así controlar la complejidad del problema a la vez que se exploran distintas soluciones. El proceso de ramificación de soluciones surge cuando son eliminados aristas que en alguna de las soluciones hayan sido utilizados. Para llevar a cambo dicho proceso de inclusión/eliminación en la literatura se han propuesto estragias apoyadas en \emph{Programación dinámica}.
 
         \subsubsection{Branch and Cut and Price}
         \label{sec:solving_branch_cut_price}
 
           \paragraph{}
-          [TODO]
+          Una vez descritos lo métodos basados en generación de filas (\emph{Branch and Cut}) así como de columnas (\emph{Branch and Price}), es fácil entender el funcionamiento del método \emph{Branch and Cut and Price}, que se apoya en la combinación de ambas estrategias para reducir así reducir la complejidad de resolución del problema \emph{Dial-a-Ride}. Como es natural, estos cuentan con la ventaja de resolver instancias más fáciles de resolver del problema por tener un menor número de restricciones (eliminación de filas) así como de hacerlo sobre versiones más pequeñas del problema (eliminación de columnas). Tal y como se ha podido comprobar en distintas publicaciones que comparan la utilización de los métodos de generación de filas o columnas de manera separada, frente a las correspondientes versiones combinadas, estas últimas obtienen un nivel de resultados equivalente requiriendo de un menor nivel de cómputo. 
 
       \paragraph{}
-      [TODO]
+      Tal y como se ha podido comprobar a lo largo del apartado, los métodos de resolución apoyados por técnicas basadas en ramificación son capaces de ofrecer ventajas relacionadas con la simplicación del problema completo a resolver a costa de requerir la resolución de múltiples versiones relajadas de distintas formas de dicho problema. Cuando el tamaño de la instancia del problema es tan grande que esta no puede ser resuelta \say{de una sola vez}, estos métodos ofrecen una alternativa interesante por seguir ofreciendo garantías de optimalidad, lo cual en ciertos casos es un requisito necesario.
 
     \section{Métodos de Resolución basados en Heurísticas}
     \label{sec:solving_heuristics}
@@ -142,6 +145,18 @@
 
       \subsection{Metropolis Hastings}
       \label{sec:solving_metropolis}
+
+        \paragraph{}
+        [TODO]
+
+      \subsection{Clarke and Wright}
+      \label{sec:solving_clarke_and_wright}
+
+        \paragraph{}
+        [TODO]
+
+      \subsection{SOM}
+      \label{sec:solving_som}
 
         \paragraph{}
         [TODO]
