@@ -128,7 +128,24 @@
       \label{sec:solving_brute_force}
         
         \paragraph{}
-        [TODO]
+        A pesar de que anteriormente se ha comentado que una de las grandes diferencias entre métodos de resolución exactos y métodos de resolución basados en heurísticas son las garantías de optimalidad, esta distinción es un tanto difusa cuando se tratan de clasificar las estrategias de fuerza bruta. Esto se debe a que, si bien es cierto que esta estrategia es capaz de garantizar resultados óptimos cuando termina, la estrategia de resolución se encuentra más próxima a los algoritmos heurísticos que a los métodos que hemos clasificado como exactos, puesto que estos se apoyan en mayor medida en la teoría de programación lineal, mientras que las estrategias heurísticas tienden a acercarse más a estrategias algorítmicas clásicas.
+
+        \paragraph{}
+        Una vez aclarada la peculiaridad de la estrategia de \emph{fuerza bruta}, procedemos a describir en qué se basa: El modo de funcionamiento consiste en la enumeración de todas las posibles configuraciones, para después proceder a filtrar todas aquellas que sean factibles, y de entre estas, escoger aquella que maximize (o minimize) la función objetivo. La definición de esta estrategia en pseudo código se incluye en el \cref{code:solving_brute_force} (donde $U$ representa el universo de posibles solucions, $feasible$ se trata de una función que recibe una solución y se encarga de evaluar si es o no factible, $F$ se compone de todas las soluciones factibles y por último, $s$ se corresponde con la solución óptima, que en este caso se trata de un problema de minimización).
+
+        \paragraph{}
+        \begin{algorithm}
+          \SetAlgoLined
+          \KwResult{$s$ }
+          $F \gets filter(feasible, U)$\;
+          $s \gets min\{F\}$\;
+          \caption{Estrategia de resolución basada en \emph{fuerza bruta}.}
+          \label{code:solving_brute_force}
+        \end{algorithm}
+
+        \paragraph{}
+        Sin embargo, tal y como se puede intuir, esta estrategia de resolución requiere de una cantidad de recursos que crece de manera exponencial respecto del tamaño de entrada. Por lo tanto, no es aplicable en la práctica sobre problemas de gran tamaño. Aún así, existen ciertos problemas para los cuales el grado de complejidad es relativamente bajo o el tamaño de las instancias a resolver es pequeño, por lo que esta estrategia es aplicable. En dichos casos, esta es una alternativa interesante ya que, como se ha comentado anteriormente, los algoritmos basados en \emph{fuerza bruta} proporcionan garantías de optimalidad.  
+
 
       \subsection{Selección Aleatoria}
       \label{sec:solving_random}
