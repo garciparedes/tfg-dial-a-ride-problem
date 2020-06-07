@@ -88,7 +88,7 @@
           \paragraph{}
           Del mismo modo que el método \emph{Branch and Cut} es una estrategia de generación de filas enmarcada dentro de la familia de algoritmos \emph{Branch and Bound}, el método \emph{Branch and Price} es la versión correspondiente cuya estrategia se basa en la generación de columnas sobre la matriz de restricciones del problema de programación lineal. Es decir, se basa en la inclusión de nuevas variables sobre una versión relajada del problema inicial. Puesto que puede dar lugar a confusión, es necesario detallar cómo se puede llevar esto a cabo para reflejar de manera adecuada la diferencia respecto del método de generación de filas. Mientras que en la estrategia de generación de filas, la relajación se produce permitiendo que las variables de decisión tomen valores que no satisfacen las restricciones originales, en este caso el enfoque consiste en resolver una versión más simple del problema original para después, mediante un proceso iterativo, ampliar el alcance del problema simplificado hasta alcanzar la definición del mismo que satisfaga todas las restricciones de la versión original. El proceso de ramificación surge cuando no es posible satisfacer las condiciones impuestas tras la inclusión de nuevas variables, donde esta es forzada con la esperanza de que sea satisfecha en la siguiente iteracción, creando una ramificación por cada posible alternativa.
 
-          \paragraph
+          \paragraph{}
           Aplicado al problema \emph{Dial-a-Ride}, una posible estrategia se apoya en limitar los aristas disponibles del grafo en una primera iteracción, para posteriormente aplicar un proceso inclusión/eliminación de aristas del grafo para así controlar la complejidad del problema a la vez que se exploran distintas soluciones. El proceso de ramificación de soluciones surge cuando son eliminados aristas que en alguna de las soluciones hayan sido utilizados. Para llevar a cambo dicho proceso de inclusión/eliminación en la literatura se han propuesto estragias apoyadas en \emph{Programación dinámica}.
 
         \subsubsection{Branch and Cut and Price}
@@ -133,8 +133,7 @@
         \paragraph{}
         Una vez aclarada la peculiaridad de la estrategia de \emph{fuerza bruta}, procedemos a describir en qué se basa: El modo de funcionamiento consiste en la enumeración de todas las posibles configuraciones, para después proceder a filtrar todas aquellas que sean factibles, y de entre estas, escoger aquella que maximize (o minimize) la función objetivo. La definición de esta estrategia en pseudo código se incluye en el \cref{code:solving_brute_force} (donde $U$ representa el universo de posibles solucions, $feasible$ se trata de una función que recibe una solución y se encarga de evaluar si es o no factible, $F$ se compone de todas las soluciones factibles y por último, $s$ se corresponde con la solución óptima, que en este caso se trata de un problema de minimización).
 
-        \paragraph{}
-        \begin{algorithm}
+        \begin{algorithm}[ht]
           \SetAlgoLined
           \KwResult{$s$ }
           $F \gets filter(feasible, U)$\;
@@ -153,7 +152,28 @@
       \label{sec:solving_random}
 
         \paragraph{}
-        [TODO]
+        La siguiente estrategia heurística a comentar se presenta en muchos sentidos como una versión opuesta a la de \emph{fuerza bruta}. Esta es la heurística basada en \emph{selección aleatoria}, cuya principal característica es el apoyo en una componente de estocasticidad que pretende, a largo plazo, alcanzar resultados razonables utilizando para ello un reducido coste computacional. Entonces, tal y como se puede intuir esta estrategia es opuesta a la de \emph{fuerza bruta} en dos sentidos: \begin{enumerate*}[label=(\arabic*)] \item la búsqueda en el espacio de soluciones no es exhaustiva, por lo que no se prueban todos los casos posibles (lo cual elimina las garantías de optimalidad) y \item el coste computacional que conlleva generar soluciones factibles es mucho menor puesto que la decisión sobre qué camino explorar se delega en selección aleatoria \end{enumerate*}.
+
+        \paragraph{}
+        Tal y como se puede apreciar en el \cref{code:solving_random_selection}, la estrategia se basa en generar soluciones aleatorias del universo de posibles soluciones para después evaluar la factibilidad de la escogida en cada iteracción y almacenarla en caso de que esta maximice (o minimice) el valor de la función objetivo. Esto se repite mientras se cumpla una determinada condición, la cual puede basarse en un determinado número de iteracciones, una cantidad de tiempo o estrategias más elaboradas como un determinado ratio de mejora respecto entre la última mejor solución obtenida y la anterior, etc.
+
+        \begin{algorithm}[ht]
+          \SetAlgoLined
+          \KwResult{$s$ }
+          $s \gets \emptyset$\;
+          \While{$condition$}{
+              $c \gets random(U)$\;
+              \If{$!feasible(c)$}{
+                  \Continue\;
+              }
+              $s \gets min(s, c)$\;
+          }
+          \caption{Estrategia de resolución basada en \emph{selección aleatoria}.}
+          \label{code:solving_random_selection}
+        \end{algorithm}
+
+        \paragraph{}
+        Tal y como se puede intuir, por si sola esta heurística no es todo lo eficiente como se espera para ser aplicable en la práctica puesto que, a pesar de la simplicidad que proporciona durante el proceso de generación y evaluación de soluciones, resulta muy improbable que llegue a alcanzar soluciones razonables sin que la estrategia se apoye en cierto conocimiento del problema. Sin embargo, tal y como se comentará más adelante, esta estrategia sirve como base (o componente) de otras mucho más elaboradas que consiguen alcanzar resultados mucho mejores en el largo plazo mediante la utilización de cierta componente aleatoria en alguna parte del proceso de optimización. Desde el punto de vista conceptual, hacer esto consigue añadir cierto ruido en el camino de búsqueda hacia la solución óptima que puede ser positivo dado que este reduce la complicación de \say{caer} en máximos (o mínimos) locales que en ciertas estrategias heurísticas complican en gran medida el proceso de optimización.
 
       \subsection{Greedy}
       \label{sec:solving_greedy}
@@ -162,8 +182,7 @@
         [TODO]
 
 
-        \paragraph{}
-        \begin{algorithm}
+        \begin{algorithm}[ht]
           \SetAlgoLined
           \KwResult{$E'$ }
           $S \gets \emptyset$\;
