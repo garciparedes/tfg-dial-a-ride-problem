@@ -114,7 +114,7 @@
       
       \begin{itemize}
           
-          \item \textbf{Heurísticas de Construcción}: la función que desempeñan consiste en la generación de soluciones sin el apoyo de ningún estado previo. Es decir, recibiendo únicamente los valores de entrada necesarios para la formulación del problema, estas son capaces de generar soluciones del problema que satisfacen todas las restricciones impuestas por la formulación del mismo. En el caso de los problemas de rutas de vehículos, estas estrategias se apoyan comúnmente en algorimos de insercción inspirados en algoritmos greedy y, en algunas ocasiones con un cierto nivel de aleatoriedad. Por lo general, los resultados a los que es posible llegar utilizando úncamente estrategias de este tipo, no son lo suficientemente cercanas al resultado óptimo. Para resolver esta problemática, existen otras estrategias que tratan de paliar esta situación.
+          \item \textbf{Heurísticas de Construcción}: la función que desempeñan consiste en la generación de soluciones sin el apoyo de ningún estado previo. Es decir, recibiendo únicamente los valores de entrada necesarios para la formulación del problema, estas son capaces de generar soluciones del problema que satisfacen todas las restricciones impuestas por la formulación del mismo. En el caso de los problemas de rutas de vehículos, estas estrategias se apoyan comúnmente en algorimos de insercción inspirados en algoritmos greedy y, en algunas ocasiones con un cierto nivel de aleatoriedad. Por lo general, los resultados a los que es posible llegar utilizando únicamente estrategias de este tipo, no son lo suficientemente cercanas al resultado óptimo. Para resolver esta problemática, existen otras estrategias que tratan de paliar esta situación.
 
           \item \textbf{Heurísticas de Mejora}: debido al grado de dificultad necesario para tomar las decisiones más acertadas durante el proceso de construcción de soluciones, la categoría de \emph{heurísticas de mejora} trata de mejorar la calidad una solución dada. Para ello, como es esperable, estas estrategias necesitan conocer tanto el conjunto de valores de entrada necesarios para la formulación del problema, como una solución inicial del mismo. A partir de estas dos partes, el modo de funcionamiento consiste en aplicar distintas modificaciones a la solución para así tratar de maximizar (o minimizar) el valor de la función objetivo, lo cual acerca dicha solución al valor óptimo deseado. A este modo de funcionamiento se le conoce como búsqueda local dentro del espacio de soluciones. En el caso de los problemas de rutas de vehículos, las estrategias en que se basan consisten en la aplicación de operadores tales como el intecambio de tareas (o viajes) entre distintos vehículos, cambio del orden dentro del mismo vehículo, etc. Por tanto, el objetivo se trata de buscar el conjunto de transformaciones de la solución que permitan un mayor acercamiento al resultado esperado al final de la ejecución. Esta última afirmación se explicará más en detalle en el \cref{sec:solving_greedy}
       
@@ -179,22 +179,26 @@
       \label{sec:solving_greedy}
 
         \paragraph{}
-        [TODO]
+        Una de las estrategias más conocidas (por su buena relación entre sencillez y calidad de las soluciones) son las basadas en \emph{algorithmos greedy}. Estos se corresponden con una de las principales categorías en las cuales se suelen dividir los algoritmos en la mayoría de libros de relacionados. La principal característica de este tipo de algoritmos es que cada una de las decisiones que toman se convierten en invariantes para los próximos pasos que lleve a cabo la estrategia en la búsqueda de la solución final. De ahí el nombre \emph{greedy} (o voraz en español), que trata de remarcar la idea de que cada una de las decisiones que tomadas terminarán formando parte de la solución final. Nótese que esta condición conlleva dos consecuencias principales \begin{enumerate*}[label=(\arabic*)] \item la simplicidad tanto a nivel conceptual como conceptual al requerir únicamente del estado actual (obtenido a partir de las decisiones tomadas anteriormente y las alternativas actualmente posibles), y \item la restricción de reevaluar decisiones anteriores que permitirían llegar a una solución más acercada con el conocimiento obtenido en el momento actual \end{enumerate*}.
 
+        \paragraph{}
+        Sin embargo, existen ciertos problemas que poseen ciertas características que permiten que los algoritmos de naturaleza voraz sean capaces de llegar al resultado correcto (u óptimo dependiendo de la naturaleza del problema) de manera eficiente y a la vez sencilla. El ejemplo más notable es el de el \emph{problema del cajero}. Dicho problema consiste en la elección sobre qué monedas utilizar de entre un conjunto dado de posibles valores (los cuales no tienen restricciones de cardinalidad) de tal manera que el número de monedas que sea mínimo. A modo de ejemplo, suponiendo el conjunto de valores posibles $\{1,5,10, 25, 100\}$, la asignación que minimiza el número de monedas para devolver el valor $34$ es de $[25, 5, 1, 1, 1, 1]$. La estrategia para llegar a esta solución consiste en seleccionar siempre la moneda de mayor valor que no supere el resto necesario para llegar al valor deseado. En el \cref{code:solving_greedy} se muestra el pseudo código de la estrategia, donde $S$ representa la solución, $v$ el valor deseado, $C$ el conjunto de posibles monedas y $c$ una variable temporal. Tal y como se puede apreciar, siguiendo esta estrategia se cumplen las condiciones requeridas po los \emph{algoritmos de naturaleza voraz} ya que únicamente se tiene en cuenta el estado actual para tomar la siguiente decisión y no se modifican las decisiones tomadas anteriormente. Para más información acerca de las características de esta categoría algorítmica así como ejemplos más interesantes se recomienda consultar \emph{cormen2009introduction}.
 
         \begin{algorithm}[ht]
           \SetAlgoLined
-          \KwResult{$E'$ }
-          $S \gets \emptyset$\;
-          \While{$A \neq \emptyset$}{
-            $o \gets \text{best(A)}$\;
-            $S \gets S \cup \{ o \}$\;
-            $A \gets A \cap \{ o \}$\;
+          \KwResult{$S$ }
+          $S \gets [] $\;
+          \While{$v \neq 0$}{
+            $c \gets min_{v - c > 0}\{C\}$\;
+            $v \gets v - c $\;
+            $S \gets S + [ c ]$\;
           }
-          \caption{[TODO]}
+          \caption{Estrategia de resolución del \emph{problema del cajero} basada en \emph{algoritmo greedy}.}
           \label{code:solving_greedy}
         \end{algorithm}
 
+        \paragraph{}
+        Desde el punto de vista de los problemas de optimización combinatoria, los \emph{algoritmos de naturaleza voraz} han sido de gran utilidad para muchas situaciones. Sin embargo, tal y como se puede intuir, estos requieren que el problema sobre el que se van a aplicar cumpla la propiedad de ser concavos (una mejora sobre una solución arbitraria en la dirección de la solución óptima garantiza un menor coste en la función objetivo) para que estos puedan alcanzar la solución óptima. Por contra, esto ocurre en muy pocas ocasiones en la mayoría de problemas de optimización combinatoria. Si bien es cierto, hay casos para los cuales esta condición si se cumple (como el problema del cajero), pero en muchos otros (entre los que se encuentran los \emph{problemas de rutas de vehículos}) esta condición no se satisface.  
 
         \paragraph{}
         [TODO]
