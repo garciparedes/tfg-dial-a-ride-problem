@@ -86,10 +86,10 @@
         \label{sec:solving_branch_price}
 
           \paragraph{}
-          Del mismo modo que el método \emph{Branch and Cut} es una estrategia de generación de filas enmarcada dentro de la familia de algoritmos \emph{Branch and Bound}, el método \emph{Branch and Price} es la versión correspondiente cuya estrategia se basa en la generación de columnas sobre la matriz de restricciones del problema de programación lineal. Es decir, se basa en la inclusión de nuevas variables sobre una versión relajada del problema inicial. Puesto que puede dar lugar a confusión, es necesario detallar cómo se puede llevar esto a cabo para reflejar de manera adecuada la diferencia respecto del método de generación de filas. Mientras que en la estrategia de generación de filas, la relajación se produce permitiendo que las variables de decisión tomen valores que no satisfacen las restricciones originales, en este caso el enfoque consiste en resolver una versión más simple del problema original para después, mediante un proceso iterativo, ampliar el alcance del problema simplificado hasta alcanzar la definición del mismo que satisfaga todas las restricciones de la versión original. El proceso de ramificación surge cuando no es posible satisfacer las condiciones impuestas tras la inclusión de nuevas variables, donde esta es forzada con la esperanza de que sea satisfecha en la siguiente iteracción, creando una ramificación por cada posible alternativa.
+          Del mismo modo que el método \emph{Branch and Cut} es una estrategia de generación de filas enmarcada dentro de la familia de algoritmos \emph{Branch and Bound}, el método \emph{Branch and Price} es la versión correspondiente cuya estrategia se basa en la generación de columnas sobre la matriz de restricciones del problema de programación lineal. Es decir, se basa en la inclusión de nuevas variables sobre una versión relajada del problema inicial. Puesto que puede dar lugar a confusión, es necesario detallar cómo se puede llevar esto a cabo para reflejar de manera adecuada la diferencia respecto del método de generación de filas. Mientras que en la estrategia de generación de filas, la relajación se produce permitiendo que las variables de decisión tomen valores que no satisfacen las restricciones originales, en este caso el enfoque consiste en resolver una versión más simple del problema original para después, mediante un proceso iterativo, ampliar el alcance del problema simplificado hasta alcanzar la definición del mismo que satisfaga todas las restricciones de la versión original. El proceso de ramificación surge cuando no es posible satisfacer las condiciones impuestas tras la inclusión de nuevas variables, donde esta es forzada con la esperanza de que sea satisfecha en la siguiente iteración, creando una ramificación por cada posible alternativa.
 
           \paragraph{}
-          Aplicado al problema \emph{Dial-a-Ride}, una posible estrategia se apoya en limitar los aristas disponibles del grafo en una primera iteracción, para posteriormente aplicar un proceso inclusión/eliminación de aristas del grafo para así controlar la complejidad del problema a la vez que se exploran distintas soluciones. El proceso de ramificación de soluciones surge cuando son eliminados aristas que en alguna de las soluciones hayan sido utilizados. Para llevar a cambo dicho proceso de inclusión/eliminación en la literatura se han propuesto estragias apoyadas en \emph{Programación dinámica}.
+          Aplicado al problema \emph{Dial-a-Ride}, una posible estrategia se apoya en limitar los aristas disponibles del grafo en una primera iteración, para posteriormente aplicar un proceso inclusión/eliminación de aristas del grafo para así controlar la complejidad del problema a la vez que se exploran distintas soluciones. El proceso de ramificación de soluciones surge cuando son eliminados aristas que en alguna de las soluciones hayan sido utilizados. Para llevar a cambo dicho proceso de inclusión/eliminación en la literatura se han propuesto estragias apoyadas en \emph{Programación dinámica}.
 
         \subsubsection{Branch and Cut and Price}
         \label{sec:solving_branch_cut_price}
@@ -145,7 +145,7 @@
         Sin embargo, tal y como se puede intuir, esta estrategia de resolución requiere de una cantidad de recursos que crece de manera exponencial respecto del tamaño de entrada. Por lo tanto, no es aplicable en la práctica sobre problemas de gran tamaño. Aún así, existen ciertos problemas para los cuales el grado de complejidad es relativamente bajo o el tamaño de las instancias a resolver es pequeño, por lo que esta estrategia es aplicable. En dichos casos, esta es una alternativa interesante ya que, como se ha comentado anteriormente, los algoritmos basados en \emph{fuerza bruta} proporcionan garantías de optimalidad.
 
         \paragraph{}
-        Una de las ventajas de los métodos de resolución basado en fuerza bruta es la capacidad de poder aprovecharse de la estructura del problema concreto que se pretende resolver para así poder reducir el espacio de búsqueda de soluciones en gran medida. Esto se debe a que el espacio de posibles soluciones factibles es un subconjunto del espacio de posibles soluciones. Por tanto, si se consigue encontrar alguna estrategia que permita enfocarse únicamente en las soluciones factibles, los requerimientos computacionales serán mucho menores. Un ejemplo de ello podría aplicarse a una estrategía de generación de soluciones en problemas de rutas a partir de una estrategia de inserción al final de la ruta. Entonces, es fácil darse cuenta de que si durante el proceso de inserción de tareas en la ruta, se llega a un estado de infactibilidad, continuar el proceso de insertar nuevas tareas al final de la ruta, continuará generando soluciones infactibles. Por tanto, en este caso es posible reducir el espacio de búsqueda sin perder las garantías de optimalidad.
+        Una de las ventajas de los métodos de resolución basado en fuerza bruta es la capacidad de poder aprovecharse de la estructura del problema concreto que se pretende resolver para así poder reducir el espacio de búsqueda de soluciones en gran medida. Esto se debe a que el espacio de posibles soluciones factibles es un subconjunto del espacio de posibles soluciones. Por tanto, si se consigue encontrar alguna estrategia que permita enfocarse únicamente en las soluciones factibles, los requerimientos computacionales serán mucho menores. Un ejemplo de ello podría aplicarse a una estrategia de generación de soluciones en problemas de rutas a partir de una estrategia de inserción al final de la ruta. Entonces, es fácil darse cuenta de que si durante el proceso de inserción de tareas en la ruta, se llega a un estado de infactibilidad, continuar el proceso de insertar nuevas tareas al final de la ruta, continuará generando soluciones infactibles. Por tanto, en este caso es posible reducir el espacio de búsqueda sin perder las garantías de optimalidad.
 
       \subsection{Selección Aleatoria}
       \label{sec:solving_random}
@@ -154,7 +154,7 @@
         La siguiente estrategia heurística a comentar se presenta en muchos sentidos como una versión opuesta a la de \emph{fuerza bruta}. Esta es la heurística basada en \emph{selección aleatoria}, cuya principal característica es el apoyo en una componente de estocasticidad que pretende, a largo plazo, alcanzar resultados razonables utilizando para ello un reducido coste computacional. Entonces, tal y como se puede intuir esta estrategia es opuesta a la de \emph{fuerza bruta} en dos sentidos: \begin{enumerate*}[label=(\arabic*)] \item la búsqueda en el espacio de soluciones no es exhaustiva, por lo que no se prueban todos los casos posibles (lo cual elimina las garantías de optimalidad) y \item el coste computacional que conlleva generar soluciones factibles es mucho menor puesto que la decisión sobre qué camino explorar se delega en selección aleatoria \end{enumerate*}.
 
         \paragraph{}
-        Tal y como se puede apreciar en el \cref{code:solving_random_selection}, la estrategia se basa en generar soluciones aleatorias del universo de posibles soluciones para después evaluar la factibilidad de la escogida en cada iteracción y almacenarla en caso de que esta maximice (o minimice) el valor de la función objetivo. Esto se repite mientras se cumpla una determinada condición, la cual puede basarse en un determinado número de iteracciones, una cantidad de tiempo o estrategias más elaboradas como un determinado ratio de mejora respecto entre la última mejor solución obtenida y la anterior, etc.
+        Tal y como se puede apreciar en el \cref{code:solving_random_selection}, la estrategia se basa en generar soluciones aleatorias del universo de posibles soluciones para después evaluar la factibilidad de la escogida en cada iteración y almacenarla en caso de que esta maximice (o minimice) el valor de la función objetivo. Esto se repite mientras se cumpla una determinada condición, la cual puede basarse en un determinado número de iteraciones, una cantidad de tiempo o estrategias más elaboradas como un determinado ratio de mejora respecto entre la última mejor solución obtenida y la anterior, etc.
 
         \begin{algorithm}[ht]
           \SetAlgoLined
@@ -274,13 +274,13 @@
       El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados.
 
       \paragraph{}
-      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Colonias de Hormigas}, \emph{Busqueda de Vecindarios Variable} y \emph{Búsqueda de Grandes Vecindarios} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{boussaid2013survey}.
+      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Grandes Vecindarios} y \emph{Colonias de Hormigas} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{boussaid2013survey}.
 
       \subsection{GRASP}
       \label{sec:solving_grasp}
 
         \paragraph{}
-        Una de las estrategias metaheurísticas más populares es la conocida como \emph{GRASP (Greedy Randomized Adaptive Search) o búsqueda adaptativa aleatorizada voraz}. Esta metaheurística es muy simple conceptualmente pero a su vez muy potente a la hora de alcanzar resultados razonables. El modo de funcionamiento se basa en lo siguiente: se repiten de manera iterativa dos operaciones principales mientras no se cumpla una determinada condición de parada. Dichas operaciones consisten en la generación de una solución inicial, posiblemente basada en una estrategia \emph{Greedy}, aunque no necesariamente (existen estrategias basadas en la generación de soluciones iniciales totalmente aleatorias), y una segunda operación de mejora de dicha solución mediante una heurística de \emph{Búsqueda Local}. La condición de parada, al igual que se ha indicado en otras ocasiones, puede venir dada por un determinado número de iteraciones sin soluciones mejores u otras estrategias de naturaleza similar.
+        Una de las estrategias metaheurísticas más populares es la conocida como \emph{GRASP (Greedy Randomized Adaptive Search) o búsqueda adaptativa aleatorizada voraz}. Esta metaheurística es muy simple conceptualmente pero a su vez muy potente a la hora de alcanzar resultados razonables. El modo de funcionamiento se basa en lo siguiente: se repiten de manera iterativa dos operaciones principales mientras no se cumpla una determinada condición de parada. Dichas operaciones consisten en la generación de una solución inicial, posiblemente basada en una estrategia \emph{Greedy Aleatorizado}, aunque no necesariamente (existen estrategias basadas en la generación de soluciones iniciales totalmente aleatorias), y una segunda operación de mejora de dicha solución mediante una heurística de \emph{Búsqueda Local}. La condición de parada, al igual que se ha indicado en otras ocasiones, puede venir dada por un determinado número de iteraciones sin soluciones mejores u otras estrategias de naturaleza similar.
 
       \begin{algorithm}[ht]
         \SetAlgoLined
@@ -301,16 +301,36 @@
       \label{sec:solving_simulated_anneling}
 
         \paragraph{}
-        [TODO]
+        Las metaheurísticas basadas en \emph{Simulated Anneling} se basan en la mejora continua de una solución inicial, siguiendo unos determinados criterios de parada (y parametrización de la etapa de búsqueda local). Esto se contrapone con la estrategia \emph{GRASP} descrita anteriormente, que se basaba en la generación de soluciones independientes para después elegir la mejor de todas ellas. En este caso, la estrategia consiste en la exploración del \emph{vecindario de soluciones} de tal manera que la opción escogida no tenga por qué ser necesariamente la que más se aproxime a la mejor solución en un primer momento, llegando al punto incluso de poder elegir ciertas opciones que empeoren el la solución actual. La idea detrás de esta estrategia se apoya en la asunción de que en fases tempranas en la etapa de busqueda de la mejor solución, decidir una opción que mueva la solución actual a un punto más lejano de la solución óptima puede ser beneficioso a largo plazo para llegar a un punto más cercano al óptimo. Dicha capacidad de \say{tomar malas decisiones} se aplica con probabilidad decreciente respecto del tiempo de ejecución actual (ya que se asume que en fases más avanzadas de la ejecución dicho comportamiento no es tan beneficioso).
+
+        \paragraph{}
+        Dicha estrategia fue desarrollada tomando como apoyo el comportamiento de ciertos metales durante su proceso de fundición, que si se lleva a cabo bajo unas determinadas condiciones de enfriamiento es posible obtener un mayor grado de resistencia. Este proceso es conocido como \emph{Simulated Anneling} (de ahí el nombre de la metaheurística). En el caso de la metaheurística, se aceptan soluciones negativas con cierta probabilidad dada por el resultado de la \cref{eq:simulated_anneling}, donde $t$ representa la temperatura (o valor decreciente respecto del número de iteraciones) y $f(s1)$ y $f(s2)$ los valores de la función objetivo para las soluciones $s1$ y $s2$ respectivamente. En el \cref{code:solving_simulated_anneling} se incluye el pseudo-código de la metaheurística.
+
+        \begin{equation}
+          \label{eq:simulated_anneling}
+          P(t, f(s1), f(s2)) = exp\left(-\frac{f(s1) - f(s2)}{t}\right)
+        \end{equation}
+
+        \begin{algorithm}[ht]
+          \SetAlgoLined
+          \KwResult{$best$ }
+          \While{$condition$}{
+            \While{$annelingCondition$}{
+              $current \gets randomNeighbor(best)$\;
+              \If{$f(current) < f(best) \textbf{or} random(0, 1) < P(t, f(current), f(best))$}{
+                $best \gets current$\;
+              }
+            }
+            $t \gets decrease(t)$\;
+          }
+          \caption{Estrategia de resolución basada en metaheurística \emph{Simulated Anneling}.}
+          \label{code:solving_simulated_anneling}
+        \end{algorithm}
+
+
 
       \subsection{Tabu Search}
       \label{sec:solving_tabu}
-
-        \paragraph{}
-        [TODO]
-
-      \subsection{Ant Colony}
-      \label{sec:solving_ant_colony}
 
         \paragraph{}
         [TODO]
@@ -323,6 +343,12 @@
 
       \subsection{Large Neighborhood Search}
       \label{sec:solving_lns}
+
+        \paragraph{}
+        [TODO]
+
+      \subsection{Ant Colony}
+      \label{sec:solving_ant_colony}
 
         \paragraph{}
         [TODO]
