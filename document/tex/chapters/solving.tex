@@ -122,7 +122,7 @@
 
 
       \paragraph{}
-      Una vez se han detallado las diferencias entre las dos categorías principales de estrategias de resolución basados en heurísticas, se está en condiciones suficientes como para explicar en detalle algunos de los algoritmos concretos a través de los cuales es posible alcanzar dichas soluciones. El resto del apartado se estructura de la siguiente forma: en el \cref{sec:solving_brute_force} se detalla la estrategia basada en \emph{fuerza bruta} (la cual como veremos no es aplicable en la práctica en la gran mayoría de casos). Seguidamente, en el \cref{sec:solving_random} está dedicado a la estrategia basada en \emph{selección aleatoria}. Después se describirá en detalle la estrategia basada en \emph{algoritmos greedy} (la cual es muy popular por su sencillez conceptual y relativamente buenos resultados). Finalmente se discutirá el funcionamiento de la estrategia de \emph{clarke and wright} y un método basado en \emph{mapas auto-organizados (SOM)} en los \cref{sec:solving_clarke_and_wright,sec:solving_som} 
+      Una vez se han detallado las diferencias entre las dos categorías principales de estrategias de resolución basados en heurísticas, se está en condiciones suficientes como para explicar en detalle algunos de los algoritmos concretos a través de los cuales es posible alcanzar dichas soluciones. El resto del apartado se estructura de la siguiente forma: en el \cref{sec:solving_brute_force} se detalla la estrategia basada en \emph{fuerza bruta} (la cual como veremos no es aplicable en la práctica en la gran mayoría de casos). Seguidamente, en el \cref{sec:solving_random} está dedicado a la estrategia basada en \emph{selección aleatoria}. Después se describirá en detalle la estrategia basada en \emph{algoritmos greedy} (la cual es muy popular por su sencillez conceptual y relativamente buenos resultados). Finalmente se discutirá el funcionamiento de la estrategia de \emph{clarke and wright} y un método basado en \emph{redes neuronales} en los \cref{sec:solving_clarke_and_wright,sec:solving_neural_networks} 
 
       \subsection{Fuerza Bruta}
       \label{sec:solving_brute_force}
@@ -239,14 +239,28 @@
         \paragraph{}
         Sin embargo, el motivo de la popularidad que ha recibido esta heurística durante tanto tiempo no solo se debe al método en si, sino a que además en \cite{clarke1964scheduling} se describe la manera en que poder calcular el nivel de ahorro (de ahí el nombre de la estrategia) de la combinación de dos rutas sin tener que calcularlo los costes completos de ambas rutas y después hacer la diferencia respecto de la versión combinada. La estrategia en que se apoyan para llevar esto a cabo es la diferencia entre los costes de los tramos de inicio y fin de la ruta que se va a insertar frente a los costes de los tramos de unión entre ambas rutas. Nótese que esta estrategia es altamente eficiente cuando las tareas tienen restricciones muy flexibles tanto desde el punto de vista de las ventanas temporales como de la capacidad del vehículo. En problemas más complejos como el \emph{Dial-a-Ride} estas mejoras han de ser tomadas con prudencia ya que es necesario verificar la factibilidad de la ruta resultante.
         
-      \subsection{SOM}
-      \label{sec:solving_som}
+      \subsection{Redes Neuronales}
+      \label{sec:solving_neural_networks}
 
         \paragraph{}
-        [TODO]
+        En los últimos años, el aumento de la capacidad computacional (sobre todo aplicable a operaciones de naturaleza matricial apoyado en gran parte por la evolución de las \emph{unidades de computación gráficas (GPUs)}) a propiciado un incremento exponencial la cantidad de aplicaciones reales basadas en técnicas basadas en redes neuronales (cuyos requerimientos computacionales encajan perfectamente en dicho marco). Además de las aplicaciones prácticas, también ha surgido un gran incremento desde el punto de vista de la cantidad de artículos científicos relacionados con la materia. Entre otros temas, uno de los contextos en que se ha tratado de estudiar la factibilidad de este tipo de técnicas han sido los problemas de optimización combinatoria. Algunos de los más destacados son \cite{potvin1993state,ghaziri2003neural,leung2004expanding,masutti2009self,bello2016neural}. Tal y como se puede apreciar, estos trabajos tienen en común la utilización de enfoques basados en \emph{redes neuronales recurrentes} así como \emph{mapas auto-organizados}. A continuación se describen brevemente este tipo de arquitecturas:
+        
+        \begin{enumerate}
+            
+            \item \textbf{Redes Neuronales Recurrentes}: Consisten en una clase de redes neuronales con la característica de utilizar los pesos de ciertas neuronas de las capas internas como valores de entrada, creando una relación de recurrencia con la que se espera obtener la capacidad de tener un estado interno en la red. Es por ello que su utilización en el campo del análisis de lenguaje natural es muy interesante.
+            
+            \item \textbf{Mapas Auto-Organizados}: Se trata de una arquitectura de red neuronal que se caracteriza por tener en cuenta la localización de las neuronas para el entrenamiento de la misma (que se organizan en forma de rejilla). Esto implica que los pesos de estas estén basados en la posición de las mismas. Es por ello que se su utilización en procesos de visualización de datos utilizados en tareas de clustering es muy interesante. 
+        
+        \end{enumerate}
+        
+        \paragraph{}
+        Tras haber descrito brevemente estas dos arquitecturas de redes neuronales es fácil darse cuenta de las ideas en las que se apoyan los artículos anteriormente citados. En el caso de las técnicas basadas en redes neuronales recurrentes se espera \say{descubrir} un patrón de resolción común inherente a un problema de rutas concreto y no visible de manera natural, que las capacidades recurrentes de la red sean capaz de captar. En el caso de las técnicas basadas en mapas auto-organizados, la idea es que (por la estructura en forma de mapa de la red) se descubran patrones de cercanía entre las distintas localizaciones a visitar durante la ruta, con las que después se puedan reconstruir caminos de coste reducido.
+
+        \paragraph{}
+        Dichas estrategias presentan un gran potencial sobre aquellos problemas que presenten las características comentadas anteriormente. Sin embargo, hasta la fecha dichas ideas se encuentran todavía en fases muy tempranas de investigación por lo que no son aplicables en situaciones reales (en \cite{bello2016neural} fueron necesarias 7 horas de computación para resolver una instancia del problema del viajero de $50$ localizaciones). Sin embargo, si que forman parte de un interesante nicho de investigación que podría ser muy prometedor en el futuro.
 
       \paragraph{}
-      [TODO]
+      En este apartado se han descrito las principales estrategias heurísticas utilizadas en problemas de optimización de rutas, las cuales sirven de base para resolver las características concretas que se presentan en el problema \emph{Dial-a-Ride}. Tal y como se comentó al principio del mismo, estas estrategias destacan por su relativa sencillez, tanto conceptual como computacional. Sin embargo, en muchas ocasiones no proporcionan resultados suficientemente buenos (desde el punto de vista de su distancia a la solución óptima) como se requiere. Para contrarestrar dicha situación surge una nueva clase de estrategias de optimización compuesta por otras estrategias más sencillas la cuál se discute en el próximo apartado.
 
     \section{Métodos de Resolución basados en Metaheurísticas}
     \label{sec:solving_metaheuristics}
