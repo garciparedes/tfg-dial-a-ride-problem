@@ -95,7 +95,7 @@
         \label{sec:solving_branch_cut_price}
 
           \paragraph{}
-          Una vez descritos lo métodos basados en generación de filas (\emph{Branch and Cut}) así como de columnas (\emph{Branch and Price}), es fácil entender el funcionamiento del método \emph{Branch and Cut and Price}, que se apoya en la combinación de ambas estrategias para reducir así reducir la complejidad de resolución del problema \emph{Dial-a-Ride}. Como es natural, estos cuentan con la ventaja de resolver instancias más fáciles de resolver del problema por tener un menor número de restricciones (eliminación de filas) así como de hacerlo sobre versiones más pequeñas del problema (eliminación de columnas). Tal y como se ha podido comprobar en distintas publicaciones que comparan la utilización de los métodos de generación de filas o columnas de manera separada, frente a las correspondientes versiones combinadas, estas últimas obtienen un nivel de resultados equivalente requiriendo de un menor nivel de cómputo. 
+          Una vez descritos lo métodos basados en generación de filas (\emph{Branch and Cut}) así como de columnas (\emph{Branch and Price}), es fácil entender el funcionamiento del método \emph{Branch and Cut and Price}, que se apoya en la combinación de ambas estrategias para reducir así reducir la complejidad de resolución del problema \emph{Dial-a-Ride}. Como es natural, estos cuentan con la ventaja de resolver instancias más fáciles de resolver del problema por tener un menor número de restricciones (eliminación de filas) así como de hacerlo sobre versiones más pequeñas del problema (eliminación de columnas). Tal y como se ha podido comprobar en distintas publicaciones que comparan la utilización de los métodos de generación de filas o columnas de manera separada, frente a las correspondientes versiones combinadas, estas últimas obtienen un nivel de resultados equivalente requiriendo de un menor nivel de cómputo.
 
       \paragraph{}
       Tal y como se ha podido comprobar a lo largo del apartado, los métodos de resolución apoyados por técnicas basadas en ramificación son capaces de ofrecer ventajas relacionadas con la simplicación del problema completo a resolver a costa de requerir la resolución de múltiples versiones relajadas de distintas formas de dicho problema. Cuando el tamaño de la instancia del problema es tan grande que esta no puede ser resuelta \say{de una sola vez}, estos métodos ofrecen una alternativa interesante por seguir ofreciendo garantías de optimalidad, lo cual en ciertos casos es un requisito necesario.
@@ -104,29 +104,28 @@
     \label{sec:solving_heuristics}
 
       \paragraph{}
-      Tal y como se ha explicado anteriormente, los problemas de optimización combinatoria se corresponden en la mayoría de ocasiones con problemas cuya complejidad desde el punto de vista de la resolución no es sencilla. Tal es así que muchos de estos se engloban dentro de la categoría de problemas $NP$, lo cual se puede resumir como aquellos para los cuales no existe una estrategia de resolución exacta que alcance el resultado óptimo en tiempo polinómico. Esto implica que para instancias no demasiado grandes no sea factible alcanzar dicho resultado en un tiempo aceptable. 
+      Tal y como se ha explicado anteriormente, los problemas de optimización combinatoria se corresponden en la mayoría de ocasiones con problemas cuya complejidad desde el punto de vista de la resolución no es sencilla. Tal es así que muchos de estos se engloban dentro de la categoría de problemas $NP$, lo cual se puede resumir como aquellos para los cuales no existe una estrategia de resolución exacta que alcance el resultado óptimo en tiempo polinómico. Esto implica que para instancias no demasiado grandes no sea factible alcanzar dicho resultado en un tiempo aceptable.
 
       \paragraph{}
       Para paliar esta problemática, surgen métodos de resolución denominados \emph{estrategias heurísticas}. Estas se caracterizan por ser capaces de proporcionar resultados razonablemente cercanos a solución óptima empleando para ello una cantidad de recursos (generalmente tiempo de cómputo) significativamente menor a la que requerirían otras estrategias con ganarantías de optimalidad. Este es un compromiso aceptable cuando no es posible llegar a soluciones de otro modo. Por lo tanto, uno de los grandes objetivos de la investigación y el desarrollo de heurísticas consiste en implementar algoritmos que sean capaces de alcanzar soluciones lo más cercanas a la solución óptima, teniendo en cuenta las restricciones de tiempo para que estas puedan ser alcanzadas.
 
       \paragraph{}
       Desde una perspectiva de alto nivel, los métodos de resolución basados en heurísticas típicamente son clasificados en dos grandes categorías según la función que desempeñan, las cuales se conocen como \emph{heurísticas de construcción} y \emph{heurística de mejora}. A pesar de que su nombre es lo suficientemente explicativo, a continuación se detalla la función que representan los métodos pertenecientes a cada una de estas categorías:
-      
+
       \begin{itemize}
-          
+
           \item \textbf{Heurísticas de Construcción}: la función que desempeñan consiste en la generación de soluciones sin el apoyo de ningún estado previo. Es decir, recibiendo únicamente los valores de entrada necesarios para la formulación del problema, estas son capaces de generar soluciones del problema que satisfacen todas las restricciones impuestas por la formulación del mismo. En el caso de los problemas de rutas de vehículos, estas estrategias se apoyan comúnmente en algorimos de inserción inspirados en algoritmos greedy y, en algunas ocasiones con un cierto nivel de aleatoriedad. Por lo general, los resultados a los que es posible llegar utilizando únicamente estrategias de este tipo, no son lo suficientemente cercanas al resultado óptimo. Para resolver esta problemática, existen otras estrategias que tratan de paliar esta situación.
 
           \item \textbf{Heurísticas de Mejora}: debido al grado de dificultad necesario para tomar las decisiones más acertadas durante el proceso de construcción de soluciones, la categoría de \emph{heurísticas de mejora} trata de mejorar la calidad una solución dada. Para ello, como es esperable, estas estrategias necesitan conocer tanto el conjunto de valores de entrada necesarios para la formulación del problema, como una solución inicial del mismo. A partir de estas dos partes, el modo de funcionamiento consiste en aplicar distintas modificaciones a la solución para así tratar de maximizar (o minimizar) el valor de la función objetivo, lo cual acerca dicha solución al valor óptimo deseado. A este modo de funcionamiento se le conoce como búsqueda local dentro del espacio de soluciones. En el caso de los problemas de rutas de vehículos, las estrategias en que se basan consisten en la aplicación de operadores tales como el intecambio de tareas (o viajes) entre distintos vehículos, cambio del orden dentro del mismo vehículo, etc. Por tanto, el objetivo se trata de buscar el conjunto de transformaciones de la solución que permitan un mayor acercamiento al resultado esperado al final de la ejecución. Esta última afirmación se explicará más en detalle en el \cref{sec:solving_greedy}
-      
+
       \end{itemize}
 
-
       \paragraph{}
-      Una vez se han detallado las diferencias entre las dos categorías principales de estrategias de resolución basados en heurísticas, se está en condiciones suficientes como para explicar en detalle algunos de los algoritmos concretos a través de los cuales es posible alcanzar dichas soluciones. El resto del apartado se estructura de la siguiente forma: en el \cref{sec:solving_brute_force} se detalla la estrategia basada en \emph{fuerza bruta} (la cual como veremos no es aplicable en la práctica en la gran mayoría de casos). Seguidamente, en el \cref{sec:solving_random} está dedicado a la estrategia basada en \emph{selección aleatoria}. Después se describirá en detalle la estrategia basada en \emph{algoritmos greedy} (la cual es muy popular por su sencillez conceptual y relativamente buenos resultados). Finalmente se discutirá el funcionamiento de la estrategia de \emph{clarke and wright} y un método basado en \emph{redes neuronales} en los \cref{sec:solving_clarke_and_wright,sec:solving_neural_networks} 
+      Una vez se han detallado las diferencias entre las dos categorías principales de estrategias de resolución basados en heurísticas, se está en condiciones suficientes como para explicar en detalle algunos de los algoritmos concretos a través de los cuales es posible alcanzar dichas soluciones. El resto del apartado se estructura de la siguiente forma: en el \cref{sec:solving_brute_force} se detalla la estrategia basada en \emph{fuerza bruta} (la cual como veremos no es aplicable en la práctica en la gran mayoría de casos). Seguidamente, en el \cref{sec:solving_random} está dedicado a la estrategia basada en \emph{selección aleatoria}. Después se describirá en detalle la estrategia basada en \emph{algoritmos greedy} (la cual es muy popular por su sencillez conceptual y relativamente buenos resultados). Posteriormente se discutirá el funcionamiento de la estrategia de \emph{clarke and wright} y un método basado en \emph{redes neuronales} en los \cref{sec:solving_clarke_and_wright,sec:solving_neural_networks}. Finalmente, se describirá la categoría de heurísticas conocidas como de \emph{Búsqueda Local}, las cuales presentan una naturaleza diferente tal y como se comenta en el apartado correspondiente.
 
       \subsection{Fuerza Bruta}
       \label{sec:solving_brute_force}
-        
+
         \paragraph{}
         A pesar de que anteriormente se ha comentado que una de las grandes diferencias entre métodos de resolución exactos y métodos de resolución basados en heurísticas son las garantías de optimalidad, esta distinción es un tanto difusa cuando se tratan de clasificar las estrategias de fuerza bruta. Esto se debe a que, si bien es cierto que esta estrategia es capaz de garantizar resultados óptimos cuando termina, la estrategia de resolución se encuentra más próxima a los algoritmos heurísticos que a los métodos que hemos clasificado como exactos, puesto que estos se apoyan en mayor medida en la teoría de programación lineal, mientras que las estrategias heurísticas tienden a acercarse más a estrategias algorítmicas clásicas. Para una descripción más detallada y profunda del tema se recomienda consultar \cite{cormen2009introduction}.
 
@@ -143,10 +142,10 @@
         \end{algorithm}
 
         \paragraph{}
-        Sin embargo, tal y como se puede intuir, esta estrategia de resolución requiere de una cantidad de recursos que crece de manera exponencial respecto del tamaño de entrada. Por lo tanto, no es aplicable en la práctica sobre problemas de gran tamaño. Aún así, existen ciertos problemas para los cuales el grado de complejidad es relativamente bajo o el tamaño de las instancias a resolver es pequeño, por lo que esta estrategia es aplicable. En dichos casos, esta es una alternativa interesante ya que, como se ha comentado anteriormente, los algoritmos basados en \emph{fuerza bruta} proporcionan garantías de optimalidad.  
+        Sin embargo, tal y como se puede intuir, esta estrategia de resolución requiere de una cantidad de recursos que crece de manera exponencial respecto del tamaño de entrada. Por lo tanto, no es aplicable en la práctica sobre problemas de gran tamaño. Aún así, existen ciertos problemas para los cuales el grado de complejidad es relativamente bajo o el tamaño de las instancias a resolver es pequeño, por lo que esta estrategia es aplicable. En dichos casos, esta es una alternativa interesante ya que, como se ha comentado anteriormente, los algoritmos basados en \emph{fuerza bruta} proporcionan garantías de optimalidad.
 
         \paragraph{}
-        Una de las ventajas de los métodos de resolución basado en fuerza bruta es la capacidad de poder aprovecharse de la estructura del problema concreto que se pretende resolver para así poder reducir el espacio de búsqueda de soluciones en gran medida. Esto se debe a que el espacio de posibles soluciones factibles es un subconjunto del espacio de posibles soluciones. Por tanto, si se consigue encontrar alguna estrategia que permita enfocarse únicamente en las soluciones factibles, los requerimientos computacionales serán mucho menores. Un ejemplo de ello podría aplicarse a una estrategía de generación de soluciones en problemas de rutas a partir de una estrategia de inserción al final de la ruta. Entonces, es fácil darse cuenta de que si durante el proceso de inserción de tareas en la ruta, se llega a un estado de infactibilidad, continuar el proceso de insertar nuevas tareas al final de la ruta, continuará generando soluciones infactibles. Por tanto, en este caso es posible reducir el espacio de búsqueda sin perder las garantías de optimalidad. 
+        Una de las ventajas de los métodos de resolución basado en fuerza bruta es la capacidad de poder aprovecharse de la estructura del problema concreto que se pretende resolver para así poder reducir el espacio de búsqueda de soluciones en gran medida. Esto se debe a que el espacio de posibles soluciones factibles es un subconjunto del espacio de posibles soluciones. Por tanto, si se consigue encontrar alguna estrategia que permita enfocarse únicamente en las soluciones factibles, los requerimientos computacionales serán mucho menores. Un ejemplo de ello podría aplicarse a una estrategía de generación de soluciones en problemas de rutas a partir de una estrategia de inserción al final de la ruta. Entonces, es fácil darse cuenta de que si durante el proceso de inserción de tareas en la ruta, se llega a un estado de infactibilidad, continuar el proceso de insertar nuevas tareas al final de la ruta, continuará generando soluciones infactibles. Por tanto, en este caso es posible reducir el espacio de búsqueda sin perder las garantías de optimalidad.
 
       \subsection{Selección Aleatoria}
       \label{sec:solving_random}
@@ -198,10 +197,10 @@
         \end{algorithm}
 
         \paragraph{}
-        Desde el punto de vista de los problemas de optimización combinatoria, los \emph{algoritmos de naturaleza voraz} han sido de gran utilidad para muchas situaciones. Sin embargo, tal y como se puede intuir, estos requieren que el problema sobre el que se van a aplicar cumpla la propiedad de ser concavos (una mejora sobre una solución arbitraria en la dirección de la solución óptima garantiza un menor coste en la función objetivo) para que estos puedan alcanzar la solución óptima. Por contra, esto ocurre en muy pocas ocasiones en la mayoría de problemas de optimización combinatoria. Si bien es cierto, hay casos para los cuales esta condición si se cumple (como el problema del cajero), pero en muchos otros (entre los que se encuentran los \emph{problemas de rutas de vehículos}) esta condición no se satisface.  
+        Desde el punto de vista de los problemas de optimización combinatoria, los \emph{algoritmos de naturaleza voraz} han sido de gran utilidad para muchas situaciones. Sin embargo, tal y como se puede intuir, estos requieren que el problema sobre el que se van a aplicar cumpla la propiedad de ser concavos (una mejora sobre una solución arbitraria en la dirección de la solución óptima garantiza un menor coste en la función objetivo) para que estos puedan alcanzar la solución óptima. Por contra, esto ocurre en muy pocas ocasiones en la mayoría de problemas de optimización combinatoria. Si bien es cierto, hay casos para los cuales esta condición si se cumple (como el problema del cajero), pero en muchos otros (entre los que se encuentran los \emph{problemas de rutas de vehículos}) esta condición no se satisface.
 
         \paragraph{}
-        A pesar de ello, tal y como se ha indicado anteriormente, estos algoritmos son capaces de proporcionar resultados relativamente razonables utilizando una cantidad de recursos muy contenida por lo que cuando es tolerable cierto nivel de error respecto de la solución óptima, como es el caso cuando se recurre a estrategias basadas en heurísticas, estos algoritmos proporcionan resultados muy interesantes. Como es natural, el modo en que estos se aplican es muy dependiente de la naturaleza del problema en cuestión. Sin embargo, en el ámbito de los \emph{problemas de optimización combinatoria} es común que la estructura de los mismos tenga unas cierta forma: \textbf{Por lo general, los algoritmos greedy se construyen como un bucle condicional donde se controlan cuestiones relacionadas con el alcanzamiento de una solución final, ya sea debido a la falta de recursos u otros motivos. La acción que se repite en el bucle típicamente es la selección de la mejor alternativa de entre un conjunto de posibles opciones que modifican tanto el valor de la función de coste como el estado actual de una determinada manera.} 
+        A pesar de ello, tal y como se ha indicado anteriormente, estos algoritmos son capaces de proporcionar resultados relativamente razonables utilizando una cantidad de recursos muy contenida por lo que cuando es tolerable cierto nivel de error respecto de la solución óptima, como es el caso cuando se recurre a estrategias basadas en heurísticas, estos algoritmos proporcionan resultados muy interesantes. Como es natural, el modo en que estos se aplican es muy dependiente de la naturaleza del problema en cuestión. Sin embargo, en el ámbito de los \emph{problemas de optimización combinatoria} es común que la estructura de los mismos tenga unas cierta forma: \textbf{Por lo general, los algoritmos greedy se construyen como un bucle condicional donde se controlan cuestiones relacionadas con el alcanzamiento de una solución final, ya sea debido a la falta de recursos u otros motivos. La acción que se repite en el bucle típicamente es la selección de la mejor alternativa de entre un conjunto de posibles opciones que modifican tanto el valor de la función de coste como el estado actual de una determinada manera.}
 
         \paragraph{}
         Entonces, un factor decisivo a la hora de aplicar \emph{algoritmos de naturaleza voraz} se basa en elegir de manera adecuada el criterio de selección que se utilizará para elegir la siguiente alternativa que aplicar tras cada iteración del bucle condicional. En el siguiente apartado se describen algunos de los más utilizados en los problemas de optimización combinatoria.
@@ -216,7 +215,7 @@
         \label{sec:solving_randomized_greedy}
 
           \paragraph{}
-          A pesar de que la elección de un criterio de selección adecuado para el problema que se pretende resolver, existen ocasiones en que estos no son lo suficientemente \say{buenos} como se podría esperar. Por la propia naturaleza de los algoritmos de naturaleza voraz, en muchas ocasiones no es suficiente el contexto actual para escoger la decisión más acertada a largo plazo. 
+          A pesar de que la elección de un criterio de selección adecuado para el problema que se pretende resolver, existen ocasiones en que estos no son lo suficientemente \say{buenos} como se podría esperar. Por la propia naturaleza de los algoritmos de naturaleza voraz, en muchas ocasiones no es suficiente el contexto actual para escoger la decisión más acertada a largo plazo.
 
           \paragraph{}
           Para tratar de suavizar el peso de dicha decisión uno de los enfoques posibles es el de añadir un cierto grado de aleatoriedad en el momento de elegir el la mejor opción a realizar. Es decir, en lugar de seguir una estrategia que escoja siempre el la opción que maximize (o minimice) el valor del criterio de selección, se escoge aleatoriamente la siguiente opción de entre las mejores posibles. Como se ha comentado, la idea subyacente tras esta estrategia es que se asume que el criterio de selección escogido, a pesar de ser óptimo en el momento de su utilización (resultado parcial), probablemente no lo sea respecto del resultado completo. Entonces, la componente aleatoria trata de reducir dicho efecto generado por las \say{malas decisiones} tomadas.
@@ -225,7 +224,7 @@
           Generalmente, para llevar a cabo la selección aleatoria se mantiene una lista ordenada con las $k$ mejores opciones posibles (de acuerdo con el criterio de selección) para después utilizar algun generador aleatorio de valores de una distribución aleatoria discreta que finalmente eligen la alternativa que finalmente utilizar. Estas distribuciones pueden ser de distinta naturaleza, aunque las más comunes son la la distribución uniforme discreta o alguna distribución armónica decreciente respecto del orden obtenido por el criterio de selección.
 
           \paragraph{}
-          Como es esperable, estas estrategias tienden a mejorar los resultados obtenidos por los métodos greedy simples en promedio, pero obtienen peores resultado en el peor caso. Por lo tanto, su uso está muy extendido en metaheurísticas basadas en la generación de muchas soluciones. En concreto, este método se utiliza por las metaheurísticas \emph{GRASP} tal y como se comentará en el \cref{sec:solving_grasp}. 
+          Como es esperable, estas estrategias tienden a mejorar los resultados obtenidos por los métodos greedy simples en promedio, pero obtienen peores resultado en el peor caso. Por lo tanto, su uso está muy extendido en metaheurísticas basadas en la generación de muchas soluciones. En concreto, este método se utiliza por las metaheurísticas \emph{GRASP} tal y como se comentará en el \cref{sec:solving_grasp}.
 
       \subsection{Clarke and Wright}
       \label{sec:solving_clarke_and_wright}
@@ -238,51 +237,65 @@
 
         \paragraph{}
         Sin embargo, el motivo de la popularidad que ha recibido esta heurística durante tanto tiempo no solo se debe al método en si, sino a que además en \cite{clarke1964scheduling} se describe la manera en que poder calcular el nivel de ahorro (de ahí el nombre de la estrategia) de la combinación de dos rutas sin tener que calcularlo los costes completos de ambas rutas y después hacer la diferencia respecto de la versión combinada. La estrategia en que se apoyan para llevar esto a cabo es la diferencia entre los costes de los tramos de inicio y fin de la ruta que se va a insertar frente a los costes de los tramos de unión entre ambas rutas. Nótese que esta estrategia es altamente eficiente cuando las tareas tienen restricciones muy flexibles tanto desde el punto de vista de las ventanas temporales como de la capacidad del vehículo. En problemas más complejos como el \emph{Dial-a-Ride} estas mejoras han de ser tomadas con prudencia ya que es necesario verificar la factibilidad de la ruta resultante.
-        
+
       \subsection{Redes Neuronales}
       \label{sec:solving_neural_networks}
 
         \paragraph{}
         En los últimos años, el aumento de la capacidad computacional (sobre todo aplicable a operaciones de naturaleza matricial apoyado en gran parte por la evolución de las \emph{unidades de computación gráficas (GPUs)}) a propiciado un incremento exponencial la cantidad de aplicaciones reales basadas en técnicas basadas en redes neuronales (cuyos requerimientos computacionales encajan perfectamente en dicho marco). Además de las aplicaciones prácticas, también ha surgido un gran incremento desde el punto de vista de la cantidad de artículos científicos relacionados con la materia. Entre otros temas, uno de los contextos en que se ha tratado de estudiar la factibilidad de este tipo de técnicas han sido los problemas de optimización combinatoria. Algunos de los más destacados son \cite{potvin1993state,ghaziri2003neural,leung2004expanding,masutti2009self,bello2016neural}. Tal y como se puede apreciar, estos trabajos tienen en común la utilización de enfoques basados en \emph{redes neuronales recurrentes} así como \emph{mapas auto-organizados}. A continuación se describen brevemente este tipo de arquitecturas:
-        
+
         \begin{enumerate}
-            
+
             \item \textbf{Redes Neuronales Recurrentes}: Consisten en una clase de redes neuronales con la característica de utilizar los pesos de ciertas neuronas de las capas internas como valores de entrada, creando una relación de recurrencia con la que se espera obtener la capacidad de tener un estado interno en la red. Es por ello que su utilización en el campo del análisis de lenguaje natural es muy interesante.
-            
-            \item \textbf{Mapas Auto-Organizados}: Se trata de una arquitectura de red neuronal que se caracteriza por tener en cuenta la localización de las neuronas para el entrenamiento de la misma (que se organizan en forma de rejilla). Esto implica que los pesos de estas estén basados en la posición de las mismas. Es por ello que se su utilización en procesos de visualización de datos utilizados en tareas de clustering es muy interesante. 
-        
+
+            \item \textbf{Mapas Auto-Organizados}: Se trata de una arquitectura de red neuronal que se caracteriza por tener en cuenta la localización de las neuronas para el entrenamiento de la misma (que se organizan en forma de rejilla). Esto implica que los pesos de estas estén basados en la posición de las mismas. Es por ello que se su utilización en procesos de visualización de datos utilizados en tareas de clustering es muy interesante.
+
         \end{enumerate}
-        
+
         \paragraph{}
         Tras haber descrito brevemente estas dos arquitecturas de redes neuronales es fácil darse cuenta de las ideas en las que se apoyan los artículos anteriormente citados. En el caso de las técnicas basadas en redes neuronales recurrentes se espera \say{descubrir} un patrón de resolción común inherente a un problema de rutas concreto y no visible de manera natural, que las capacidades recurrentes de la red sean capaz de captar. En el caso de las técnicas basadas en mapas auto-organizados, la idea es que (por la estructura en forma de mapa de la red) se descubran patrones de cercanía entre las distintas localizaciones a visitar durante la ruta, con las que después se puedan reconstruir caminos de coste reducido.
 
         \paragraph{}
         Dichas estrategias presentan un gran potencial sobre aquellos problemas que presenten las características comentadas anteriormente. Sin embargo, hasta la fecha dichas ideas se encuentran todavía en fases muy tempranas de investigación por lo que no son aplicables en situaciones reales (en \cite{bello2016neural} fueron necesarias 7 horas de computación para resolver una instancia del problema del viajero de $50$ localizaciones). Sin embargo, si que forman parte de un interesante nicho de investigación que podría ser muy prometedor en el futuro.
 
+      \subsection{Búsqueda Local}
+      \label{sec:solving_local_search}
+
+        \paragraph{}
+        [TODO]
+
       \paragraph{}
       En este apartado se han descrito las principales estrategias heurísticas utilizadas en problemas de optimización de rutas, las cuales sirven de base para resolver las características concretas que se presentan en el problema \emph{Dial-a-Ride}. Tal y como se comentó al principio del mismo, estas estrategias destacan por su relativa sencillez, tanto conceptual como computacional. Sin embargo, en muchas ocasiones no proporcionan resultados suficientemente buenos (desde el punto de vista de su distancia a la solución óptima) como se requiere. Para contrarestrar dicha situación surge una nueva clase de estrategias de optimización compuesta por otras estrategias más sencillas la cuál se discute en el próximo apartado.
 
     \section{Métodos de Resolución basados en Metaheurísticas}
     \label{sec:solving_metaheuristics}
-      
+
       \paragraph{}
-      El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados. A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada coda mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP} donde se detallarán también las heurísticas conocidas como de \emph{búsqueda local}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{búsqueda tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Colonias de Hormigas}, \emph{Busqueda de Vecindarios Variable} y \emph{Búsqueda de Grandes Vecindarios} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente.
+      El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados.
+
+      \paragraph{}
+      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Colonias de Hormigas}, \emph{Busqueda de Vecindarios Variable} y \emph{Búsqueda de Grandes Vecindarios} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{boussaid2013survey}.
 
       \subsection{GRASP}
       \label{sec:solving_grasp}
 
         \paragraph{}
-        [TODO]
+        Una de las estrategias metaheurísticas más populares es la conocida como \emph{GRASP (Greedy Randomized Adaptive Search) o búsqueda adaptativa aleatorizada voraz}. Esta metaheurística es muy simple conceptualmente pero a su vez muy potente a la hora de alcanzar resultados razonables. El modo de funcionamiento se basa en lo siguiente: se repiten de manera iterativa dos operaciones principales mientras no se cumpla una determinada condición de parada. Dichas operaciones consisten en la generación de una solución inicial, posiblemente basada en una estrategia \emph{Greedy}, aunque no necesariamente (existen estrategias basadas en la generación de soluciones iniciales totalmente aleatorias), y una segunda operación de mejora de dicha solución mediante una heurística de \emph{Búsqueda Local}. La condición de parada, al igual que se ha indicado en otras ocasiones, puede venir dada por un determinado número de iteraciones sin soluciones mejores u otras estrategias de naturaleza similar.
 
-        \subsubsection{Búsqueda Local}
-        \label{sec:solving_local_search}
-          
-          \paragraph{}
-          [TODO]
+      \begin{algorithm}[ht]
+        \SetAlgoLined
+        \KwResult{$best$ }
+        \While{$condition$}{
+          $current \gets initialSolution(U)$\;
+          $current \gets localSearch(current)$\;
+          $best \gets min\{best, current\}$\;
+        }
+        \caption{Estrategia de resolución basada en metaheurística \emph{GRASP}.}
+        \label{code:solving_grasp}
+      \end{algorithm}
 
-        \paragraph{}
-        [TODO]
-            
+      \paragraph{}
+      En el \cref{code:solving_grasp} se muestra una plantilla para la metaheurística \emph{GRASP}, la cual sigue la misma estructura que se describió en el anterior párrafo. Tal y como se ha comentado, estas estrategias gozan de gran popularidad por su sencillez y buenos resultados. Además, entre otras, presenta la ventaja de poder ser paralelizada de manera muy sencilla dado que el contenido del bucle interno es independiente tras cada etapa (obviando la parte final de comparación con la mejor solución encontrada hasta el momento).
 
       \subsection{Simulated Anneling}
       \label{sec:solving_simulated_anneling}
