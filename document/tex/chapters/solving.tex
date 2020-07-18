@@ -131,7 +131,7 @@
         A pesar de que anteriormente se ha comentado que una de las grandes diferencias entre métodos de resolución exactos y métodos de resolución basados en heurísticas son las garantías de optimalidad, esta distinción es un tanto difusa cuando se tratan de clasificar las estrategias de fuerza bruta. Esto se debe a que, si bien es cierto que esta estrategia es capaz de garantizar resultados óptimos cuando termina, la estrategia de resolución se encuentra más próxima a los algoritmos heurísticos que a los métodos que hemos clasificado como exactos, puesto que estos se apoyan en mayor medida en la teoría de programación lineal, mientras que las estrategias heurísticas tienden a acercarse más a estrategias algorítmicas clásicas. Para una descripción más detallada y profunda del tema se recomienda consultar \cite{cormen2009introduction}.
 
         \paragraph{}
-        Una vez aclarada la peculiaridad de la estrategia de \emph{fuerza bruta}, procedemos a describir en qué se basa: El modo de funcionamiento consiste en la enumeración de todas las posibles configuraciones, para después proceder a filtrar todas aquellas que sean factibles, y de entre estas, escoger aquella que maximize (o minimize) la función objetivo. La definición de esta estrategia en pseudo código se incluye en el \cref{code:solving_brute_force} (donde $U$ representa el universo de posibles solucions, $feasible$ se trata de una función que recibe una solución y se encarga de evaluar si es o no factible, $F$ se compone de todas las soluciones factibles y por último, $s$ se corresponde con la solución óptima, que en este caso se trata de un problema de minimización).
+        Una vez aclarada la peculiaridad de la estrategia de \emph{fuerza bruta}, procedemos a describir en qué se basa: El modo de funcionamiento consiste en la enumeración de todas las posibles configuraciones, para después proceder a filtrar todas aquellas que sean factibles, y de entre estas, escoger aquella que maximize (o minimize) la función objetivo. La definición de esta estrategia en pseudo código se incluye en el \cref{code:solving_brute_force} (donde $U$ representa el universo de posibles soluciones, $feasible$ se trata de una función que recibe una solución y se encarga de evaluar si es o no factible, $F$ se compone de todas las soluciones factibles y por último, $s$ se corresponde con la solución óptima, que en este caso se trata de un problema de minimización).
 
         \begin{algorithm}[ht]
           \SetAlgoLined
@@ -264,15 +264,25 @@
 
     \section{Métodos de Resolución basados en Metaheurísticas}
     \label{sec:solving_metaheuristics}
-
+      
       \paragraph{}
-      [TODO]
+      El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados. A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada coda mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP} donde se detallarán también las heurísticas conocidas como de \emph{búsqueda local}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{búsqueda tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Colonias de Hormigas}, \emph{Busqueda de Vecindarios Variable} y \emph{Búsqueda de Grandes Vecindarios} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente.
 
       \subsection{GRASP}
       \label{sec:solving_grasp}
 
         \paragraph{}
         [TODO]
+
+        \subsubsection{Búsqueda Local}
+        \label{sec:solving_local_search}
+          
+          \paragraph{}
+          [TODO]
+
+        \paragraph{}
+        [TODO]
+            
 
       \subsection{Simulated Anneling}
       \label{sec:solving_simulated_anneling}
