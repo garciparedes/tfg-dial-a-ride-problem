@@ -274,7 +274,7 @@
       El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados.
 
       \paragraph{}
-      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Grandes Vecindarios} y \emph{Colonias de Hormigas} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{boussaid2013survey}.
+      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Grandes Vecindarios} y \emph{Colonias de Hormigas} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{blum2003metaheuristics,glover2006handbook,boussaid2013survey}.
 
       \subsection{GRASP}
       \label{sec:solving_grasp}
@@ -334,10 +334,25 @@
       \label{sec:solving_tabu}
 
         \paragraph{}
-        [TODO]
+        La metaheurística conocida como \emph{Tabu Search (o Búsqueda Tabú)} es una de las estrategias más conocidas y ampliamente utilizadas por sus buenos resultados. En concreto, en problemas de optimización de rutas existe una gran bibliografía al respecto demostrando sus buenos resultados, tanto para problemas más generales como para el \emph{Dial-a-Ride} entre los que se encuentran \cite{gendreau1994tabu,cordeau2001unified,cordeau2003tabu}. 
 
         \paragraph{}
-        [TODO]
+        La idea sobre la que se soportan las metaheurísticas basadas en \emph{Tabu Search} consiste en la utilizació de una estructura de datos de memoria que almacena la lista (restringida) de últimas soluciones visitadas para así obviarlas en próximas iteraciones y no caer en ciclos (posiblemente infinitos) de exploración de soluciones ya visitadas. Generalmente, dicha memoria está restringida a un número máximo de soluciones, que se van descartando bajo una política \emph{FIFO (First In, First Out)} lo cual incluye la posibilidad de visitar la misma solución varias veces con la esperanza de que mediante algún mecanismo aleatorio, el camino camino tomado en cada visita a la solución sea diferente. Respecto del tamaño de la memoria utilizada, el efecto que esto tiene en el proceso de optimización consiste en que memorias de menor tamaño tienden a intensificar la búsqueda sobre determinadas regiones del espacio mientras que memorias de gran tamaño tienden a realizar búsquedas más extensivas (pudiendo incluso desarrollar técnicas con memoria de tamaño variable, posiblemente decreciente).
+
+        \begin{algorithm}[ht]
+          \SetAlgoLined
+          \KwResult{$current$ }
+          $memory \gets \emptyset$\;
+          \While{$condition$}{
+              $current \gets randomNeighbor(current, ignore=memory)$\;
+              $memory \gets updateMemory(memory, current)$\;
+          }
+          \caption{Estrategia de resolución basada en metaheurística \emph{Tabu Search}.}
+          \label{code:solving_tabu_search}
+        \end{algorithm}
+      
+        \paragraph{}
+        En el \cref{code:solving_tabu_search} se incluye el pseudo-código que define la estructura común a las metaheurísticas basadas en búsqueda tabú. En cuanto a la intuición tras esta metaheurística, tal y como se puede apreciar, en ningún caso se restringe el movimiento hacia soluciones de \say{peor calidad} por lo que de esta manera se evita \say{caer} en mínimos locales durante el proceso de búsqueda de soluciones. Esta es una de las razones por las cuales esta metaheurística goza de tanta popularidad (sobre todo en problemas de \emph{optimización de rutas} donde el efecto dichos mínimos locales dificulta mucho el proceso). Por contra, esta metaheurística requiere de un mayor coste computacional, tanto a nivel de ejecución puesto que añade la necesidad de poder comparar si dos soluciones son o no iguales, lo cual en terminos de eficiencia no es trivial, como a nivel de espacio ya que requiere de mantener varias soluciones en memoria, lo cual es necesario tener en cuenta durante el proceso de implementación. 
 
       \subsection{Variable Neighborhood Search}
       \label{sec:solving_vns}
