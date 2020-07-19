@@ -154,7 +154,7 @@
         La siguiente estrategia heurística a comentar se presenta en muchos sentidos como una versión opuesta a la de \emph{fuerza bruta}. Esta es la heurística basada en \emph{selección aleatoria}, cuya principal característica es el apoyo en una componente de estocasticidad que pretende, a largo plazo, alcanzar resultados razonables utilizando para ello un reducido coste computacional. Entonces, tal y como se puede intuir esta estrategia es opuesta a la de \emph{fuerza bruta} en dos sentidos: \begin{enumerate*}[label=(\arabic*)] \item la búsqueda en el espacio de soluciones no es exhaustiva, por lo que no se prueban todos los casos posibles (lo cual elimina las garantías de optimalidad) y \item el coste computacional que conlleva generar soluciones factibles es mucho menor puesto que la decisión sobre qué camino explorar se delega en selección aleatoria \end{enumerate*}.
 
         \paragraph{}
-        Tal y como se puede apreciar en el \cref{code:solving_random_selection}, la estrategia se basa en generar soluciones aleatorias del universo de posibles soluciones para después evaluar la factibilidad de la escogida en cada iteración y almacenarla en caso de que esta maximice (o minimice) el valor de la función objetivo. Esto se repite mientras se cumpla una determinada condición, la cual puede basarse en un determinado número de iteraciones, una cantidad de tiempo o estrategias más elaboradas como un determinado ratio de mejora respecto entre la última mejor solución obtenida y la anterior, etc.
+        Tal y como se puede apreciar en el \cref{code:solving_random_selection}, la estrategia se basa en generar soluciones aleatorias del universo de posibles soluciones para después evaluar la factibilidad de la escogida en cada iteración y almacenarla en caso de que esta maximice (o minimice) el valor de la función objetivo. Esto se repite mientras se cumpla una determinada condición, la cual puede basarse en un determinado número de iteraciones, una cantidad de tiempo o estrategias más elaboradas como un ratio de mejora respecto entre la última mejor solución obtenida y la anterior, etc.
 
         \begin{algorithm}[ht]
           \SetAlgoLined
@@ -326,11 +326,15 @@
           \caption{Estrategia de resolución basada en metaheurística \emph{Simulated Anneling}.}
           \label{code:solving_simulated_anneling}
         \end{algorithm}
-
-
+      
+        \paragraph{}
+        Esta metaheurística ha servido de base para la construcción de otras más avanzadas, como \emph{Microcanonic annealing} basado en la propiedad de equilibrio de la termodinámica, \emph{Threshold accepting method} basado en un threshold de decreciente o \emph{Noising method}. También es fácil darse cuenta de que esta metaheurística puede utilizarse de manera hibrida junto con \emph{GRASP} utilizando \emph{Simulated Anneling} como envoltorio sobre la operación de \emph{Búsqueda Local}. Las técnicas que representan el estado del arte en el área de metaheurísticas de optimización actualmente se componen principalmente de estrategias hibridas como la descrita en este caso. 
 
       \subsection{Tabu Search}
       \label{sec:solving_tabu}
+
+        \paragraph{}
+        [TODO]
 
         \paragraph{}
         [TODO]

@@ -10,6 +10,7 @@
   es-tabla,
   es-nodecimaldot
 ]{babel}
+\selectlanguage{spanish} 
 \usepackage{subfiles}
 \usepackage{geometry}
 \geometry{top=2cm, bottom=2cm, inner=2cm, outer=2cm}
@@ -33,10 +34,17 @@
   \fancyhf[lef,rof]{\thepage}
 }
 
-\usepackage[linesnumbered,boxed]{algorithm2e}
+\usepackage[
+  vlined,
+  linesnumbered,
+  boxed,
+  spanish,
+  algochapter
+]{algorithm2e}
 \SetKwRepeat{Do}{do}{while}%
 \SetKw{Continue}{continue}
 \SetAlCapSkip{1em}
+\setlength{\belowcaptionskip}{-2em}
 
 \usepackage{graphicx}
 \graphicspath{{./img/}}
