@@ -358,7 +358,35 @@
       \label{sec:solving_vns}
 
         \paragraph{}
-        [TODO]
+        Una de las heurísticas más interesantes en problemas de optimización de rutas es la conocida como \emph{Variable Neighborhood Search (o Búsqueda en Venidarios Variables)} la cual se apoya en la idea de enfocar la optimización en mejorar distintos aspectos de la solución en cada fase del mismo para así terminar alcanzando una solución final de mejor calidad. Sin embargo, para poder describir esta estrategia en condiciones ideales lo primero es describir el concepto de \emph{vecindario}.
+
+        \paragraph{}
+        En el contexto de espacios de soluciones un \textbf{vecindario} consiste en un conjunto de soluciones que posseen características comunes, o que pueden ser alcanzadas aplicando operaciones similares sobre una solución inicial dada. En el caso de los problemas de optimización de rutas un vecindario puede referirse al conjunto de posibles soluciones obtenidas tras aplicar la operación de permutar dos tareas contiguas de una ruta. Entonces, este es el vecindario generado por la aplicación de dicha operación sobre una solución. Nótese que este será disjunto respecto del generado por todas las soluciones obtenidas tras aplicar la operación de permutar dos tareas no contiguas entre si. Sin embargo, esto no tiene por qué ser así, puediendo haber vecindarios que se solapan entre si.
+
+        \paragraph{}
+        Una vez entendido el concepto de \emph{vecindario}, comprender el comportamiento de esta metaheurística es muy sencillo. Se trata de seleccionar iterativamente una solución de cada vecindario escogida de forma aleatoria y seleccionarla como la actual mientras esta mejore la anterior, aplicando esta operación por cada vecindario mientras se sigan alcanzando mejore soluciones.
+
+        \begin{algorithm}[ht]
+          \SetAlgoLined
+          \KwResult{$current$ }
+          $best \gets initialSolution()$\;
+          $neighborhood \gets initialNeigborhood()$\;
+          \While{$condition$}{
+              $current \gets randomNeighbor(best, neighborhood)$\;
+              \uIf{$f(current) < f(best)$}{
+                $best \gets current$\;
+                $neighborhood \gets initialNeigborhood()$\;
+              }
+              \Else{
+                $neighborhood \gets nextNeigborhood(neighborhood)$\;
+              }
+          }
+          \caption{Estrategia de resolución basada en metaheurística \emph{Variable Neighborhood Search}.}
+          \label{code:solving_variable_neighborhood_search}
+        \end{algorithm}
+
+        \paragraph{}
+        En el \cref{code:solving_variable_neighborhood_search} se muestra el pseudo-código de una posible implementación de la metaheurística \emph{Variable Neighborhood Search}. Nótese que la ventaja de este enfoque consiste en enfocar la mejora en cada paso en una determinada propiedad inherente a cada vecindario. Esto puede ser incrementar el número de tareas, permutar tareas dentro de la ruta, permutar tareas entre rutas, etc.
 
       \subsection{Large Neighborhood Search}
       \label{sec:solving_lns}
