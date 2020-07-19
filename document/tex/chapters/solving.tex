@@ -274,7 +274,7 @@
       El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados.
 
       \paragraph{}
-      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Grandes Vecindarios} y \emph{Colonias de Hormigas} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{blum2003metaheuristics,glover2006handbook,boussaid2013survey,ho2018survey}.
+      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Gran Vecindario} y \emph{Colonias de Hormigas} en los \cref{sec:solving_ant_colony,sec:solving_vns,sec:solving_lns} respectivamente. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{blum2003metaheuristics,glover2006handbook,boussaid2013survey,ho2018survey}.
 
       \subsection{GRASP}
       \label{sec:solving_grasp}
@@ -358,7 +358,7 @@
       \label{sec:solving_vns}
 
         \paragraph{}
-        Una de las heurísticas más interesantes en problemas de optimización de rutas es la conocida como \emph{Variable Neighborhood Search (o Búsqueda en Venidarios Variables)} la cual se apoya en la idea de enfocar la optimización en mejorar distintos aspectos de la solución en cada fase del mismo para así terminar alcanzando una solución final de mejor calidad. Sin embargo, para poder describir esta estrategia en condiciones ideales lo primero es describir el concepto de \emph{vecindario}.
+        Una de las heurísticas más interesantes en problemas de optimización de rutas es la conocida como \emph{Variable Neighborhood Search (o Búsqueda en Vecindarios Variables)} la cual se apoya en la idea de enfocar la optimización en mejorar distintos aspectos de la solución en cada fase del mismo para así terminar alcanzando una solución final de mejor calidad. Sin embargo, para poder describir esta estrategia en condiciones ideales lo primero es describir el concepto de \emph{vecindario}.
 
         \paragraph{}
         En el contexto de espacios de soluciones un \textbf{vecindario} consiste en un conjunto de soluciones que posseen características comunes, o que pueden ser alcanzadas aplicando operaciones similares sobre una solución inicial dada. En el caso de los problemas de optimización de rutas un vecindario puede referirse al conjunto de posibles soluciones obtenidas tras aplicar la operación de permutar dos tareas contiguas de una ruta. Entonces, este es el vecindario generado por la aplicación de dicha operación sobre una solución. Nótese que este será disjunto respecto del generado por todas las soluciones obtenidas tras aplicar la operación de permutar dos tareas no contiguas entre si. Sin embargo, esto no tiene por qué ser así, puediendo haber vecindarios que se solapan entre si.
@@ -392,7 +392,30 @@
       \label{sec:solving_lns}
 
         \paragraph{}
-        [TODO]
+        Hasta ahora, todas las metaheurística que se han analizado asumen la utilización de una heurística de construcción inicial, que es capaz de generar una solución por si misma. Sin embargo, existen otras alternativas en contraposición con dicha estrategia. Entre ellas se encuentra la metales conocida como \emph{Large Neighborhood Search (o Búsqueda de Gran Vecindario)}. La idea subyacente tras dichas estrategia consiste en reaprovechar las soluciones obtenidas hasta el momento para apoyarse en variaciones de las mismas durante el proceso de contrucción de soluciones iniciales bajo la premisa de que estás tenderán a ser de \say{buena calidad} y el coste computacional de adaptarlas será menor que el de construir una nueva por completo. 
+
+        \paragraph{}
+        En cuanto al nombre de la estrategia esta cobra sentido desde el punto de vista del camino generado por todas las soluciones visitadas, ya que en este caso en lugar de presentar conjuntos de soluciones aislados, la estructura está compuesta por un único camino de gran longitud y que (idealmente) abarca una gran superficie del espacio de soluciones. 
+
+        \paragraph{}
+        Respecto de las operaciones aplicadas para generar nuevas soluciones iniciales, típicamente estas suelen basarse en heurísticas de eliminación de visitas (en el caso del problema \emph{Dial-a-Ride} simultaneamente de origen y destino) y a su vez tratar de reañadirlas con heurísticas de inserción (posiblemente las mismas que las usadas para construir soluciones completas).
+
+        \begin{algorithm}[ht]
+          \SetAlgoLined
+          \KwResult{$current$ }
+          $best \gets initialSolution()$\;
+          $neighborhood \gets initialNeigborhood()$\;
+          \While{$condition$}{
+            $current \gets initialFrom(best)$\;
+            $current \gets localSearch(current)$\;
+            $best \gets min\{best, current\}$\;
+          }
+          \caption{Estrategia de resolución basada en metaheurística \emph{Large Neighborhood Search}.}
+          \label{code:solving_large_neighborhood_search}
+        \end{algorithm}
+
+        \paragraph{}
+        En el \cref{code:solving_large_neighborhood_search} se incluye el pseudo-código que representa la estructura básica de una implementación \emph{Large Neighborhood Search}. Al igual que sucedía con otras estrategias descritas a lo largo del apartado, para el caso de esta también es posible desarrollar versiones adaptativas que conforme avanza el proceso de optimización reducen el grado de aleatoriedad (en este caso respecto de la generación de soluciones iniciales) para focalizarse más en la zona del espacio de soluciones conocido más cercano al óptimo deseado.
 
       \subsection{Ant Colony}
       \label{sec:solving_ant_colony}
