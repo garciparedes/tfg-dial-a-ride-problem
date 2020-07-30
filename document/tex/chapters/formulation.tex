@@ -17,7 +17,7 @@
       En los últimos años, el número de compañias que basan su modelo de negocio en alguna variante relacionada con el problema \emph{Dial-a-Ride} ha crecido de manera desmesurada. Algunos ejemplos son aquellas basadas en el reparto de comida (u otros productos) desde los establecimientos hasta la casa de los solicitantes, o la modernización del sector del transporte privado en ciudad gracias a la solicitud de viajes desde el dispositivo móvil. Es importante darse cuenta de que dichas compañías llevan a cabo la planificación en tiempo real ya que en contadas ocasiones los clientes solicitan sus servicios con demasiada antelación. Sin embargo, para poder desarrollar soluciones interesantes sobre entornos en tiempo real, lo primero es poder comprender el problema de manera detallada en su versión estática, para después poder llevar a cabo las simplificaciones y extensiones pertinentes que permiten la toma de decisiones de manera eficiente en entornos dinámicos. Por tanto, este capítulo se centra especialmente en la descripción del modelo estático. Sin embargo, en el \cref{sec:formulation_real_time} se indican las características especiales del problema cuando este se pretende resolver en tiempo real.
 
       \paragraph{}
-      En cuanto a la organización del capítulo, en el \cref{sec:formulation_contextualization} se describe de manera detallada el problema \emph{Dial-a-Ride} desde el punto de vista de la jerarquía de clases a la cual pertenecen siguiendo un enfoque descendente (o \emph{top-down}) en los \cref{sec:formulation_optimization_problems,sec:formulation_linear_problems,sec:formulation_combinatorial_problems,sec:formulation_generalized_pickup_and_delivery_problems,sec:formulation_routing_pickup_and_delivery_problems,sec:formulation_dial_a_ride_problems}. Seguidamente, en el apartado \cref{sec:formulation_notation} se indica la notación que se pretende seguir a lo largo del documento (y que pretende ser utilizada a modo de referencia en capítulos posteriores). El siguiente paso es determinar la \emph{Formulación Básica}, lo cual se lleva a cabo en el \cref{sec:formulation_basic_formulation}. Posteriormente se describen otras formulaciones equivalentes en el \cref{sec:formulation_other_formulations} para después discutir posibles extensiones del problema en el \cref{sec:formulation_extensions}. Seguidamente, (tal y como se ha indicado previamente) en el \cref{sec:formulation_real_time} se comentan las peculiaridades del modelo cuando se aplica en situaciones en tiempo real. Finalmente, en el \cref{sec:formulation_conclusions} se describen brevemente los aspectos más importantes del capítulo.
+      En cuanto a la organización del capítulo, en el \cref{sec:formulation_contextualization} se describe de manera detallada el problema \emph{Dial-a-Ride} desde el punto de vista de la jerarquía de clases a la cual pertenecen siguiendo un enfoque descendente (o \emph{top-down}) en los \cref{sec:formulation_optimization_problems,sec:formulation_linear_problems,sec:formulation_combinatorial_problems,sec:formulation_generalized_pickup_and_delivery_problems,sec:formulation_routing_pickup_and_delivery_problems,sec:formulation_dial_a_ride_problems}. Seguidamente, en el apartado \cref{sec:formulation_notation} se indica la notación que se pretende seguir a lo largo del documento (y que pretende ser utilizada a modo de referencia en capítulos posteriores). El siguiente paso es determinar la \emph{Formulación Básica}, lo cual se lleva a cabo en el \cref{sec:formulation_basic_formulation}. Seguidamente, tal y como se ha indicado previamente en el \cref{sec:formulation_real_time} se comentan las peculiaridades del modelo cuando se aplica en situaciones en tiempo real. Finalmente, en el \cref{sec:formulation_conclusions} se describen brevemente los aspectos más importantes del capítulo.
 
     \section{Contextualización del problema}
     \label{sec:formulation_contextualization}
@@ -511,101 +511,6 @@
 
       \paragraph{}
       [TODO]
-
-    \section{Otras formulaciones}
-    \label{sec:formulation_other_formulations}
-
-      \paragraph{}
-      [TODO]
-
-      \subsection{Formulación de 2 índices (1)}
-      \label{sec:formulation_two_index_1_formulation}
-
-        \paragraph{}
-        [TODO]
-
-        \paragraph{}
-        Formulación basada en \cite{ropke2007models}
-
-        \subsection{Formulación de 2 índices (2)}
-      \label{sec:formulation_two_index_2_formulation}
-
-        \paragraph{}
-        [TODO]
-
-        \paragraph{}
-        Formulación basada en \cite{ropke2007models}
-
-    \section{Extensiones}
-    \label{sec:formulation_extensions}
-      [TODO]
-
-
-      \subsection{Extensiones basadas en Restricciones}
-      \label{sec:formulation_extensions_contraints}
-
-        \paragraph{}
-        [TODO]
-
-        \begin{enumerate}
-          \item \textbf{Heterogeneidad}: [TODO]
-
-          \item \textbf{Propiedades de las Rutas}: [TODO]
-
-          \item \textbf{Calidad del Viaje}: [TODO]
-
-        \end{enumerate}
-
-        \paragraph{}
-        [TODO]
-
-      \subsection{Extensiones basadas en la Función Objetivo}
-      \label{sec:formulation_extensions_objective_functions}
-
-        \paragraph{}
-        [TODO]
-
-        \subsubsection{Funciones Objetivo Simples}
-        \label{sec:formulation_extensions_objective_functions_single}
-
-          \paragraph{}
-          [TODO]
-
-          \begin{enumerate}
-
-            \item \textbf{Dial a Ride}: [TODO]
-
-            \item \textbf{Pickup and Delivery}: [TODO]
-
-            \item \textbf{Taxi Sharing}: [TODO]
-
-          \end{enumerate}
-
-        \subsubsection{Funciones Multiobjetivo}
-        \label{sec:formulation_extensions_objective_functions_multi}
-
-          \paragraph{}
-          [TODO]
-
-        \paragraph{}
-        [TODO]
-
-      \subsection{Modelos para vehículos eléctricos}
-      \label{sec:formulation_extensions_electric}
-
-        \paragraph{}
-        [TODO]
-
-        \paragraph{}
-        Basado en \cite{erdougan2012green}.
-
-      \subsection{Modelos para vehículos autónomos}
-      \label{sec:formulation_extensions_autonomous}
-
-        \paragraph{}
-        Basado en \cite{dial1995autonomous,bongiovanni2019electric}.
-
-
 
     \section{Tiempo Real}
     \label{sec:formulation_real_time}
