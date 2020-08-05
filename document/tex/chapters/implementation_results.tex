@@ -11,7 +11,16 @@
     \label{sec:implementation_results_introduction}
 
       \paragraph{}
-      [TODO]
+      Hasta ahora, el objetivo principal de este documento se ha orientado en la descripción y análisis del problema \emph{Dial-a-Ride} desde una perspectiva principalmente teórica, incluyendo una descripción detallada centrada en la \emph{Formulación del Problema} en el \cref{chap:formulation} así como un análisis sobre los \emph{Métodos de Resolución} disponibles para el problema en el \cref{chap:solving}. A lo largo de dichos capítulos se ha podido apreciar tanto las dificultades inherentes al propio problema por las características propias que este presenta, tales como el tiempo máximo de duración de trayecto (calidad del servicio), así como otros factores relacionados con la complejidad computacional de resolver un problema de esta naturaleza (englobado en la clase de problemas \emph{NP}).
+
+      \paragraph{}
+      Sin embargo, el este capítulo representa un cambio de perspectiva del problema, estando centrado más en los detalles de implementación de una biblioteca bautizada como \texttt{jinete} y desarrollada sobre el lenguaje \emph{Python}, cuyo enfoque consiste en proporcionar una serie de herramientas que sobre las cuales ser construir métodos de resolución de problemas de rutas. En una primera implementación, el desarrollo de dicha biblioteca se ha orientado principalmente hacia la resolución del problema \emph{Dial-a-Ride} mediante una estrategía inspirada en la metaheurística \emph{GRASP} descrita en el \cref{sec:solving_grasp}. En el \cref{sec:implementation} se incluye una descripción detallada acerca de la implementación realizada, así como las ideas en que ha inspirado la misma.
+
+      \paragraph{}
+      Para demostrar el funcionamiento de la implementación realizada, así como proporcionar una ejemplificación de su uso, se han utilizado una serie de instancias del problema disponibles en la web de manera pública, que han sido utilizados a modo de \emph{benchmark} en una gran cantidad de documentos científicos de gran reconocimiento. El \cref{sec:results} se destina a dicho cometido. 
+      
+      \paragraph{}
+      Por último, en el \cref{sec:implementation_results_conclusions} se expone una conclusión relacionada con el proceso de implementación de estrategias de resolución del problema \emph{Dial-a-Ride}, indicando las principales debilidades de la implementación actual, así como sus posibles puntos de mejora.
 
     \section{Implementación}
     \label{sec:implementation}
