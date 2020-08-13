@@ -24,12 +24,34 @@
 
     \section{Implementación}
     \label{sec:implementation}
+      
+      \paragraph{}
+      Tal y como se menciona en la introducción del capítulo, este apartado se dedica integramente a comentar la implementación realizada durante el desarrollo de este trabajo, donde se describen de manera detallada desde los objetivos iniciales (en el \cref{sec:implementation_objectives}), continuando con una visión de alto nivel de la implementación (en el \cref{sec:implementation_high_level_vision}) para finalizar describiendo los principales componentes (en el \cref{sec:implementation_components}). Además, a lo largo de la descripción se trata de presentar una breve discusión acerca de las distintas decisiones de diseño tomadas a lo largo del proceso, tratando de destacar las principales ventajas e inconvenientes de cada una de ellas.
 
       \subsection{Objetivos}
       \label{sec:implementation_objectives}
 
         \paragraph{}
-        [TODO]
+        El objetivo principal de la implementación realizada puede ser resumido en una frase: \textbf{Razonar en detalle la implementación de un sistema capaz de generar soluciones válidas (y lo más cercanas al valor óptimo posible) para el problema Dial-a-Ride}. Sin embargo, tal y como se puede apreciar, dicha frase es de carácter muy general y puede abarcar una gran cantidad de tareas a realizar, desde el estudio y adaptación de restricciones definidas como desigualdades en un modelo lineal para que estas después sean implementadas sobre uno de los sistemas comerciales más populares como \texttt{FICO Xpress Mosel} o \texttt{IBM CPLEX}, hasta el diseño de alguna metahurística por completo en algún lenguaje como \texttt{C++}, \texttt{Rust} o \texttt{Python}. Tal y como se puede intuir, cualquiera de estas tareas puede llegar a ser por si sola motivo de una trabajo de tesis con el conveniente grado de profundización en la materia. Sin embargo, dado que en este caso el trabajo se ha llevado a cabo sobre el contexto de un \emph{Trabajo de Fin de Grado} (con sus correspondientes limitaciones temporales), la implementación que se ha llevado a cabo consiste en una tarea intermedia entre estos dos caminos, a costa de un menor grado de profundidad en cada uno de ellos, pero que ha permitido conocer las complicaciones reales que la literatura relacioanda con el problema \emph{Dial-a-Ride} pretende resolver para que las soluciones alcanzadas sean aplicables sobre situaciones reales y no queden en meros ejercicios teóricos.
+
+        \paragraph{}
+        [TODO: talk about why python was choosen]
+
+        \paragraph{}
+        [TODO: talk about the framework nature of the implemented solution]
+
+        \paragraph{}
+        [TODO: talk about the integration with MLIP solvers integration]
+
+        \paragraph{}
+        [TODO: talk about the efforts to build a solid base to implement more complex solving systems on top of them]
+        
+        \paragraph{}
+        [TODO: talk about the focus on how would be possible to integrate the framework on a real world system]
+
+        \paragraph{}
+        [TODO: talk about the GRASP implementation]
+
 
       \subsection{Visión a alto nivel}
       \label{sec:implementation_high_level_vision}
