@@ -26,10 +26,10 @@
     \label{sec:implementation}
       
       \paragraph{}
-      Tal y como se menciona en la introducción del capítulo, este apartado se dedica integramente a comentar la implementación realizada durante el desarrollo de este trabajo, donde se describen de manera detallada desde los objetivos iniciales (en el \cref{sec:implementation_objectives}), continuando con una visión de alto nivel de la implementación (en el \cref{sec:implementation_high_level_vision}) para finalizar describiendo los principales componentes (en el \cref{sec:implementation_components}). Además, a lo largo de la descripción se trata de presentar una breve discusión acerca de las distintas decisiones de diseño tomadas a lo largo del proceso, tratando de destacar las principales ventajas e inconvenientes de cada una de ellas.
+      Tal y como se menciona en la introducción del capítulo, este apartado se dedica integramente a comentar la implementación realizada durante el desarrollo de este trabajo, donde se describen de manera detallada desde las decisiones tomadas de alto nivel (en el \cref{sec:implementation_high_level}) en la que se comentan aspectos como el lenguaje de implementación elegido o la metaheurística implementada de manera concreta, continuando con una descripción acerca de las decisiones tomadas en lo relacionado con un nivel de más bajo (en el \cref{sec:implementation_low_level}) en el que se describen los componentes más relevantes así como algunas de las decisiones algorítmicas tomadas. Además, a lo largo de la descripción se trata de presentar una breve discusión acerca de las distintas decisiones de diseño tomadas a lo largo del proceso, tratando de destacar las principales ventajas e inconvenientes de cada una de ellas.
 
-      \subsection{Objetivos}
-      \label{sec:implementation_objectives}
+      \subsection{Decisiones de Alto Nivel}
+      \label{sec:implementation_high_level}
 
         \paragraph{}
         El objetivo principal de la implementación realizada puede ser resumido en una frase: \textbf{Razonar en detalle la implementación de un sistema capaz de generar soluciones válidas (y lo más cercanas al valor óptimo posible) para el problema Dial-a-Ride}. Sin embargo, tal y como se puede apreciar, dicha frase es de carácter muy general y puede abarcar una gran cantidad de tareas a realizar, desde el estudio y adaptación de restricciones definidas como desigualdades en un modelo lineal para que estas después sean implementadas sobre uno de los sistemas comerciales más populares como \texttt{FICO Xpress Mosel} o \texttt{IBM CPLEX}, hasta el diseño de alguna metaheurística por completo en algún lenguaje como \texttt{C++}, \texttt{Rust} o \texttt{Python}. Tal y como se puede intuir, cualquiera de estas tareas puede llegar a ser por si sola motivo de una trabajo de tesis con el conveniente grado de profundización en la materia. Sin embargo, dado que en este caso el trabajo se ha llevado a cabo sobre el contexto de un \emph{Trabajo de Fin de Grado} (con sus correspondientes limitaciones temporales), la implementación que se ha llevado a cabo consiste en una tarea intermedia entre estos dos caminos, a costa de un menor grado de profundidad en cada uno de ellos, pero que ha permitido conocer las complicaciones reales que la literatura relacioanda con el problema \emph{Dial-a-Ride} pretende resolver para que las soluciones alcanzadas sean aplicables sobre situaciones reales y no queden en meros ejercicios teóricos.
@@ -47,16 +47,44 @@
         Hasta ahora se ha comentado el objetivo de la implementación realizada desde el punto de vista de algunas de las decisiones de implementación tomadas a priori (tales como el lenguaje utilizado o la filosofía seguida durante el proceso), sin embargo, aún no se ha expuesto en detalle la problemática concreta que dicha implementación es capaz de resolver, ni la estrategia seguida para llevarlo a cabo. En cuanto a la problemática concreta que esta biblioteca trata de resolver, es fácil intuir (por ser el tema principal del trabajo) que se trata de ser capaz de generar soluciones factibles para el problema \emph{Dial-a-Ride}. Por contra, la segunda parte de la cuestión requiere de una clarificación en mayor profundad: Por una parte, esta implementación es capaz de generar soluciones basándose en métodos de resolución de problemas lineales gracias a la formulación del problema \emph{Dial-a-Ride} de dicha forma, tal y como se ha comentado en el párrafo anterior. Por otro lado, actualmente la biblioteca es capaz de generar soluciones siguiendo una estrategia metaheurística de naturaleza \emph{GRASP}, lo cual implica, entre otros, la implementación de una algoritmo de inserción \emph{Greedy}, una heurística de \emph{Búsqueda Local} capaz de mejorar una solución previamente generada en este caso, por la estrategia \emph{Greedy}, y la propia lógica de control de la estrategia \emph{GRASP}, encargada de controlar si se cumplen las condiciones suficientes para llevar a cabo un nuevo ciclo de mejora de la solución actual así como otros aspectos relacionados. Es importante remarcar que todos estos componentes pueden ser utilizados añadiendo distintas puntos de aleatoriedad (para así tratar de reducir el alcanzamiento de mínimos locales \say{sin salida}). De forma complementaria a la capacidad de añadir una componente de aleatoriedad, también se incluye la capacidad de apoyarse en un \say{generaror de múltiples soluciones} que es capaz de integrarse en cualquier fase del proceso. Posteriormente se detallará más este componente, el cual se encarga de orquestar la generación de soluciones con distintas componentes de aleatoriedad y posteriormente seleccionar cual de todas ellas debe continuar con el proceso de optimización.
 
         \paragraph{}
-        [TODO: conclude the section]
+        A lo largo de este apartado, se ha llevado a cabo una descripción acerca de las distintas decisiones tomadas a lo largo del desarrollo de la implementación desde una perspectiva externa, exponiendo las razones y tratando de comentar otras alternativas a las finalmente escogidas. Estas han sido desde comentar el lenguaje utilizado, la naturaleza de la implementación, su conexión con los métodos de resolución basados en formulación como problema de programación lineal, hasta el alcance de la metaheurística implementada de manera demostrativa.
+
+        \paragraph{}
+        Por otro lado, es importante remarcar también las decisiones tomadas en lo relativo al desarrollo de software muy importante en casos como los métodos de resolución en \emph{problemas de optimización combinatoria}, donde el gran peso de la componente algorítmica (sobre todo en lo relacionado con \emph{metaheurísticas}) es crucial para alcanzar los resultados deseables. Dicho razonamiento se llevará a cabo a lo largo del próximo apartado.
       
-      \subsection{Visión a alto nivel}
-      \label{sec:implementation_high_level_vision}
+      \subsection{Decisiones de Bajo Nivel}
+      \label{sec:implementation_low_level}
 
         \paragraph{}
         [TODO]
 
-      \subsection{Componentes}
+
+      \subsubsection{Organización Basada en Componentes}
       \label{sec:implementation_components}
+
+        \paragraph{}
+        [TODO]
+
+      \subsubsection{Carga de Datos}
+      \label{sec:implementation_components_data_loading}
+
+        \paragraph{}
+        [TODO]
+   
+      \subsubsection{Modelo de Datos}
+      \label{sec:implementation_components_data_model}
+
+        \paragraph{}
+        [TODO]
+
+      \subsubsection{Optimización del Problema}
+      \label{sec:implementation_components_optimizacion}
+
+        \paragraph{}
+        [TODO]
+
+      \subsubsection{Exportación de Resultados}
+      \label{sec:implementation_components_exportation}
 
         \paragraph{}
         [TODO]
