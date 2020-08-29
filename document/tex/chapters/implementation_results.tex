@@ -56,38 +56,73 @@
       \label{sec:implementation_low_level}
 
         \paragraph{}
-        [TODO]
+        En este apartado se pretende llevar a cabo una descripción desde un punto de vista más técnico y detallado sobre las decisiones tomadas a lo largo de la implementación de la biblioteca en cuestión. Para ello, se dedican distintos sub-apartados a cada uno de los factores más relevantes a tratar. En primer lugar, se ilustra la organización de la biblioteca, dividida en componentes en el \cref{sec:implementation_components}. A continuación, se comenta el modelo de datos definido para resolver el problema, el cual guarda una estrecha correlación con el definido en el \cref{chap:formulation} donde se lleva a cabo una breve descripción de la nomenclatura utilizada. Finalmente, se trata de profundizar con un mayor nivel de detalle en cada uno de los componentes anteriormente indicados a lo largo de los \cref{sec:implementation_components_data_loading,sec:implementation_components_optimization,sec:implementation_components_exportation}.
 
+        \subsubsection{Organización Basada en Componentes}
+        \label{sec:implementation_components}
 
-      \subsubsection{Organización Basada en Componentes}
-      \label{sec:implementation_components}
+          \paragraph{}
+          La estructura en que se ha organizado la biblioteca se ha definido tratando de tener en cuenta la facilidad para ser extendida y ampliada con el paso del tiempo, de tal manera que sea sencillo incluir tanto nuevas estrategias de resolución más sofisticadas, como la capacidad de poder modelar otros problemas de rutas de vehículos de una manera sencilla. Para ello, se ha tratado de prestar especial importancia al desacoplamiento entre los distintos elementos que la componen así como la decisión de dar un sentido único y bien definido a cada uno de ellos. 
 
-        \paragraph{}
-        [TODO]
+          \paragraph{}
+          Estos conceptos se entienden de manera mucho más sencilla a través de un ejemplo: en la implementación llevada a cabo, el componente encargado de proceder a la carga de datos se considera desacoplado del resto puesto que la única comunicación que soporta consiste en las peticiones para llevar a cabo la carga de datos, así como la de suministrar estos en un formato ya adaptado para que pueda ser utilizado por el resto de la biblioteca (el cual se comenta en el \cref{sec:implementation_components_data_model}). En cuanto al sentido único que este componente presenta, dicha característica consiste en que es fácil comprender la función que desempeña, lo cual facilita el proceso futuro de crear nuevas versiones de dicho componente para que, por ejemplo, en lugar de cargar los datos desde un fichero concreto alojado en la máquina en cuestión, este sea capaz de recibirlo desde una dirección específica de internet u otro tipo de estrategias de definición más complejas como la carga desde una base de datos. Dichas capacidades de extensión permiten integrar la implementación realizada en sistemas reales de una forma muy sencilla y mantenible.
+          
+          \paragraph{}
+          En cuanto a la organización completa de la biblioteca, esta se divide en 4 componentes principales, que además de apoyarse entre si, utilizan otros componentes de menor tamaño tal y como se comentará a lo largo del apartado. En cuanto a los componentes principales, a continuación se proporciona una breve descripción acerca de cada uno de ellos (el orden en que se describen se corresponde con el flujo natural en que estos se interrelacionan lo cual pretende servir para clarificar aún más su funcionamiento):
 
-      \subsubsection{Carga de Datos}
-      \label{sec:implementation_components_data_loading}
+          \begin{itemize}
+              \item \texttt{models}: Es el encargado de definir las entidades que representan los distintos elementos necesarios para modelar los distintos problemas de rutas, entre los que se encuentran clases como \texttt{Vehicle}, \texttt{Route} o \texttt{Stop}. Dichas entidades son las encargadas de poseer la información acerca de las restricciones del problema (como por ejemplo la ventana temporal en que es factible llevar a cabo parada de recogida para un determinado viaje), pero además se encargan de recoger el estado tras cada etapa de ejecución del proceso de optimización (como por ejemplo el instante de tiempo en que se encuentra un determinado vehículo al haber realizado un secuencia concreta de viajes).Dichas entidades representan además un \say{contrato} entre el resto de componentes y subcomponentes de la biblioteca, lo cual es una de las herramientas que permite hacer más mantenible y ampliable la implementación realizada. Posteriormente se detalla de manera más precisa, pero a modo de ejemplo es fácil apreciar las ventajas de definir una entidad común \texttt{Route} que pueda ser utilizada por las distintas estrategias de optimización sin que estas requieran de otra característica adicional, lo que permite flexibilizar la capacidad de combinación y/o composición de dichas estrategias. En el \cref{sec:implementation_components_data_model} se lleva a cabo una descripción más detallada acerca del componente.
 
-        \paragraph{}
-        [TODO]
-   
-      \subsubsection{Modelo de Datos}
-      \label{sec:implementation_components_data_model}
+              \item \texttt{loaders}: Tal y como se ha comentado anteriormente a modo de ejemplo, la responsabilidad de este componente consiste en ser capaz de cargar los datos desde una fuente de datos externa sobre la cual estos están definidos siguiendo un determinado formado posiblemente distinto del deseado, el cual consiste en las definidas por el componente \texttt{models}. De esta manera, es posible aplicar indistintamente las distintas técnicas y herramientas implementadas en la biblioteca ignorando la estructura de los datos originales. Más adelante se describe de manera más detallada, sin embargo es interesante remarcar que en dicha tarea hay dos dimensiones principales: la \say{lectura} de la fuente de datos, la cual puede ser desde la carga de un fichero hasta el acceso a una base de datos o la realización de una petición \texttt{HTTP} a un sistema externo, del \say{procesamiento} del propio formato de los datos, que puede ser el definido por distintos autores o sistemas externos.En el \cref{sec:implementation_components_data_loading} se lleva a cabo una descripción más detallada acerca del componente.
 
-        \paragraph{}
-        [TODO]
+              \item \texttt{algorithms}: La responsabilidad de este componente consiste en alojar las herramientas necesarias para poder llevar a cabo el proceso de optimización del problema en cuestión. Es decir, es quien contiene la implementación tanto de los algoritmos heurísticos tales como asignación voraz o búsqueda local, así como las metaheurísticas que se encargan de coordinar su ejecución. Además, contiene la lógica necesaria para ser capaz de resolver el problema a través de solvers externos de optimización lineal (métodos exactos). El modo de funcionamiento de estos algoritmos consiste en \say{rellenar} o \say{modificar} el estado de distintas entidades como \texttt{Route} o \texttt{Stop}, de tal manera que el formato siga siendo consiste para que puedan seguir siendo utilizadas tanto durante otras etapas del proceso de optimización como por el correspondiente componente encargado de exportar dichos resultados. En el \cref{sec:implementation_components_optimization} se lleva a cabo una descripción más detallada acerca del componente.
+            
+              \item \texttt{storers}: Es el componente encargado de almacenar los resultados obtenidos tras el proceso de optimización. este espera recibir una planificación compuesta por uno o más vehículos, la cual almacena de distintas formas según sea la entidad concreta elegida para el proceso. Nótese que en este caso el término \say{almacenar} se utiliza en un sentido más amplio, ya que se refiere tanto al proceso de almacenar los resultados en un medio persistente como un fichero o una base de datos, como al proceso de mostrar un informe detallado en la terminal de salida o mostrar una representación gráfica de las rutas construidas. En el \cref{sec:implementation_components_exportation} se lleva a cabo una descripción más detallada acerca del componente.
+ 
+         
+          \end{itemize}
 
-      \subsubsection{Optimización del Problema}
-      \label{sec:implementation_components_optimizacion}
+          \paragraph{}
+          Además de los componentes descritos anteriormente, la biblioteca implementada (\texttt{jinete}) incluye otros componentes de menor relevancia, pero igualmente importantes para el correcto funcionamiento de la misma. A continuación se incluye una breve descripción acerca de estos:
 
-        \paragraph{}
-        [TODO]
+          \begin{itemize}
+          
+            \item \texttt{dispachers}: [TODO]
+            
+            \item \texttt{solvers}: [TODO]
+            
+            \item \texttt{exceptions}: [TODO]
+            
+            \item \texttt{utils}: [TODO]
+         
+          \end{itemize}
 
-      \subsubsection{Exportación de Resultados}
-      \label{sec:implementation_components_exportation}
+          \paragraph{}
+          [TODO]
+     
+        \subsubsection{Modelo de Datos}
+        \label{sec:implementation_components_data_model}
 
-        \paragraph{}
-        [TODO]
+          \paragraph{}
+          [TODO]
+
+        \subsubsection{Carga de Datos}
+        \label{sec:implementation_components_data_loading}
+
+          \paragraph{}
+          [TODO]
+
+        \subsubsection{Optimización del Problema}
+        \label{sec:implementation_components_optimization}
+
+          \paragraph{}
+          [TODO]
+
+        \subsubsection{Exportación de Resultados}
+        \label{sec:implementation_components_exportation}
+
+          \paragraph{}
+          [TODO]
 
     \section{Resultados}
     \label{sec:results}
