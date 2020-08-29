@@ -87,13 +87,13 @@
 
           \begin{itemize}
           
-            \item \texttt{dispachers}: [TODO]
+              \item \texttt{dispachers}: La labor que desempecha este componente consiste en orquestar la comunicación entre \texttt{loaders}, \texttt{models} y \texttt{storers}. Como es natural, la estrategia más sencilla consiste en la comunicación unidireccional que carga una instancia del problema, aplica el proceso de optimización y después exporta los resultados en un medio persistente. Sin embargo, con la extensión de este componente es posible llevar a cabo otras estrategias que permitan procesos de planificación en tiempo real entre otros.
             
-            \item \texttt{solvers}: [TODO]
+            \item \texttt{solvers}: La responsabilidad que desempeña es la de simplificar el proceso de instanciación necesario para proceder con la optimización. El motivo es que para la mayoría de situaciones, no es neceario llegar a un nivel elevado de detalle para poder utilizar la biblioteca, por lo que este componente se encarga de simplificar al máximo el proceso.
             
-            \item \texttt{exceptions}: [TODO]
+            \item \texttt{exceptions}: Contiene la definición acerca de las distintas situaciones de error que pueden darse durante el proceso de ejecución de la biblioteca, que después son comunicados a través de excepciones al usuario de la misma.
             
-            \item \texttt{utils}: [TODO]
+            \item \texttt{utils}: Se encarga de definir todas aquellas herramientas necesarias para el correcto funcionamiento de la biblioteca pero que no necesariamente se refieren al contexto de optimización combinatoria, tales como estructuras de datos o funciones auxiliares.
          
           \end{itemize}
 
