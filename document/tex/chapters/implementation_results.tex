@@ -75,7 +75,7 @@
           \end{figure}
 
           \paragraph{}
-          En cuanto a la organización completa de la biblioteca, esta se divide en 4 módulos principales, que además de apoyarse entre si, utilizan otros módulos de menor tamaño tal y como se comentará a lo largo del apartado. En la \cref{img:module_overview} se incluye una representación gráfica de estos. En cuanto a los módulos principales, a continuación se proporciona una breve descripción acerca de cada uno de ellos (el orden en que se describen se corresponde con el flujo natural en que estos se interrelacionan lo cual pretende servir para clarificar aún más su funcionamiento):
+          En cuanto a la organización completa de la biblioteca, esta se divide en 4 módulos principales, que además de apoyarse entre si, utilizan otros módulos de menor tamaño tal y como se comentará a lo largo del apartado. En la \cref{img:modules_overview} se incluye una representación gráfica de estos. En cuanto a los módulos principales, a continuación se proporciona una breve descripción acerca de cada uno de ellos (el orden en que se describen se corresponde con el flujo natural en que estos se interrelacionan lo cual pretende servir para clarificar aún más su funcionamiento):
 
           \begin{itemize}
               \item \texttt{models}: Es el encargado de definir las entidades que representan los distintos elementos necesarios para modelar los distintos problemas de rutas, entre los que se encuentran clases como \texttt{Vehicle}, \texttt{Route} o \texttt{Stop}. Dichas entidades son las encargadas de poseer la información acerca de las restricciones del problema (como por ejemplo la ventana temporal en que es factible llevar a cabo parada de recogida para un determinado viaje), pero además se encargan de recoger el estado tras cada etapa de ejecución del proceso de optimización (como por ejemplo el instante de tiempo en que se encuentra un determinado vehículo al haber realizado un secuencia concreta de viajes).Dichas entidades representan además un \say{contrato} entre el resto de módulos y submódulos de la biblioteca, lo cual es una de las herramientas que permite hacer más mantenible y ampliable la implementación realizada. Posteriormente se detalla de manera más precisa, pero a modo de ejemplo es fácil apreciar las ventajas de definir una entidad común \texttt{Route} que pueda ser utilizada por las distintas estrategias de optimización sin que estas requieran de otra característica adicional, lo que permite flexibilizar la capacidad de combinación y/o composición de dichas estrategias. En el \cref{sec:implementation_components_data_model} se lleva a cabo una descripción más detallada acerca del módulo.
@@ -113,9 +113,9 @@
           \paragraph{}
           Para poder resolver en condiciones adecuadas un problema de optimización combinatoria tan complejo como el \emph{Dial-a-Ride}, donde es necesario tener en cuenta una gran cantidad de situaciones, y a su vez, entender cómo han sido alcanzadas, un buen punto de partida es el de aclarar y uniformizar los conceptos que después serán utilizados por los métodos de resolución. En este caso, el punto de partida para llevar a cabo dicho proceso consiste en las entidades ya definidas previamente, en el \cref{sec:formulation_keywords} donde se comentaron todos muchos de los terminos y palabras clave utilizadas para comentar el problema. Dichas definiciones han servido como punto de partida para definir las entidades de datos utilizadas a lo largo de la implementación realizada, las cuales en su gran mayoría se relacionan de manera biyectiva. Por lo tanto, el resto del apartado se dedica a indicar brevemente dicha adaptación de los conceptos en entidades de datos a la vez que se describe como estas se relacionan entre si. Además, en la \cref{img:data_model_overview} se incluye un diagrama que ilustra la descripción que se llevará a cabo a continuación.
 
-          \begin{figure}[h]
+          \begin{figure}[ht]
             \centering
-            \includegraphics[width=\textwidth]{data-model-overview}
+            \includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{data-model-overview}
             \caption{Modelo de datos simplificado de la biblioteca \texttt{jinete}.}
             \label{img:data_model_overview}
           \end{figure}
@@ -164,12 +164,15 @@
         \label{sec:implementation_components_data_loading}
 
           \paragraph{}
-          El proceso de carga de datos en la implementación llevada a cabo consiste más concretamente en la lectura de los valores concretos que definen las diferentes instancias del problema a resolver, los cuales consisten en el número de viajes requeridos así como las características concretas de cada uno de ellos, o los vehículos disponibles para satisfacer dichos viajes, con sus corresponientes limitaciones tanto de tiempo como de carga.
+          El proceso de carga de datos en la implementación llevada a cabo consiste más concretamente en la lectura de los valores concretos que definen las diferentes instancias del problema a resolver, los cuales consisten en el número de viajes requeridos así como las características concretas de cada uno de ellos, o los vehículos disponibles para satisfacer dichos viajes, con sus corresponientes limitaciones tanto de tiempo como de carga. Este apartado se dedica a describir cómo es llevado a cabo dicho proceso desde la perspectiva del flujo de los datos, es decir, desde que se realiza la llamada que comienza el proceso de carga, hasta que están construidos por completo los elementos necesarios para llevar a cabo el proceso de optimización.
 
           \paragraph{}
-          [TODO]
+          Tal y como se ha comentado anteriormente, el módulo destinado a dicha tarea se ha denominado \texttt{loaders}. En este se ha definido una interfaz \texttt{Loader}, la cual sirva para definir la estructura que deben tener todas las implementaciones destinadas a la carga de datos. Esta proporciona acceso a las correspondientes instancias \texttt{Surface}, \texttt{Fleet} y \texttt{Job} que definen el espacio geométrico, la flota de vehículos y los viajes a realizar respectivamente, tal y como se indicó en el anterior apartado. El modo en que se ha definido dicha interfaz permite que esta pueda cargar los datos de manera \emph{lazy} (o bajo demanda), es decir, que la carga no se lleve a cabo hasta el momento inmediatamente anterior a su utilización.
 
-          \begin{figure}[h]
+          \paragraph{}
+          La idea sobre la interfaz \texttt{Loader} es que las entidades que la implementen se encargen de proveer de acceso a los datos en crudo, pero sin profundizar en el formato de estos. Actualmente, se ha llevado a cabo la implementación \texttt{FileLoader}, que se encarga de cargar el contenido de un fichero. Una extensión natural podría ser la de implementar un \texttt{URLLoader} que se encargase de cargar el contenido alojado en una dirección web. Sin embargo, ninguna de estas implementaciones tiene la responsabilidad de \say{entender} el formato de estos datos y transformarlos en las entidades anteriormente citadas. Para ello se ha definido el concepto de \texttt{LoaderFormatter}, cuyo objetivo es el de construir las correspondientes entidades a partir de los datos. En este caso, la implementación principal es la de \texttt{CordeauLaporteLoaderFormatter}, que se encarga de generar las corespondientes instancias a partir del formato de definición de las instancias del problema definido por Cordeau y Laporte para las instancias usadas como \emph{Benchmark} en \cite{cordeau2003tabu}. El diagrama de clases que ilustra la manera en que se interrelacionan las clases definidas en el módulo \texttt{loaders} se incluye en la \cref{img:loaders_overview}.
+
+          \begin{figure}[ht]
             \centering
             \includegraphics[width=\textwidth]{loaders-overview}
             \caption{Diagrama de clases del módulo \texttt{loaders} perteneciente a la biblioteca \texttt{jinete}.}
@@ -177,10 +180,10 @@
           \end{figure}
 
           \paragraph{}
-          [TODO]
+          A modo de ejemplo, a continuacion se comenta la secuencia de acciones que son llevadas a cabo para la carga de datos utilizando la implementación \texttt{CordeauLaporteLoaderFormatter}. Como ejemplificación acerca del formato en cuestión, a través del siguiente enlace se puede consultar la instancia \texttt{a2-16.txt} utilizada en el benchmark del paper anteriormente citado: \url{http://fc.isima.fr/~lacomme/Maxime/ELSapproachDARP/instances/a2-16.txt}. En la primera línea se incluyen el número de vehículos disponibles, el número de paradas a satisfacer (incluyendo recogida y entrega, por lo que el número de viajes es la mitad), el tiempo máximo de viaje por vehículo, el número de viajes que pueden compartir un vehículo de manera simultánea y la duracción máxima de viaje (contabilizado desde que se deja el punto de recogida hasta que se alcanza el punto de entrega, es decir, únicamente es contabilizado el tiempo de trayecto para esta restricción). Seguidamente se incluye una secuencia con todas las paradas a satisfacer, donde la primera mitad se refiere a las recogidas mientras que la segunda mitad representa las entregas. Por tanto, suponiendo $n$ viajes, la parada $i$ representa la recogida y la parada $i + n$ la entrega (por lo que, como es obvio, existen $2n$ paradas). Cada parada se define de la siguiente forma: un identificador de parada, las coordenadas del punto donde satisfacer la parada. En este caso, están definidas sobre un espacio euclídeo bidimensional por lo que las distancias son calculada aplicando la norma dos (o $d(x, y) = \sqrt{(x_{1} - y_{1}) ^ 2 + (x_{2} - y_{2}) ^ 2}$). Seguidamente, se indica la duracción del tiempo de carga/descarga. A continuación, se incluye la capacidad requerida por el viaje. Nótese que esta es opuesta en la recogida y entrega, siendo la primera positiva y la segunda negativa. Esto facilita la integración de la instancia en formulaciones como problema de programación lineal. Finalmente se incluyen las ventanas temporales en que satisfacer cada parada. En este caso, algunas de ellas son abiertas y otras cerradas, dependiendo de si el viaje es de tipo \emph{inbound} (recoger en un intervalo prefijado) u \emph{outbound} (entregar en un intervalo prefijado).
 
           \paragraph{}
-          [TODO]
+          Una vez comentado el formato de entrada, el siguiente paso es entender cómo este es transformado en las entidades definidas en el modelo de datos. El primer paso es la construcción del espacio geométrico, es decir, la instancia \texttt{Surface}. Esta es común entre la flota de vehículos y el conjunto de viajes a realizar por lo que es necesario que sea el primer elemento a construir. Dicha implementación incluye un método \verb|get_or_create_position(coordinates: Tuple[float]) -> Position| por lo que el proceso es muy sencillo al no requerir de una lectura inicial de todas las coordenadas. A continuación se construye la secuencia de vehículos, la cual requiere únicamente de la primera línea del fichero de datos, creando posteriormente la instancia \texttt{Fleet}. Finalmente, se procede a la creacción de la entidad \texttt{Job}, compuesta por el conjunto de viajes (o instancias \texttt{Trip}). Para construir estas se procede a la iteracción de las restantes filas siguiendo el enfoque indicado anteriormente $(i, i+n)$ para enlazar tanto la parada de recogida como la de entrega. Una vez construidas las correspondientes instancias de \texttt{Surface}, \texttt{Fleet} y \texttt{Job} ya se está en condiciones necesarias para proceder a la fase de optimización del problema, la cual se describe en el siguiente apartado.
 
         \subsubsection{Optimización del Problema}
         \label{sec:implementation_components_optimization}
@@ -188,7 +191,7 @@
           \paragraph{}
           [TODO]
 
-          \begin{sidewaysfigure}[h]
+          \begin{sidewaysfigure}[ht]
             \centering
             \includegraphics[width=\textwidth]{algorithms-overview}
             \caption{Diagrama de clases del módulo \texttt{algorithms} perteneciente a la biblioteca \texttt{jinete}.}
@@ -204,7 +207,7 @@
           \paragraph{}
           [TODO]
 
-          \begin{figure}[h]
+          \begin{figure}[ht]
             \centering
             \includegraphics[width=\textwidth]{storers-overview}
             \caption{Diagrama de clases del módulo \texttt{storers} perteneciente a la biblioteca \texttt{jinete}.}
