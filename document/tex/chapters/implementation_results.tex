@@ -205,8 +205,42 @@
         \label{sec:implementation_components_exportation}
 
           \paragraph{}
-          [TODO]
+          Tal y como se ha comentado a lo largo del apartado anterior, el resultado de la ejecución de los métodos de resolución del problema, que toman como entrada las instancias \texttt{Surface}, \texttt{Fleet} y \texttt{Job} que definen el espacio geométrico, la flota de vehículos disponibles y el conjunto de viajes a realizar respectivamente y generan como salida una instancia de tipo \texttt{Result}, la cual contiene la correspondiente planificación (representada por una instancia \texttt{Planning} tal y como se indicó en el apartado dedicado al modelo de datos). Entonces, la funcionalidad que desempeña el módulo \texttt{storers}, en el cual se centra este apartado, consiste en el almacenamiento, visualización y/o exportación de los resultados de la optimización, dados como una instancia \texttt{Result}.
 
+          \paragraph{}
+          A pesar de la aparente redundancia entre las entidades \texttt{Result} y \texttt{Planning}, hacer la división entre ambas es una decisión relacionada con la necesidad de reducir la responsabilidad que tiene cada una de ellas en el modelo de datos. En concreto, la entidad \texttt{Planning} se encarga de actuar como un contenedor de rutas de vehículos (instancias \texttt{Route}), mientras que \texttt{Result} se encarga de \say{conectar} la definición de la instancia del problema, dada por la flota de vehículos (\texttt{Fleet}) y el conjunto de viajes (\texttt{Job}), con la realización concreta de una asignación (\texttt{Planning}) generada por el correspondiente método de resolución. Dicha conexión entre definición del problema y asignación obtenida es necesaria de manera conjunta, entre otras cosas, para las tareas de exportación de resultados.
+          
+          \paragraph{}
+          Una vez llevada a cabo la diferenciación entre \texttt{Result} y \texttt{Planning}, el siguiente paso es describir el modo de funcionamiento del módulo \texttt{loaders} desde una perspectiva de alto nivel, para posteriormente aclarar los detalles más interesantes de este. En este caso, el enfoque seguido para la implementación ha sido similar al utilizado en los módulos \texttt{loaders} y \texttt{algorithms}, es decir, se define una interfaz que define el modo de utilización de las distintas implementaciones incluidas en el módulo para tratar de maximizar la reusabilidad entre sí. 
+
+          \paragraph{}
+          La interfaz que define el modo de utilización del módulo se ha denominado \texttt{Storer}, que espera recibir como entrada una instancia \texttt{Result} e incluye un método \verb|store()| que inicia la ejecución. Además, al igual que ocurría en el caso de la carga de datos, en este caso también se ha añadido el concepto de \texttt{StorerFormatter}, cuyo cometido es el de definir el formato de los datos de salida, sobre el cual se apoyan las correspondientes implementaciones para formatear los resultados. En la \cref{img:storers_overview} se incluye una ilustración del diagrama de clases simplificado que representa el contenido del módulo.
+
+          \paragraph{}
+          En cuanto a las implementaciones concretas de estas interfaz, en este caso se han incluido las siguientes:
+
+          \begin{itemize}
+
+            \item \texttt{PromptStorer}: El comportamiento que desempeña es el de mostrar por la salida estándar (línea de comandos) el resultado a almacenar, muy útil en tareas de desarrollo y validación.
+
+            \item \texttt{FileStorer}: Se encarga de almacenar los resultados generados por el correspondiente \texttt{StorerFormatter} en una fichero del sistema lo cual proporciona persistencia para su posterior a otros sistemas.
+
+            \item \texttt{GraphPlotStorer}: Se encarga de generar una representación en forma de grafo de la solución generada, el cuál muestra en una ventana independiente del sistema. Es posible configurarlo de tal manera que dicha representación sea exportada a un fichero en caso de que el sistema donde se ejecute la biblioteca no tenga capacidades gráficas.
+
+            \item \texttt{StorerSet}: La utilidad de este \texttt{Storer} consiste en actuar como contenedor de otros. Puesto que la manera en que se ha definido la interfaz de utilización del módulo no permite la asignación de más de un \texttt{Storer} para una misma solución en el \texttt{Dispacher} secuencial, entonces es necesario crear una abstracción que permita obtener dicho comportamiento. En este caso, se ha llevado a cabo a través del \texttt{StorerSet}, que recibe como entrada un conjunto de implementaciones \texttt{Storer} y se encarga de propagar la llamada \verb|store()| a todos ellos con el mismo \texttt{Result}. De esta manera es posible por ejemplo, mostrar una representación gráfica del resultado obtenido, a la vez que se almacena en un fichero el resultado formateado.
+
+          \end{itemize}
+
+          \paragraph{}
+          En cuanto a la manera de definir el formato de salida (cuando proceda), esto se lleva a cabo a través de la interfaz \texttt{StorerFormatter}, que se encarga de transformar una instancia \texttt{Result} en una cadena de caracteres. En la implementación actual se incluyen dos versiones:
+
+          \begin{itemize}
+            \item \texttt{ColumnarStorerFormatter}: Consiste en una versión en forma de columna que trata de incluir la mayor cantidad de información posible para poder entender el estado concreto de cada vehículo en cada punto concreto de la ejecución, muy útil sobre todo para tareas de análisis.
+
+            \item \texttt{HashCodeStorerFormatter}: Consiste en un formato de salida muy simplificado y definido para una variación del problema \emph{Dial-a-Ride} utilizada como problema a resolver en una de las ediciones del concurso \emph{HashCode} llevado a cabo por la compañía \emph{Google}.
+
+          \end{itemize}
+          
           \begin{figure}[ht]
             \centering
             \includegraphics[width=\textwidth]{storers-overview}
@@ -215,7 +249,7 @@
           \end{figure}
 
           \paragraph{}
-          [TODO]
+          Una vez finalizada la descripción acerca del modo de funcionamiento del módulo \texttt{storers} ya se puede tener una idea alto nivel acerca de cómo funciona la biblioteca implementada. En los futuros apartados se lleva a cabo un análisis acerca de los resultados obtenidos que demuestran la validez de la misma, así como su grado de eficiencia respecto de las soluciones óptimas obtenidas en trabajos de otros autores.
 
     \section{Resultados}
     \label{sec:results}
