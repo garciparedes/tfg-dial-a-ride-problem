@@ -189,6 +189,92 @@
         \label{sec:implementation_components_optimization}
 
           \paragraph{}
+          El módulo \texttt{algorithms} representa una de las partes más interesentas (a la vez que críticas) de la implementación llevada a cabo. La lógica que implementa es la encarga de llevar a cabo la resolución de problemas en la biblioteca \texttt{jinete} por lo que la explicación acerca de cómo esta funciona es especialmente interesante. Tal y como se ha indicado previamente a lo largo del apartado dedicado a la descripción de la carga de datos, responsabilidad del módulo \texttt{loaders}, en el cual se ha definido una interfaz denominada \texttt{Loader}, en este caso se ha hecho lo correspondiente definiendo la interfaz \texttt{Algorithm}. Dicha interfaz espera recibir como entidades de entrada una instancia \texttt{Fleet} y otra \texttt{Job}, que representan las características de la flota de vehículos y el conjunto de viajes a realizar respectivamente. Nótese que en este caso no se requiere de una instancia \texttt{Surface}, lo cual es debido a que esta viene dada de manera implícita sobre las posiciones (\texttt{Position}) que componen el resto de entidades. Para proceder con la ejecución, la interfaz \texttt{Algorithm} ofrece un método \verb|optimize() -> Result|, que como resultado genera una nueva entidad \texttt{Result}, la cual contiene la planificación generada para la flota de vehículos y conjunto de viajes dados. Esto se comenta de manera más detallada en el apartado dedicado al almacenamiento de resultados, lo cual es responsabilidad del módulo \texttt{storers}.
+
+          \paragraph{}
+          Una vez entendido el modo de funcionamiento definido por la interfaz \texttt{Algorithm}, es posible dejar de lado la manera en que se intercomunican las distintas implementaciones, tanto entre sí como con otras entidades externas para poder enfocar la descripción en la funcionalidad que desempeñan cada una de ellas. Para tratar de simplificar el razonamiento acerca de cómo se relacionan, en la \cref{img:algorithms_overview} se incluye el diagrama de clases del módulo \texttt{algorithms}. Sin embargo, este no proporciona una descripción acerca de la función que desempeña cada una de las subimplementaciones más allá del nombre que estas tienen. Por lo tanto, a continuación se proporciona una descripción más detallada acerca de estas: 
+
+          \begin{itemize}
+
+              \item \texttt{Algorithm}: Actúa como la interfaz que define la manera de utilizar las distintas subimplementaciones, tanto desde el punto de vista de los parámetros de entrada mínimos (dependiendo de la subimplementación estas pueden requerir ciertos parámetros opcionales), como del valor obtenido tras su ejecución, la cual se lleva a cabo mediante la llamada al método \texttt{optimize()} tal y como se indicó previamente.
+
+              \item \texttt{InsertionAlgorithm}: La funcionalidad que desempeña esta subimplementación consiste en insertar nuevos viajes a rutas previamente existentes, así como crearlas en caso de que el correspondiente vehículo se encontrase en un modo ocioso (sin haber sido utilizado hasta el momento). Para proceder a la inserción de nuevos viajes en las distintas rutas disponibles, es necesario definir la forma en que estos serán emparejados respectivamente. Para ello, lo primero es definir la manera de recorrer todas estas combinaciones disponibles, que dependiendo del tamaño del problema y la configuración llevada a cabo, pueden llegar a ser inabarcables. Puesto que el algoritmo de inserción funciona de manera iterativa tratando de añadir todos los viajes que pueda mientras sea posible, parece interesante definir la manera en que iterar los pares \texttt{(Route, PlannedTrip)}. En este caso es importante remarcar que las combinaciones han de llevarse a cabo sobre viajes planeados, de tal forma que se tenga en cuenta el hueco en que se pretenden insertas las correspondientes paradas de recogida y entrega. Esto es debido a que dicho factor afectará de alguna forma tanto al coste como al estado resultante de la ruta (de ahí que el número de casos a evaluar se convierta en elevado). Como es natural, la iteración de estos pares se lleva a cabo de tal manera que primero se comprueben aquellos cuya valoración (o beneficio) sea mayor según el criterio correspondinte: 
+
+                  \begin{itemize}
+
+                      \item \texttt{RouteCriterion}: Se compone por una clase abstracta que espera recibir como entrada la dirección de optimización (maximización o minimización) y expone métodos de ordenación y cálculo de los $k$ mejores. Para poder aprovecharse de estos es necesario implementar el método \texttt|scoring(route: Route) -> float|, que se encarga de calcular la puntuación de una determinada ruta.
+                  
+                      \item \texttt{EarliestLastDepartureTimeRouteCriterion}: Se trata de un criterio de minimización y calcula la puntuación de la ruta como el tiempo final de la ruta. Por tanto, se valora más positivamente la ruta que antes haya terminado.
+                  
+                      \item \texttt{ShortestAveragePlannerTripDurationCriterion}: Se trata de un criterio basado en minimización y la puntuación es calculada como el promedio de la duración de cada viaje de la ruta. Es decir, la diferencia de tiempos entre entrega y recogida.
+                  
+                      \item \texttt{ShortestTimeRouteCriterion}: Es un criterio de minimización del tiempo de ruta. Es decir, el tiempo que pasa desde que el vehículo sale del almacén hasta que este regresa.
+                  
+                      \item \texttt{LongestTimeRouteCriterion}: Es un criterio de maximización del tiempo de ruta. Es decir, es el opuesto del anterior y la intuición que este presenta es la de tratar de aprovechar al máximo el vehículo escogido.
+                  
+                      \item \texttt{LongestUtilTimeRouteCriterion}: Se trata de un criterio de maximización que contabiliza la distancia recorrida por el vehículo con carga. La intuición tras este criterio consiste en reducir el tiempo en que el vehículo viaja vacío.
+                  
+                  \end{itemize}
+                  
+                  Una vez comentadas las distintas alternativas disponibles para valorar una ruta, el siguiente paso es definir los modos en que puede iterarse a través de la secuencia generada por dicho orden.
+
+                  \begin{itemize}
+
+                      \item \texttt{InsertionIterator}: Define la interfaz de iteración de las rutas recibiendo como entrada tanto el conjunto de rutas como el criterio de valoración a utilizar.
+                  
+                      \item \texttt{RankingInsertionIterator}: Mantiene un estado interno a lo largo de la ejecución del algoritmo de insercción, de tal manera que tras cada cambio de estado se recalculan únicamente las valoraciones que hayan sufrido cambios para posteriormente ser reordenadas. Puesto que el número de pares puede crecer de manera exponencial, existe la posibilidad de generar un ranking truncado donde se eligen aleatoriamente $k < n$ viajes donde $n$ representa el número total de viajes, para después ir añadiendo cada vez un nuevo viaje de entre los $n-k$ restantes. De esta manera es posible controlar la eficiencia computacional de la implementación a costa de obtener resultados ligeramente peores.
+                  
+                      \item \texttt{StatelessInsertionIterator}: Se trata de una versión que no mantiene el estado. Tras cada nueva iteración recalcula la valoración para todos los pares de rutas y viajes planificados, escogiendo el que minimice (o maximice) el criterio escogido.
+                  
+                  \end{itemize}
+
+                  Una vez que se ha definido tanto el criterio de valoración de las rutas como la forma de iterar sobre los pares ya solo queda una pieza para poder completar la descripción del algoritmo de insección, la cuál es la propia estrategia de inserción. En este caso, el concepto de estrategia se refiere a la forma en que es posible insertar nuevos viajes en las rutas y como se ha comentado anteriormente, existen distintas alternativas:
+
+                  \begin{itemize}
+
+                      \item \texttt{InsertionStrategy}: Define la interfaz de insercción, la cual consiste en un método \verb|compute(route: Route, trip: Trip) -> List[Route]| donde el resultado es una lista de rutas generadas a partir de la enviada como parámetro, solo que con el nuevo viaje añadido.
+                  
+                      \item \texttt{IntensiveInsertionStrategy}: La estrategia intensiva consiste en probar todos los pares $(i, j)$ posibles para insertar las paradas de recogida y entrega sobre la secuencia de paradas ya existentes. Esta estrategia es la que mejores resultados presenta, sin embargo, el número de rutas a evaluar puede ascender a $m \cdot log(m)$ donde $m$ es el número de paradas de la ruta, en el \say{peor} caso.
+                      
+                      \item \texttt{TailInsertionStrategy}: La estrategia de inserción de cola consiste en tratar de insertar el viaje al final de la ruta. En este caso tan solo se crea una nueva ruta por lo que, en términos de eficiencia computacional, es la mejor de todas. Sin embargo, en este caso no se aprovecha la posibilidad de \emph{compartir vehículo} por varios viajes de manera simultanea. Este método es interesante para generar soluciones iniciales de manera eficiente que después puedan ser mejoradas por otras (meta-)heurísticas más avanzadas.
+                  
+                      \item \texttt{SamplingInsertionStrategy}: Para tratar de equilibrar la estrategia de inserción intensiva (de alto coste computacional pero buenos resultados) con la de cola (de reducido coste computacional pero generalmente resultados mucho peores), se ha incluye una estratgia basada en sampleo de un número determinado de pares $(i, j)$ a evaluar, de tal manera que la insercción sea sobre un espacio de búsqueda más amplio pero a la vez se mantenga asequible sobre problemas de gran tamaño.
+                  
+                  \end{itemize}
+
+              \item \texttt{LocalSearchAlgorithm}: [TODO]
+
+                  \begin{itemize}
+
+                      \item \texttt{LocalSearchStrategy}: [TODO]
+                  
+                      \item \texttt{OneShiftLocalSearchStrategy}: [TODO]
+                  
+                      \item \texttt{TwoOPTLocalSearchStrategy}: [TODO]
+                  
+                      \item \texttt{ReallocationLocalSearchStrategy}: [TODO]
+                  
+                  \end{itemize}
+
+              \item \texttt{SequentialAlgorithm}: [TODO]
+
+              \item \texttt{IterativeAlgorithm}: [TODO]
+
+              \item \texttt{GRASPAlgorithm}: [TODO]
+
+              \item \texttt{MilpAlgorithm}: [TODO]
+          
+                  \begin{itemize}
+
+                      \item \texttt{LinearModel}: [TODO]
+                  
+                      \item \texttt{ThreeIndexLinearModel}: [TODO]
+                  
+                  \end{itemize}
+
+          \end{itemize}
+
+          \paragraph{}
           [TODO]
 
           \begin{sidewaysfigure}[ht]
