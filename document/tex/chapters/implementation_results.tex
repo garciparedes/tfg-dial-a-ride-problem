@@ -242,40 +242,37 @@
                   
                   \end{itemize}
 
-              \item \texttt{LocalSearchAlgorithm}: [TODO]
+              \item \texttt{LocalSearchAlgorithm}: Para la implementación de técnicas de búsqueda local en la biblioteca \texttt{jinete}, se ha llevado a cabo la implementación de este algoritmo. Para que pueda ser utilizado, este espera recibir además de los parámetros de flota y conjunto de viajes, una solución inicial creada previamente por otro de los algoritmos. Por ejemplo, el \texttt{InsertionAlgorithm} indicado anteriormente. En cuanto a la salida esperada, este genera una nueva instancia \texttt{Result}. En este caso, la instancia se genera llevando a cabo distintas variaciones sobre la recibida como parámetro de entrada. Una vez definida la forma en que funciona el algoritmo de búsqueda local, lo siguiente es comentar cuáles son las transformaciones que este puede llevar a cabo. Estas se definen como estrategias de búsqueda local las cuales se han implementado, al igual que otras partes de la biblioteca, mediante una intefaz que define la forma de uso, así como subimplementaciones que incluyen la lógica correspondiente. A continuación se lleva a cabo una descripción de estas:
 
                   \begin{itemize}
 
-                      \item \texttt{LocalSearchStrategy}: [TODO]
+                      \item \texttt{LocalSearchStrategy}: Se corresponde con la interfaz que define cómo es posible utilizarlas. En este caso, el parámetro de entrada es una entidad \texttt{Result}, que a través de la implementación del método \verb|improve() -> Result| describe la forma en que se pueden crear distintas estrategias de búsqueda local.
                   
-                      \item \texttt{OneShiftLocalSearchStrategy}: [TODO]
+                      \item \texttt{OneShiftLocalSearchStrategy}: Se trata de una estrategia de búsqueda local que se aplica a nivel de cada ruta. El modo de funcionamiento es el siguiente: trata de mover cada parada 1 posición hacia atrás respecto de la secuencia de paradas y hace el cambio permanente cuando se llega a una reducción de coste.
                   
-                      \item \texttt{TwoOPTLocalSearchStrategy}: [TODO]
+                      \item \texttt{TwoOPTLocalSearchStrategy}: Consiste en la implementación del método \emph{2-OPT} de búsqueda local, que como es natural, se implementa a nivel de ruta. Tal y como se ha indicado en el \cref{sec:solving_local_search}, esta trata de \say{deshacer nudos} en la ruta mediante inversión del orden de paradas del segmento $(i, j)$ donde $1 \leq i < j \leq m$ y $m$ representa el número total de paradas de la ruta. Sin embargo, esta estrategia no proporciona resultados muy beneficiosos en problemas como el \emph{Dial-a-Ride}.
                   
-                      \item \texttt{ReallocationLocalSearchStrategy}: [TODO]
+                      \item \texttt{ReallocationLocalSearchStrategy}: Se trata de una estrategia de búsqueda local entre rutas, es decir, a nivel de planificación. Esta estrategia consiste en elegir un viaje asignado a un determinado vehículo y tratar de añadirlo en la ruta de otro. El cambio se hace efectivo si hay una reducción de coste.
                   
                   \end{itemize}
 
-              \item \texttt{SequentialAlgorithm}: [TODO]
+              \item \texttt{SequentialAlgorithm}: Se trata de una subimplementación que actúa como envoltorio para otras. Tal y como se ha definido la interfaz \texttt{Algorithm} así como la forma en que esta es utilizada por otras entidades, la cual consiste en una única llamada a la subimplementación correspondiente, esta no permite la concatenación de distintos métodos de resolución de manera nativa. Es por ello que se ha creado este emboltorio, cuyo objetivo es el de suministrar dicha funcionalidad. A modo de ejemplo, la definición de un algoritmo secuencial sencillo puede consistir en dos pasos: \begin{enumerate*} \item la creación de una solución inicial a partir de \texttt{InsertionAlgorithm} y, la mejora de esta a partir de algún método de búsqueda local proporcionado por \texttt{LocalSearchAlgorithm} \end{enumerate*}. Entonces, la manera de llevar esto a cabo en la biblioteca \texttt{jinete} es a partir de \texttt{SequentialAlgorithm}.
 
-              \item \texttt{IterativeAlgorithm}: [TODO]
+              \item \texttt{IterativeAlgorithm}: Al igual que \texttt{SequentialAlgorithm} proporciona la funcionalidad de poder concatenar distintos algoritmos proporcionando un envoltorio, la manera de proporcionar iteratividad es a partir de \texttt{IterativeAlgorithm}. En este caso, el término \emph{iteratividad} se refiere a la ejecución repetida de un mismo algoritmo durante un número prefijado de veces, o una condición de parada dada, escogiendo la mejor solución en términos de coste de entre todas las obtenidas en cada ciclo de iteracción.
 
-              \item \texttt{GRASPAlgorithm}: [TODO]
+              \item \texttt{GRASPAlgorithm}: Consiste en la implementación básica de la metaheurística \emph{GRASP}, la cual se describe en detalle en el \cref{sec:solving_grasp}. Tal y como se puede apreciar, gracias a la implementación de todas las distintas \say{piezas} que componen esta metaheurística como componentes independientes que pueden ser compuestas entre sí, la implementación de la misma es extremadamente sencilla. En concreto, esta está formada por la combinación de una instancia \texttt{IterativeAlgorithm}, que repite la ejecución de un \texttt{SequentialAlgorithm} compuesto por los dos pasos anteriormente utilizados como ejemplo: \texttt{InsertionAlgorithm} y \texttt{LocalSearchAlgorithm}. Sin embargo, la ventaja de este enfoque de \say{construcción} de algoritmos no es únicamente la de permitir la implementación de la metaheurística \emph{GRASP} de una manera sencilla, si no las capacidades de reutilización que sus partes tienen para poder implementar metaheurísticas mucho más avanzadas en próximos pasos del proyecto.
 
-              \item \texttt{MilpAlgorithm}: [TODO]
+              \item \texttt{MilpAlgorithm}: Se trata de la implementación que se comunica con los solvers de resolución de problemas de programación mixta lineal y entera. Al igual que el resto de implementaciones, esta recibe como parámetros las entidades \texttt{Fleet} y \texttt{Job} que representan la instancia concreta del problema y se encarga de generar la formulación lineal del mismo para después transmitirla al correspondiente solver externo. Para llevar a cabo el proceso de formulación, se apoya en la utilización del correspondiente modelo lineal:
           
                   \begin{itemize}
 
-                      \item \texttt{LinearModel}: [TODO]
+                      \item \texttt{LinearModel}: Define la interfaz definida para transformar las correspondientes entidades \texttt{Fleet} y \texttt{Job} en restricciones del problema a resolver, de tal manera que estas sean comprensibles por las dependencias externas que permiten su ejecución.
                   
-                      \item \texttt{ThreeIndexLinearModel}: [TODO]
+                      \item \texttt{ThreeIndexLinearModel}: Se trata de la implementación de la formulación definida sobre un modelo de 3 índices para el problema \emph{Dial-a-Ride}.
                   
                   \end{itemize}
 
           \end{itemize}
-
-          \paragraph{}
-          [TODO]
 
           \begin{sidewaysfigure}[ht]
             \centering
@@ -285,7 +282,7 @@
           \end{sidewaysfigure}
 
           \paragraph{}
-          [TODO]
+          A lo largo del apartado se ha llevado a cabo una descripción acerca de los distintos componentes definidos sobre la interfaz \texttt{Algorithm} en la biblioteca \texttt{jinete}. A través de dicha descripción se ha tratado de justificar la utilidad obtenida por un mayor grado de esfuerzo en el diseño del módulo, lo cual permite aumentar el grado de reutilización de los componentes de este. Por lo tanto, una vez descrita la manera en que los problemas de optimización son resuelto, el siguiente paso es comentar cómo se lleva a cabo el proceso de almacenamiento de los resultados obtenidos, para lo cual se destina el próximo apartado.
 
         \subsubsection{Exportación de Resultados}
         \label{sec:implementation_components_exportation}
