@@ -67,7 +67,7 @@
           \paragraph{}
           Estos conceptos se entienden de manera mucho más sencilla a través de un ejemplo: en la implementación llevada a cabo, el módulo encargado de proceder a la carga de datos se considera desacoplado del resto puesto que la única comunicación que soporta consiste en las peticiones para llevar a cabo la carga de datos, así como la de suministrar estos en un formato ya adaptado para que pueda ser utilizado por el resto de la biblioteca (el cual se comenta en el \cref{sec:implementation_components_data_model}). En cuanto al sentido único que este módulo presenta, dicha característica consiste en que es fácil comprender la función que desempeña, lo cual facilita el proceso futuro de crear nuevas versiones de dicho módulo para que, por ejemplo, en lugar de cargar los datos desde un fichero concreto alojado en la máquina en cuestión, este sea capaz de recibirlo desde una dirección específica de internet u otro tipo de estrategias de definición más complejas como la carga desde una base de datos. Dichas capacidades de extensión permiten integrar la implementación realizada en sistemas reales de una forma muy sencilla y mantenible.
 
-          \begin{figure}[ht]
+          \begin{figure}[!ht]
             \centering
             \includegraphics[width=0.5\textwidth]{modules-overview}
             \caption{Diagrama basado en módulos de la biblioteca \texttt{jinete}}
@@ -113,7 +113,7 @@
           \paragraph{}
           Para poder resolver en condiciones adecuadas un problema de optimización combinatoria tan complejo como el \emph{Dial-a-Ride}, donde es necesario tener en cuenta una gran cantidad de situaciones, y a su vez, entender cómo han sido alcanzadas, un buen punto de partida es el de aclarar y uniformizar los conceptos que después serán utilizados por los métodos de resolución. En este caso, el punto de partida para llevar a cabo dicho proceso consiste en las entidades ya definidas previamente, en el \cref{sec:formulation_keywords} donde se comentaron todos muchos de los terminos y palabras clave utilizadas para comentar el problema. Dichas definiciones han servido como punto de partida para definir las entidades de datos utilizadas a lo largo de la implementación realizada, las cuales en su gran mayoría se relacionan de manera biyectiva. Por lo tanto, el resto del apartado se dedica a indicar brevemente dicha adaptación de los conceptos en entidades de datos a la vez que se describe como estas se relacionan entre si. Además, en la \cref{img:data_model_overview} se incluye un diagrama que ilustra la descripción que se llevará a cabo a continuación.
 
-          \begin{figure}[ht]
+          \begin{figure}[!ht]
             \centering
             \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{data-model-overview}
             \caption{Modelo de datos simplificado de la biblioteca \texttt{jinete}.}
@@ -166,7 +166,7 @@
           \paragraph{}
           El proceso de carga de datos en la implementación llevada a cabo consiste más concretamente en la lectura de los valores concretos que definen las diferentes instancias del problema a resolver, los cuales consisten en el número de viajes requeridos así como las características concretas de cada uno de ellos, o los vehículos disponibles para satisfacer dichos viajes, con sus corresponientes limitaciones tanto de tiempo como de carga. Este apartado se dedica a describir cómo es llevado a cabo dicho proceso desde la perspectiva del flujo de los datos, es decir, desde que se realiza la llamada que comienza el proceso de carga, hasta que están construidos por completo los elementos necesarios para llevar a cabo el proceso de optimización.
 
-          \begin{figure}[ht]
+          \begin{figure}[!ht]
             \centering
             \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{loaders-overview}
             \caption{Diagrama de clases del módulo \texttt{loaders} perteneciente a la biblioteca \texttt{jinete}.}
@@ -191,12 +191,12 @@
           \paragraph{}
           El módulo \texttt{algorithms} representa una de las partes más interesentas (a la vez que críticas) de la implementación llevada a cabo. La lógica que implementa es la encarga de llevar a cabo la resolución de problemas en la biblioteca \texttt{jinete} por lo que la explicación acerca de cómo esta funciona es especialmente interesante. Tal y como se ha indicado previamente a lo largo del apartado dedicado a la descripción de la carga de datos, responsabilidad del módulo \texttt{loaders}, en el cual se ha definido una interfaz denominada \texttt{Loader}, en este caso se ha hecho lo correspondiente definiendo la interfaz \texttt{Algorithm}. Dicha interfaz espera recibir como entidades de entrada una instancia \texttt{Fleet} y otra \texttt{Job}, que representan las características de la flota de vehículos y el conjunto de viajes a realizar respectivamente. Nótese que en este caso no se requiere de una instancia \texttt{Surface}, lo cual es debido a que esta viene dada de manera implícita sobre las posiciones (\texttt{Position}) que componen el resto de entidades. Para proceder con la ejecución, la interfaz \texttt{Algorithm} ofrece un método \verb|optimize() -> Result|, que como resultado genera una nueva entidad \texttt{Result}, la cual contiene la planificación generada para la flota de vehículos y conjunto de viajes dados. Esto se comenta de manera más detallada en el apartado dedicado al almacenamiento de resultados, lo cual es responsabilidad del módulo \texttt{storers}.
 
-          \begin{sidewaysfigure}[ht]
+          \begin{figure}[!ht]
             \centering
             \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{algorithms-overview}
             \caption{Diagrama de clases del módulo \texttt{algorithms} perteneciente a la biblioteca \texttt{jinete}.}
             \label{img:algorithms_overview}
-          \end{sidewaysfigure}
+          \end{figure}
 
           \paragraph{}
           Una vez entendido el modo de funcionamiento definido por la interfaz \texttt{Algorithm}, es posible dejar de lado la manera en que se intercomunican las distintas implementaciones, tanto entre sí como con otras entidades externas para poder enfocar la descripción en la funcionalidad que desempeñan cada una de ellas. Para tratar de simplificar el razonamiento acerca de cómo se relacionan, en la \cref{img:algorithms_overview} se incluye el diagrama de clases del módulo \texttt{algorithms}. Sin embargo, este no proporciona una descripción acerca de la función que desempeña cada una de las subimplementaciones más allá del nombre que estas tienen. Por lo tanto, a continuación se proporciona una descripción más detallada acerca de estas:
@@ -299,7 +299,7 @@
           \paragraph{}
           La interfaz que define el modo de utilización del módulo se ha denominado \texttt{Storer}, que espera recibir como entrada una instancia \texttt{Result} e incluye un método \verb|store()| que inicia la ejecución. Además, al igual que ocurría en el caso de la carga de datos, en este caso también se ha añadido el concepto de \texttt{StorerFormatter}, cuyo cometido es el de definir el formato de los datos de salida, sobre el cual se apoyan las correspondientes implementaciones para formatear los resultados. En la \cref{img:storers_overview} se incluye una ilustración del diagrama de clases simplificado que representa el contenido del módulo.
 
-          \begin{figure}[ht]
+          \begin{figure}[!ht]
             \centering
             \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{storers-overview}
             \caption{Diagrama de clases del módulo \texttt{storers} perteneciente a la biblioteca \texttt{jinete}.}
@@ -354,13 +354,33 @@
         \paragraph{}
         [TODO]
 
+        \begin{figure}[!ht]
+    			\centering
+    			\inputminted[frame=single,framesep=10pt]{python}{./code/benchmark_launch.py}
+    			\caption{[TODO]}
+    			\label{code:benchmark_launch}
+    		\end{figure}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{figure}[!ht]
+    			\centering
+          \inputminted[frame=single,framesep=10pt]{python}{./code/benchmark_solve.py}
+    			\caption{[TODO]}
+    			\label{code:benchmark_solve}
+    		\end{figure}
+
+        \paragraph{}
+        [TODO]
+
       \subsection{Tablas de resultados}
       \label{sec:results_tables}
 
         \paragraph{}
         [TODO]
 
-        \begin{table}[ht]
+        \begin{table}[!ht]
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
             \hline
@@ -376,7 +396,7 @@
         \paragraph{}
         [TODO]
 
-        \begin{table}[ht]
+        \begin{table}[!ht]
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
             \hline
@@ -392,7 +412,7 @@
         \paragraph{}
         [TODO]
 
-        \begin{table}[ht]
+        \begin{table}[!ht]
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
             \hline
