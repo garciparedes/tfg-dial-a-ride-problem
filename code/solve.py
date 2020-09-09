@@ -3,12 +3,10 @@ import sys
 import traceback
 from functools import partial
 from pathlib import Path
-import coloredlogs
+
 import jinete as jit
 
-level = logging.INFO
-logging.basicConfig(level=level)
-coloredlogs.install(level=level)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

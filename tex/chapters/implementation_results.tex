@@ -352,23 +352,42 @@
         Las instancias utilizadas para el proceso de benchmarking o validación de resultados provienen de dos de los trabajos más populares relativos al problema \emph{Dial-a-Ride}. En primer lugar, se han utilizado las instancias creadas en \cite{cordeau2003tabu}, las cuales están compuestas por $20$ casos generados aleatoriamente y tienen tamaños desde los $3$ hasta los $10$ vehículos para satisfacer desde $24$ a $144$ viajes. Estás se identifican de la siguiente manera: \texttt{R1a.txt}, \dots, \texttt{R10a.txt}, \texttt{R1b.txt}, \dots,\texttt{R10b.txt}. El segundo trabajo del cual se han extraido las instancias utilizadas para el experimento es \cite{ropke2007models}, compuesto por dos grupos de $21$ casos cada uno, haciendo un total de $42$. Estas también han sido generadas de manera aleatoria, con tamaños desde $3$ vehículos y $16$ viajes hasta $8$ vehículos y $96$ viajes. En este caso las instancias se identifican de la siguiente forma: \texttt{a2-16.txt}, \dots, \texttt{a8-96.txt}, \texttt{b2-16.txt}, \dots,\texttt{b8-96.txt}. El motivo por el cual se han escogido estos dos grupos de instancias frente a otros ha sido la popularidad que tienen dentro del nicho de estudio del problema \emph{Dial-a-Ride}, habiendo sido utilizados en numerosos trabajos desde su publicación inicial.
 
         \paragraph{}
-        [TODO]
+        En cuanto a cómo se ha llevado a cabo la ejecución desde la perspectiva de la utilización de la implementación llevada a cabo (\texttt{jinete}), en las \cref{code:launch,code:solve} se incluyen los fragmentos de código utilizados. Antes de empezar a comentar el objetivo de ambos, así como las sentencias más relevantes de cada uno de ellos, es necesario comentar los requisitos sobre el entorno de ejecución: En este sentido, el primer requisito es tener instalada una versión de \texttt{Python} mayor o igual a $3.7$ para que todas las dependencias funcionen correctamente. En cuanto a las dependencias dentro del lenguaje, en este caso tan solo es necesario instalar la última versión de la biblioteca implementada, la cuál se puede instalar a partir del código fuente. Sin embargo, al haberse desarrollado como una biblioteca open source, es tan sencillo como ejecutar el siguiente comando:
 
-        \begin{figure}[!ht]
+        \begin{minted}{bash}
+          pip3 install jinete
+        \end{minted}
+
+        \paragraph{}
+        Una vez configurado el entorno de ejecución ya se está en condiciones suficientes como para poder llevar a cabo la ejecución por lo que se procede a comentar la función que desempeña cada uno de los scripts.
+
+        \paragraph{}
+        El fragmento de código contenido en el fichero \texttt{launch.py}, que se muestra en la \cref{code:launch}, es el encargado de \say{orquestar} la ejecución del experimento. Es decir, es el encargo de llevar a cabo las ejecuciones concretas para cada instancia, encargandose de detectar cuando estas terminan para así lanzar la siguiente. Para hacer esto, se ha decidido que cada instancia sea ejecutada en un único proceso, permitiendo la ejecución de múltiples instancias al mismo tiempo si la máquina en cuestión es capaz de ello. En cuanto al contenido del fragmento de código, las líneas $15$ a $17$ son las encargadas de buscar los ficheros que contienen las definiciones de cada instancia y proceder a la ejecución en paralelo, las cuales son transmitidas a \texttt{ProcessPoolExecutor}, encargado de controlar el paralelismo actuando mediante un protocolo de cola definido como $1$ productor, $k$ consumidores donde $k$ es el número de procesadores de la máquina. Cuando llega el turno pertinente, la función \verb|run_one(file_path: Path)| es ejecutada, encargandose de llevar a cabo una llamada al comando \verb|python3 solve.py $FILE_PATH|. El resto de las sentencias son las encargadas de controlar los posibles errores, así como guardar los posibles mensajes de \texttt{logging} generados durante la ejecución.
+
+        \begin{figure}[!hb]
     			\centering
-    			\inputminted[frame=single,framesep=10pt,linenos]{python}{./code/benchmark_launch.py}
-    			\caption{[TODO]}
-    			\label{code:benchmark_launch}
+    			\inputminted[frame=single,framesep=10pt,linenos]{python}{./code/launch.py}
+    			\caption{Fragmento de código contenido en el fichero \texttt{launch.py}.}
+    			\label{code:launch}
     		\end{figure}
 
         \paragraph{}
-        [TODO]
+        Una vez comentado el fragmento de código encargado de llevar a cabo el proceso de control y lanzamiento de todas las instancias incluidas en el experimento, lo siguiente es comentar el segundo fragmento de código: Este es quién lleva a cabo el proceso de optimización para cada instancia, es decir, es el que realiza la llamada que se encarga de iniciar la ejecución de la biblioteca \texttt{jinete}. Dicho fragmento de código se incluye en el fichero \texttt{solve.py}, cuyo contenido se muestra en la \cref{code:solve}.
 
-        \begin{figure}[!ht]
+        \paragraph{}
+        A continuación se procede a comentar las sentencias más destacadas del fragmento de código: En primer lugar, es necesario comentar la línea $7$, que a pesar de su extremada sencillez, es la que da acceso a la implementación llevada a cabo. Lo siguiente a comentar son las líneas $16$ a $38$, donde se construye el objeto \texttt{jit.Solver}. Tal y como se comentó previamente, este actúa como un envoltorio que permite configurar de una manera relativamente sencilla los parámetros de ejecución. Lo primero es indicar al \texttt{loader}, la ruta del fichero que contiene la instancia. En este caso, no se indica que el problema sigue el formato definido por \emph{Cordeau-Laporte} dado que este es el usado por defecto.
+
+        \paragraph{}
+        Seguidamente, se indica el algorithmo a utilizar, el cual, en este caso es \texttt{jit.GRASPAlgorithm}. Para entender mejor cómo funciona dicha metahuerística, se recomienda consultar \cref{sec:solving_grasp}. Por defecto, este se configura utilizando un método de inserción (\texttt{jit.InsertionAlgorithm}) que utiliza una estrategia de muestreo de \emph{huecos} (\texttt{jit.SamplingInsertionStrategy}), junto con un iterador ranking (\texttt{jit.RankingInsertionIterator}). El criterio utilizado es el de añadir aquel viaje que minimice el tiempo de finalización de la ruta (\texttt{jit.EarliestLastDepartureTimeRouteCriterion}). Respecto de la heurística de búsqueda local, la estrategia seguida consiste en un repetir de manera iterativa (\texttt{jit.IterativeAlgorithm}) la secuencia (\texttt{jit.SequentialAlgorithm}) de dos pasos basada en mover un viaje de vehículo (\texttt{jit.ReallocationLocalSearchStrategy}) y posteriormente tratar de añadir los viajes que todavía se hubiesen podido incluir en la planificación ((\texttt{jit.InsertionAlgorithm})). Dicha operación se lleva a cabo mientras se hayan obtenido mejoras respecto de la iteración anterior. En cuanto a la configuración utilizada para la solución inicial en la metaheurística \emph{GRASP}, se permite una única ejecución y la selección del siguiente viaje a añadir se lleva a cabo de manera aleatoria entre los dos mejores candidatos. En cuanto al número de soluciones que se generan con la metaheurística, se permiten un máximo de $5$, para posteriormente seleccionar la mejor de todas ellas.
+
+        \paragraph{}
+        Por último, se incluye la configuración del \texttt{storer}. En este caso se utiliza un \texttt{jit.SetStorer} puesto que se quiere almacenar la solución con varias implementaciones, las cuales generan la solución como: texto plano en la línea de comando (\texttt{jit.PromptStorer}), un fichero externo (\texttt{jit.FileStorer}) y una imagen del grafo donde las posiciones se representan como nodos que se conectan entre si por las aristas generadas por las correspondientes rutas (\texttt{jit.GraphPlotStorer}). 
+
+        \begin{figure}[!hb]
     			\centering
-          \inputminted[frame=single,framesep=10pt,linenos]{python}{./code/benchmark_solve.py}
-    			\caption{[TODO]}
-    			\label{code:benchmark_solve}
+          \inputminted[frame=single,framesep=10pt,linenos]{python}{./code/solve.py}
+    			\caption{Fragmento de código contenido en el fichero \texttt{solve.py}.}
+    			\label{code:solve}
     		\end{figure}
 
         \paragraph{}
@@ -389,7 +408,7 @@
             {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
             \\\hline
           \end{tabu}
-          \caption{[TODO]}
+          \caption{Resultados obtenidos tras $2$ horas de cómputo mediante la metahurística \emph{GRASP} de las instancias del grupo \emph{R}.}
           \label{table:results_r}
         \end{table}
 
@@ -405,7 +424,7 @@
             {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
 					  \\\hline
 				  \end{tabu}
-          \caption{[TODO]}
+          \caption{Resultados obtenidos tras $2$ horas de cómputo mediante la metahurística \emph{GRASP} de las instancias del grupo \emph{A}.}
 				  \label{table:results_a}
 			  \end{table}
 
@@ -421,7 +440,7 @@
             {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
             \\\hline
           \end{tabu}
-          \caption{[TODO]}
+          \caption{Resultados obtenidos tras $2$ horas de cómputo mediante la metahurística \emph{GRASP} de las instancias del grupo \emph{B}.}
           \label{table:results_b}
         \end{table}
 

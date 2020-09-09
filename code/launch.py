@@ -2,16 +2,12 @@ import logging
 import traceback
 from concurrent import futures
 from pathlib import Path
-import coloredlogs
 from subprocess import check_output, TimeoutExpired, STDOUT
 
-level = logging.INFO
-logging.basicConfig(level=level)
-coloredlogs.install(level=level)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-BASE_PATH = Path(__file__).absolute().parents[2]
-DATASETS_PATH = BASE_PATH / "res" / "datasets" / "cordeau-laporte"
+DATASETS_PATH = Path(__file__).absolute().parent
 INSTANCE_TIMEOUT = 7200
 
 
@@ -23,7 +19,7 @@ def main():
 
 def run_one(file_path):
     try:
-        command = ["python3", "benchmark_solve.py", str(file_path.absolute())]
+        command = ["python3", "solve.py", str(file_path.absolute())]
         print(f'COMMAND: "{" ".join(command)}"')
         try:
             output = check_output(
