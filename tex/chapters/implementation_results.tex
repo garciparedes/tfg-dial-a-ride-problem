@@ -14,7 +14,7 @@
       Hasta ahora, el objetivo principal de este documento se ha orientado en la descripción y análisis del problema \emph{Dial-a-Ride} desde una perspectiva principalmente teórica, incluyendo una descripción detallada centrada en la \emph{Formulación del Problema} en el \cref{chap:formulation} así como un análisis sobre los \emph{Métodos de Resolución} disponibles para el problema en el \cref{chap:solving}. A lo largo de dichos capítulos se ha podido apreciar tanto las dificultades inherentes al propio problema por las características propias que este presenta, tales como el tiempo máximo de duración de trayecto (calidad del servicio), así como otros factores relacionados con la complejidad computacional de resolver un problema de esta naturaleza (englobado en la clase de problemas \emph{NP}).
 
       \paragraph{}
-      Sin embargo, el este capítulo representa un cambio de perspectiva del problema, estando centrado más en los detalles de implementación de una biblioteca bautizada como \texttt{jinete} y desarrollada sobre el lenguaje \emph{Python}, cuyo enfoque consiste en proporcionar una serie de herramientas que sobre las cuales ser construir métodos de resolución de problemas de rutas. En una primera implementación, el desarrollo de dicha biblioteca se ha orientado principalmente hacia la resolución del problema \emph{Dial-a-Ride} mediante una estrategía inspirada en la metaheurística \emph{GRASP} descrita en el \cref{sec:solving_grasp}. En el \cref{sec:implementation} se incluye una descripción detallada acerca de la implementación realizada, así como las ideas en que ha inspirado la misma.
+      Sin embargo, este capítulo representa un cambio de perspectiva del problema, estando centrado más en los detalles de implementación de una biblioteca bautizada como \texttt{jinete} y desarrollada sobre el lenguaje \emph{Python}, cuyo enfoque consiste en proporcionar una serie de herramientas que sobre las cuales ser construir métodos de resolución de problemas de rutas. En una primera implementación, el desarrollo de dicha biblioteca se ha orientado principalmente hacia la resolución del problema \emph{Dial-a-Ride} mediante una estrategía inspirada en la metaheurística \emph{GRASP} descrita en el \cref{sec:solving_grasp}. En el \cref{sec:implementation} se incluye una descripción detallada acerca de la implementación realizada, así como las ideas en que ha inspirado la misma.
 
       \paragraph{}
       Para demostrar el funcionamiento de la implementación realizada, así como proporcionar una ejemplificación de su uso, se han utilizado una serie de instancias del problema disponibles en la web de manera pública, que han sido utilizados a modo de \emph{benchmark} en una gran cantidad de documentos científicos de gran reconocimiento. El \cref{sec:results} se destina a dicho cometido.
@@ -166,18 +166,18 @@
           \paragraph{}
           El proceso de carga de datos en la implementación llevada a cabo consiste más concretamente en la lectura de los valores concretos que definen las diferentes instancias del problema a resolver, los cuales consisten en el número de viajes requeridos así como las características concretas de cada uno de ellos, o los vehículos disponibles para satisfacer dichos viajes, con sus corresponientes limitaciones tanto de tiempo como de carga. Este apartado se dedica a describir cómo es llevado a cabo dicho proceso desde la perspectiva del flujo de los datos, es decir, desde que se realiza la llamada que comienza el proceso de carga, hasta que están construidos por completo los elementos necesarios para llevar a cabo el proceso de optimización.
 
-          \paragraph{}
-          Tal y como se ha comentado anteriormente, el módulo destinado a dicha tarea se ha denominado \texttt{loaders}. En este se ha definido una interfaz \texttt{Loader}, la cual sirva para definir la estructura que deben tener todas las implementaciones destinadas a la carga de datos. Esta proporciona acceso a las correspondientes instancias \texttt{Surface}, \texttt{Fleet} y \texttt{Job} que definen el espacio geométrico, la flota de vehículos y los viajes a realizar respectivamente, tal y como se indicó en el anterior apartado. El modo en que se ha definido dicha interfaz permite que esta pueda cargar los datos de manera \emph{lazy} (o bajo demanda), es decir, que la carga no se lleve a cabo hasta el momento inmediatamente anterior a su utilización.
-
-          \paragraph{}
-          La idea sobre la interfaz \texttt{Loader} es que las entidades que la implementen se encargen de proveer de acceso a los datos en crudo, pero sin profundizar en el formato de estos. Actualmente, se ha llevado a cabo la implementación \texttt{FileLoader}, que se encarga de cargar el contenido de un fichero. Una extensión natural podría ser la de implementar un \texttt{URLLoader} que se encargase de cargar el contenido alojado en una dirección web. Sin embargo, ninguna de estas implementaciones tiene la responsabilidad de \say{entender} el formato de estos datos y transformarlos en las entidades anteriormente citadas. Para ello se ha definido el concepto de \texttt{LoaderFormatter}, cuyo objetivo es el de construir las correspondientes entidades a partir de los datos. En este caso, la implementación principal es la de \texttt{CordeauLaporteLoaderFormatter}, que se encarga de generar las corespondientes instancias a partir del formato de definición de las instancias del problema definido por Cordeau y Laporte para las instancias usadas como \emph{Benchmark} en \cite{cordeau2003tabu}. El diagrama de clases que ilustra la manera en que se interrelacionan las clases definidas en el módulo \texttt{loaders} se incluye en la \cref{img:loaders_overview}.
-
           \begin{figure}[ht]
             \centering
             \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{loaders-overview}
             \caption{Diagrama de clases del módulo \texttt{loaders} perteneciente a la biblioteca \texttt{jinete}.}
             \label{img:loaders_overview}
           \end{figure}
+
+          \paragraph{}
+          Tal y como se ha comentado anteriormente, el módulo destinado a dicha tarea se ha denominado \texttt{loaders}. En este se ha definido una interfaz \texttt{Loader}, la cual sirva para definir la estructura que deben tener todas las implementaciones destinadas a la carga de datos. Esta proporciona acceso a las correspondientes instancias \texttt{Surface}, \texttt{Fleet} y \texttt{Job} que definen el espacio geométrico, la flota de vehículos y los viajes a realizar respectivamente, tal y como se indicó en el anterior apartado. El modo en que se ha definido dicha interfaz permite que esta pueda cargar los datos de manera \emph{lazy} (o bajo demanda), es decir, que la carga no se lleve a cabo hasta el momento inmediatamente anterior a su utilización.
+
+          \paragraph{}
+          La idea sobre la interfaz \texttt{Loader} es que las entidades que la implementen se encargen de proveer de acceso a los datos en crudo, pero sin profundizar en el formato de estos. Actualmente, se ha llevado a cabo la implementación \texttt{FileLoader}, que se encarga de cargar el contenido de un fichero. Una extensión natural podría ser la de implementar un \texttt{URLLoader} que se encargase de cargar el contenido alojado en una dirección web. Sin embargo, ninguna de estas implementaciones tiene la responsabilidad de \say{entender} el formato de estos datos y transformarlos en las entidades anteriormente citadas. Para ello se ha definido el concepto de \texttt{LoaderFormatter}, cuyo objetivo es el de construir las correspondientes entidades a partir de los datos. En este caso, la implementación principal es la de \texttt{CordeauLaporteLoaderFormatter}, que se encarga de generar las corespondientes instancias a partir del formato de definición de las instancias del problema definido por Cordeau y Laporte para las instancias usadas como \emph{Benchmark} en \cite{cordeau2003tabu}. El diagrama de clases que ilustra la manera en que se interrelacionan las clases definidas en el módulo \texttt{loaders} se incluye en la \cref{img:loaders_overview}.
 
           \paragraph{}
           A modo de ejemplo, a continuacion se comenta la secuencia de acciones que son llevadas a cabo para la carga de datos utilizando la implementación \texttt{CordeauLaporteLoaderFormatter}. Como ejemplificación acerca del formato en cuestión, a través del siguiente enlace se puede consultar la instancia \texttt{a2-16.txt} utilizada en el benchmark del paper anteriormente citado: \url{http://fc.isima.fr/~lacomme/Maxime/ELSapproachDARP/instances/a2-16.txt}. En la primera línea se incluyen el número de vehículos disponibles, el número de paradas a satisfacer (incluyendo recogida y entrega, por lo que el número de viajes es la mitad), el tiempo máximo de viaje por vehículo, el número de viajes que pueden compartir un vehículo de manera simultánea y la duracción máxima de viaje (contabilizado desde que se deja el punto de recogida hasta que se alcanza el punto de entrega, es decir, únicamente es contabilizado el tiempo de trayecto para esta restricción). Seguidamente se incluye una secuencia con todas las paradas a satisfacer, donde la primera mitad se refiere a las recogidas mientras que la segunda mitad representa las entregas. Por tanto, suponiendo $n$ viajes, la parada $i$ representa la recogida y la parada $i + n$ la entrega (por lo que, como es obvio, existen $2n$ paradas). Cada parada se define de la siguiente forma: un identificador de parada, las coordenadas del punto donde satisfacer la parada. En este caso, están definidas sobre un espacio euclídeo bidimensional por lo que las distancias son calculada aplicando la norma dos (o $d(x, y) = \sqrt{(x_{1} - y_{1}) ^ 2 + (x_{2} - y_{2}) ^ 2}$). Seguidamente, se indica la duracción del tiempo de carga/descarga. A continuación, se incluye la capacidad requerida por el viaje. Nótese que esta es opuesta en la recogida y entrega, siendo la primera positiva y la segunda negativa. Esto facilita la integración de la instancia en formulaciones como problema de programación lineal. Finalmente se incluyen las ventanas temporales en que satisfacer cada parada. En este caso, algunas de ellas son abiertas y otras cerradas, dependiendo de si el viaje es de tipo \emph{inbound} (recoger en un intervalo prefijado) u \emph{outbound} (entregar en un intervalo prefijado).
@@ -190,6 +190,13 @@
 
           \paragraph{}
           El módulo \texttt{algorithms} representa una de las partes más interesentas (a la vez que críticas) de la implementación llevada a cabo. La lógica que implementa es la encarga de llevar a cabo la resolución de problemas en la biblioteca \texttt{jinete} por lo que la explicación acerca de cómo esta funciona es especialmente interesante. Tal y como se ha indicado previamente a lo largo del apartado dedicado a la descripción de la carga de datos, responsabilidad del módulo \texttt{loaders}, en el cual se ha definido una interfaz denominada \texttt{Loader}, en este caso se ha hecho lo correspondiente definiendo la interfaz \texttt{Algorithm}. Dicha interfaz espera recibir como entidades de entrada una instancia \texttt{Fleet} y otra \texttt{Job}, que representan las características de la flota de vehículos y el conjunto de viajes a realizar respectivamente. Nótese que en este caso no se requiere de una instancia \texttt{Surface}, lo cual es debido a que esta viene dada de manera implícita sobre las posiciones (\texttt{Position}) que componen el resto de entidades. Para proceder con la ejecución, la interfaz \texttt{Algorithm} ofrece un método \verb|optimize() -> Result|, que como resultado genera una nueva entidad \texttt{Result}, la cual contiene la planificación generada para la flota de vehículos y conjunto de viajes dados. Esto se comenta de manera más detallada en el apartado dedicado al almacenamiento de resultados, lo cual es responsabilidad del módulo \texttt{storers}.
+
+          \begin{sidewaysfigure}[ht]
+            \centering
+            \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{algorithms-overview}
+            \caption{Diagrama de clases del módulo \texttt{algorithms} perteneciente a la biblioteca \texttt{jinete}.}
+            \label{img:algorithms_overview}
+          \end{sidewaysfigure}
 
           \paragraph{}
           Una vez entendido el modo de funcionamiento definido por la interfaz \texttt{Algorithm}, es posible dejar de lado la manera en que se intercomunican las distintas implementaciones, tanto entre sí como con otras entidades externas para poder enfocar la descripción en la funcionalidad que desempeñan cada una de ellas. Para tratar de simplificar el razonamiento acerca de cómo se relacionan, en la \cref{img:algorithms_overview} se incluye el diagrama de clases del módulo \texttt{algorithms}. Sin embargo, este no proporciona una descripción acerca de la función que desempeña cada una de las subimplementaciones más allá del nombre que estas tienen. Por lo tanto, a continuación se proporciona una descripción más detallada acerca de estas:
@@ -274,13 +281,6 @@
 
           \end{itemize}
 
-          \begin{sidewaysfigure}[ht]
-            \centering
-            \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{algorithms-overview}
-            \caption{Diagrama de clases del módulo \texttt{algorithms} perteneciente a la biblioteca \texttt{jinete}.}
-            \label{img:algorithms_overview}
-          \end{sidewaysfigure}
-
           \paragraph{}
           A lo largo del apartado se ha llevado a cabo una descripción acerca de los distintos componentes definidos sobre la interfaz \texttt{Algorithm} en la biblioteca \texttt{jinete}. A través de dicha descripción se ha tratado de justificar la utilidad obtenida por un mayor grado de esfuerzo en el diseño del módulo, lo cual permite aumentar el grado de reutilización de los componentes de este. Por lo tanto, una vez descrita la manera en que los problemas de optimización son resuelto, el siguiente paso es comentar cómo se lleva a cabo el proceso de almacenamiento de los resultados obtenidos, para lo cual se destina el próximo apartado.
 
@@ -298,6 +298,13 @@
 
           \paragraph{}
           La interfaz que define el modo de utilización del módulo se ha denominado \texttt{Storer}, que espera recibir como entrada una instancia \texttt{Result} e incluye un método \verb|store()| que inicia la ejecución. Además, al igual que ocurría en el caso de la carga de datos, en este caso también se ha añadido el concepto de \texttt{StorerFormatter}, cuyo cometido es el de definir el formato de los datos de salida, sobre el cual se apoyan las correspondientes implementaciones para formatear los resultados. En la \cref{img:storers_overview} se incluye una ilustración del diagrama de clases simplificado que representa el contenido del módulo.
+
+          \begin{figure}[ht]
+            \centering
+            \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{storers-overview}
+            \caption{Diagrama de clases del módulo \texttt{storers} perteneciente a la biblioteca \texttt{jinete}.}
+            \label{img:storers_overview}
+          \end{figure}
 
           \paragraph{}
           En cuanto a las implementaciones concretas de estas interfaz, en este caso se han incluido las siguientes:
@@ -323,14 +330,6 @@
             \item \texttt{HashCodeStorerFormatter}: Consiste en un formato de salida muy simplificado y definido para una variación del problema \emph{Dial-a-Ride} utilizada como problema a resolver en una de las ediciones del concurso \emph{HashCode} llevado a cabo por la compañía \emph{Google}.
 
           \end{itemize}
-
-          \begin{figure}[ht]
-            \centering
-            \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{storers-overview}
-            \caption{Diagrama de clases del módulo \texttt{storers} perteneciente a la biblioteca \texttt{jinete}.}
-            \label{img:storers_overview}
-          \end{figure}
-
           \paragraph{}
           Una vez finalizada la descripción acerca del modo de funcionamiento del módulo \texttt{storers} ya se puede tener una idea alto nivel acerca de cómo funciona la biblioteca implementada. En los futuros apartados se lleva a cabo un análisis acerca de los resultados obtenidos que demuestran la validez de la misma, así como su grado de eficiencia respecto de las soluciones óptimas obtenidas en trabajos de otros autores.
 
@@ -338,22 +337,41 @@
     \label{sec:results}
 
       \paragraph{}
-      Tras haber llevado a cabo una descripción acerca de la implementación realizada, la cuál, tal y como se ha indicado, consiste en una biblioteca desarrollada sobre el lenguaje \texttt{Python} cuyo nombre es \texttt{jinete}, el siguiente paso es comentar el procedimiento llevado a cabo para evaluar la validez y el correcto funcionamiento de la misma. Además, se espera que este apartado sirva como guía de uso de esta, incluyendo en todo momento las sentencias utilizadas tanto para iniciar la ejecución como para definir la configuración utilizada, de tal manera que el proceso sea totalmente reproducible si así se requiere.
+      Tras haber llevado a cabo una descripción acerca de la implementación realizada, la cuál tal y como se ha indicado, consiste en una biblioteca desarrollada sobre el lenguaje \texttt{Python} cuyo nombre es \texttt{jinete}, el siguiente paso es comentar el procedimiento llevado a cabo para evaluar la validez y el correcto funcionamiento de la misma. Además, se espera que este apartado sirva como guía de uso de esta, incluyendo en todo momento las sentencias utilizadas tanto para iniciar la ejecución como para definir la configuración utilizada, de tal manera que el proceso sea totalmente reproducible si así se requiere.
 
       \paragraph{}
-      [TODO]
+      El resto del apartado se organiza de la siguiente manera: en el \cref{sec:results_definition} se indica la manera en que se ha llevado a cabo el proceso de experimentación, indicando las instancias del problema \emph{Dial-a-Ride} escogidas para ello, la configuración exacta utilizada para la ejecución de la biblioteca y otros detalles como el tiempo máximo de ejecución. Seguidamente, en el \cref{sec:results_tables} se incluyen las tablas que muestran los resultados obtenidos tras la experimentación. Finalmente, en el \cref{sec:results_analysis} se lleva a cabo un análisis sobre dichos resultados, tratando de identificar ciertos patrones comunes así como posibles puntos de mejora.
 
       \subsection{Definición del experimento}
       \label{sec:results_definition}
 
         \paragraph{}
-        [TODO]
+        Tal y como se ha indicado previamente, el objetivo de este apartado consiste en especificar cómo se ha llevado a cabo el proceso de obtención de resultados para demostrar la validez de la implementación realizada. Para ello, en primer lugar se indican los conjuntos de instancias utilizadas. Seguidamente se incluyen los scripts utilizados para comenzar la ejecución y finalmente se comentan otros factores como el tiempo máximo de ejecución para cada una de ellas (el cual es un factor a tener en cuenta en este tipo de problemas por razones obvias).
+
+        \paragraph{}
+        Las instancias utilizadas para el proceso de benchmarking o validación de resultados provienen de dos de los trabajos más populares relativos al problema \emph{Dial-a-Ride}. En primer lugar, se han utilizado las instancias creadas en \cite{cordeau2003tabu}, las cuales están compuestas por $20$ casos generados aleatoriamente y tienen tamaños desde los $3$ hasta los $10$ vehículos para satisfacer desde $24$ a $144$ viajes. Estás se identifican de la siguiente manera: \texttt{R1a.txt}, \dots, \texttt{R10a.txt}, \texttt{R1b.txt}, \dots,\texttt{R10b.txt}. El segundo trabajo del cual se han extraido las instancias utilizadas para el experimento es \cite{ropke2007models}, compuesto por dos grupos de $21$ casos cada uno, haciendo un total de $42$. Estas también han sido generadas de manera aleatoria, con tamaños desde $3$ vehículos y $16$ viajes hasta $8$ vehículos y $96$ viajes. En este caso las instancias se identifican de la siguiente forma: \texttt{a2-16.txt}, \dots, \texttt{a8-96.txt}, \texttt{b2-16.txt}, \dots,\texttt{b8-96.txt}. El motivo por el cual se han escogido estos dos grupos de instancias frente a otros ha sido la popularidad que tienen dentro del nicho de estudio del problema \emph{Dial-a-Ride}, habiendo sido utilizados en numerosos trabajos desde su publicación inicial.
 
         \paragraph{}
         [TODO]
 
       \subsection{Tablas de resultados}
       \label{sec:results_tables}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{table}[ht]
+          \centering
+          \begin{tabu}{ | c | c | c | c | c | c | c | c |}
+            \hline
+            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Timeout
+            \csvreader[head to column names]{data/results_r.csv}{}
+            {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
+            \\\hline
+          \end{tabu}
+          \caption{[TODO]}
+          \label{table:results_r}
+        \end{table}
 
         \paragraph{}
         [TODO]
@@ -371,6 +389,9 @@
 				  \label{table:results_a}
 			  \end{table}
 
+        \paragraph{}
+        [TODO]
+
         \begin{table}[ht]
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
@@ -382,19 +403,6 @@
           \end{tabu}
           \caption{[TODO]}
           \label{table:results_b}
-        \end{table}
-
-        \begin{table}[ht]
-          \centering
-          \begin{tabu}{ | c | c | c | c | c | c | c | c |}
-            \hline
-            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Timeout
-            \csvreader[head to column names]{data/results_r.csv}{}
-            {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
-            \\\hline
-          \end{tabu}
-          \caption{[TODO]}
-          \label{table:results_r}
         \end{table}
 
         \paragraph{}
