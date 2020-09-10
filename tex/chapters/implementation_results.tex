@@ -374,6 +374,13 @@
         \paragraph{}
         Una vez comentado el fragmento de código encargado de llevar a cabo el proceso de control y lanzamiento de todas las instancias incluidas en el experimento, lo siguiente es comentar el segundo fragmento de código: Este es quién lleva a cabo el proceso de optimización para cada instancia, es decir, es el que realiza la llamada que se encarga de iniciar la ejecución de la biblioteca \texttt{jinete}. Dicho fragmento de código se incluye en el fichero \texttt{solve.py}, cuyo contenido se muestra en la \cref{code:solve}.
 
+        \begin{figure}[!hb]
+          \centering
+          \inputminted[frame=single,framesep=10pt,linenos]{python}{./code/solve.py}
+          \caption{Fragmento de código contenido en el fichero \texttt{solve.py}.}
+          \label{code:solve}
+        \end{figure}
+
         \paragraph{}
         A continuación se procede a comentar las sentencias más destacadas del fragmento de código: En primer lugar, es necesario comentar la línea $7$, que a pesar de su extremada sencillez, es la que da acceso a la implementación llevada a cabo. Lo siguiente a comentar son las líneas $16$ a $38$, donde se construye el objeto \texttt{jit.Solver}. Tal y como se comentó previamente, este actúa como un envoltorio que permite configurar de una manera relativamente sencilla los parámetros de ejecución. Lo primero es indicar al \texttt{loader}, la ruta del fichero que contiene la instancia. En este caso, no se indica que el problema sigue el formato definido por \emph{Cordeau-Laporte} dado que este es el usado por defecto.
 
@@ -381,23 +388,36 @@
         Seguidamente, se indica el algorithmo a utilizar, el cual, en este caso es \texttt{jit.GRASPAlgorithm}. Para entender mejor cómo funciona dicha metahuerística, se recomienda consultar \cref{sec:solving_grasp}. Por defecto, este se configura utilizando un método de inserción (\texttt{jit.InsertionAlgorithm}) que utiliza una estrategia de muestreo de \emph{huecos} (\texttt{jit.SamplingInsertionStrategy}), junto con un iterador ranking (\texttt{jit.RankingInsertionIterator}). El criterio utilizado es el de añadir aquel viaje que minimice el tiempo de finalización de la ruta (\texttt{jit.EarliestLastDepartureTimeRouteCriterion}). Respecto de la heurística de búsqueda local, la estrategia seguida consiste en un repetir de manera iterativa (\texttt{jit.IterativeAlgorithm}) la secuencia (\texttt{jit.SequentialAlgorithm}) de dos pasos basada en mover un viaje de vehículo (\texttt{jit.ReallocationLocalSearchStrategy}) y posteriormente tratar de añadir los viajes que todavía se hubiesen podido incluir en la planificación ((\texttt{jit.InsertionAlgorithm})). Dicha operación se lleva a cabo mientras se hayan obtenido mejoras respecto de la iteración anterior. En cuanto a la configuración utilizada para la solución inicial en la metaheurística \emph{GRASP}, se permite una única ejecución y la selección del siguiente viaje a añadir se lleva a cabo de manera aleatoria entre los dos mejores candidatos. En cuanto al número de soluciones que se generan con la metaheurística, se permiten un máximo de $5$, para posteriormente seleccionar la mejor de todas ellas.
 
         \paragraph{}
-        Por último, se incluye la configuración del \texttt{storer}. En este caso se utiliza un \texttt{jit.SetStorer} puesto que se quiere almacenar la solución con varias implementaciones, las cuales generan la solución como: texto plano en la línea de comando (\texttt{jit.PromptStorer}), un fichero externo (\texttt{jit.FileStorer}) y una imagen del grafo donde las posiciones se representan como nodos que se conectan entre si por las aristas generadas por las correspondientes rutas (\texttt{jit.GraphPlotStorer}). 
-
-        \begin{figure}[!hb]
-    			\centering
-          \inputminted[frame=single,framesep=10pt,linenos]{python}{./code/solve.py}
-    			\caption{Fragmento de código contenido en el fichero \texttt{solve.py}.}
-    			\label{code:solve}
-    		\end{figure}
+        Por último, se incluye la configuración del \texttt{storer}. En este caso se utiliza un \texttt{jit.SetStorer} puesto que se quiere almacenar la solución con varias implementaciones, las cuales generan la solución como: texto plano en la línea de comando (\texttt{jit.PromptStorer}), un fichero externo (\texttt{jit.FileStorer}) y una imagen del grafo donde las posiciones se representan como nodos que se conectan entre si por las aristas generadas por las correspondientes rutas (\texttt{jit.GraphPlotStorer}).
 
         \paragraph{}
-        [TODO]
+        En cuanto a las restricciones de ejecución, necesarias en este tipo de problemas donde la explosión combinatoria hace impractible la exploración de una gran cantidad del espacio de búsqueda. En este caso se ha decidido dedicar \textbf{2 horas de cómputo por cada instancia} del problema lo cual es un factor a tener en cuenta en la comparación de los resultados obtenidos, sobre todo en los resultados obtenidos en instancias de gran tamaño. Respecto del sistema utilizado para llevar a cabo el experimento, se ha utilizado una máquina con \textbf{16GB de RAM} y un procesador \textbf{Intel I7-3520M de 2 núcleos y 2.9GHz}.
+
+        \paragraph{}
+        A lo largo del apartado se han comentado tanto la procedencia de las instancias utilizadas para el proceso de experimentación, como la configuración de la biblioteca \texttt{jinete} escogida para llevar a cabo la resolución de las mismas, como las restricciones fijadas a nivel de la capacidad de cómputo destinada para la resolución  de cada una de las instancias. Una vez comentados todos estos puntos, ya se está en condiciones suficientes para presentar los resultados obtenidos, los cuales se incluyen en el siguiente apartado, para posteriormente realizar un análisis sobre estos en el \cref{sec:results_analysis}.
 
       \subsection{Tablas de resultados}
       \label{sec:results_tables}
 
         \paragraph{}
-        [TODO]
+        El objetivo de este apartado consiste únicamente en agrupar las tablas de resultados obtenidas. Tal y como se ha indicado previamente, el experimento llevado a cabo se ha basado en la ejecución de $3$ grupos de instancias extraidas de \cite{cordeau2003tabu,ropke2007models}, los cuales contienen importantes aportaciones relativas al problema \emph{Dial-a-Ride}. En este punto es importante remarcar que los resultados se han obtenido tras aplicar una metaheurística \emph{GRASP}. Sin embargo, también se ha tratado de aplicar la resolución basada en la formulación de $3$ índices como problema de \emph{programación entera}. Sin embargo, tan solo se han obtenido resultados para las instancias de menor tamaño ($16$ viajes) por lo que se ha decidido no incluir en los resultados.
+
+        \paragraph{}
+        En cuanto al contenido, para mantener el orden del documento se ha decidido presentar los resultados en una tabla por cada grupo de problemas, es decir, las \cref{table:results_r,table:results_a,table:results_b} se refieren a los grupos de problemas \emph{R}, \emph{A} y \emph{B} respectivamente. Todas ellas siguen el mismo formato, el cual se comenta a continuación:
+
+        \begin{itemize}
+          \item \textbf{Id.}: Identificador de la instancia del problema.
+          \item \textbf{Vehículos}: Número de vehículos disponibles.
+          \item \textbf{Viajes}: Número de viajes a satisfacer.
+          \item \textbf{Óptimo}: Mejor valor conocido.
+          \item \textbf{Obtenido}: Valor obtenido tras $2$ horas de ejecución.
+          \item \textbf{Dif.}: Diferencia porcentual entre el mejor valor conocido y el obtenido.
+          \item \textbf{Servicio}: Nivel de servicio alcanzado.
+          \item \textbf{Timeout}: Valor booleano indicando si la ejecución ha termiando antes de las $2$ horas o, por el contrario, ha terminado debido a haberlas superado.
+        \end{itemize}
+
+        \paragraph{}
+        Una vez descritas las columnas, a continuación se incluyen las tablas de resultados, las cuales son analizadas posteriormente.
 
         \begin{table}[!ht]
           \centering
@@ -412,9 +432,6 @@
           \label{table:results_r}
         \end{table}
 
-        \paragraph{}
-        [TODO]
-
         \begin{table}[!ht]
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
@@ -427,9 +444,6 @@
           \caption{Resultados obtenidos tras $2$ horas de cómputo mediante la metahurística \emph{GRASP} de las instancias del grupo \emph{A}.}
 				  \label{table:results_a}
 			  \end{table}
-
-        \paragraph{}
-        [TODO]
 
         \begin{table}[!ht]
           \centering
@@ -444,9 +458,7 @@
           \label{table:results_b}
         \end{table}
 
-        \paragraph{}
-        [TODO]
-
+      \FloatBarrier
       \subsection{Análisis de resultados}
       \label{sec:results_analysis}
 
