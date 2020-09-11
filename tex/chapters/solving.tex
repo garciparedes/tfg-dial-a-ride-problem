@@ -209,7 +209,28 @@
         \label{sec:solving_greedy_criterions}
 
           \paragraph{}
-          [TODO]
+          Los criterios de selección en las heurísticas basadas en \emph{algoritmos de naturaleza greedy} representa una de las decisiones más importantes durante el proceso de configuración de este tipo de estrategias dado que son las causantes de priorizar la toma de unas decisiones frente a otras. Como es natural, dichos criterios de selección son muy dependientes de la naturaleza del problema a resolver. Los problemas relacionados con el aprovisionamiento de recursos tienen por tanto criterios de selección muy diferentes a otros como los relacionados con la generación de rutas de vehículos.
+
+          \paragraph{}
+          Dado que el trabajo se enfoca en el problema \emph{Dial-a-Ride}, a continuación se comentan algunos de los criterios de selección más comunes para este tipo de problemas:
+
+          \begin{itemize}
+
+            \item \textbf{Ruta con menor duración}: Se trata de seleccionar siempre la alternativa que genera la ruta con menor duración. Esta tiende a generar soluciones con rutas de duraciones similares (cuando todos los vehículos disponen de la misma cantidad de tiempo de duración y las visitas se distribuyen de manera uniforme).
+
+            \item \textbf{Parada más cercana}: Se trata de seleccionar la alternativa con menor distancia a la ruta en cuestión. De esta forma se tiende a reducir la distancia global de las rutas, lo cual tiende a reducir el coste pero a su vez es propicio a caer mínimos locales.
+
+            \item \textbf{Fin de ventana temporal más temprana}: Prioriza aquellos viajes que mayor riesgo tienen de no ser satisfechos debido a su ventana temporal respecto del estado del vehículo.
+
+            \item \textbf{Viaje más corto}: Se trata de seleccionar primero aquellos viajes que generan el tiempo de viaje más corto (teniendo en cuenta las posibles paradas intermedias). A pesar de que esta estrategia tiende a reducir el tiempo global, también tiende a aumentar el coste de la ruta dado que en muchas situaciones añadir paradas intermedia genera reducciones drásticas.
+
+          \end{itemize}
+
+          \paragraph{}
+          Elegir de manera adecuada el criterio de selección que mejor se ajusta a las características concretas del problema a resolver, y de las situaciones que se generan en las instancias a resolver es un factor a tener en cuenta. Sin embargo, en este tipo de problemas la resolución óptima de las soluciones parciales no mantiene una correlación perfecta con la resolución óptima de la solución global.
+
+          \paragraph{}
+          Es por ello que existen ciertas técnicas que tratan de paliar dichas dificultades, entre las que se encuentran métodos adaptativos, que conforme evoluciona la ejecuión generan ciertas variaciones en los criterios de selección, u otras basadas en la aleatorización controlada como \emph{Randomized Greedy} que se comenta a continuación.
 
         \subsubsection{Randomized Greedy}
         \label{sec:solving_randomized_greedy}
