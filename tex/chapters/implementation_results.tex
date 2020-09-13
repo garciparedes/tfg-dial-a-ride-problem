@@ -413,7 +413,7 @@
           \item \textbf{Obtenido}: Valor obtenido tras $2$ horas de ejecución.
           \item \textbf{Dif.}: Diferencia porcentual entre el mejor valor conocido y el obtenido.
           \item \textbf{Servicio}: Nivel de servicio alcanzado.
-          \item \textbf{Timeout}: Valor booleano indicando si la ejecución ha termiando antes de las $2$ horas o, por el contrario, ha terminado debido a haberlas superado.
+          \item \textbf{Fin}: Valor booleano indicando si la ejecución ha termiando antes de las $2$ horas o, por el contrario, ha terminado debido a haberlas superado.
         \end{itemize}
 
         \paragraph{}
@@ -423,7 +423,7 @@
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
             \hline
-            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Timeout
+            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Fin
             \csvreader[head to column names]{data/results_r.csv}{}
             {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
             \\\hline
@@ -436,7 +436,7 @@
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
             \hline
-            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Timeout
+            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Fin
 					  \csvreader[head to column names]{data/results_a.csv}{}
             {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
 					  \\\hline
@@ -449,7 +449,7 @@
           \centering
           \begin{tabu}{ | c | c | c | c | c | c | c | c |}
             \hline
-            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Timeout
+            \bfseries Id. & \bfseries Vehículos & \bfseries Viajes & \bfseries Óptimo & \bfseries Obtenido & \bfseries Dif. & \bfseries Servicio & \bfseries Fin
             \csvreader[head to column names]{data/results_b.csv}{}
             {\\\hline\name&\vehicles&\trips&\optimal&\best&\diff&\coverage&\timeout}
             \\\hline
