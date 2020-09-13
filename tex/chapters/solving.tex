@@ -259,6 +259,80 @@
         \paragraph{}
         Sin embargo, el motivo de la popularidad que ha recibido esta heurística durante tanto tiempo no solo se debe al método en si, sino a que además en \cite{clarke1964scheduling} se describe la manera en que poder calcular el nivel de ahorro (de ahí el nombre de la estrategia) de la combinación de dos rutas sin tener que calcularlo los costes completos de ambas rutas y después hacer la diferencia respecto de la versión combinada. La estrategia en que se apoyan para llevar esto a cabo es la diferencia entre los costes de los tramos de inicio y fin de la ruta que se va a insertar frente a los costes de los tramos de unión entre ambas rutas. Nótese que esta estrategia es altamente eficiente cuando las tareas tienen restricciones muy flexibles tanto desde el punto de vista de las ventanas temporales como de la capacidad del vehículo. En problemas más complejos como el \emph{Dial-a-Ride} estas mejoras han de ser tomadas con prudencia ya que es necesario verificar la factibilidad de la ruta resultante.
 
+      \subsection{Búsqueda Local}
+      \label{sec:solving_local_search}
+
+        \paragraph{}
+        Las estrategias de resolución basadas en heurísticas de \emph{búsqueda local} representan una de las técnicas más interesantes en lo relativo a la resolución heurística de problemas. Este tipo de heurísticas se denominan en muchos casos \emph{estrategias de mejora}, ya que por la propia definición de las mismas, lo que hacen es tratar de mejorar la calidad de una solución previamente obtenida. Es decir, el modo de funcionamiento de estas heurísticas no consiste en generar soluciones por si mismas, sino que una vez obtenida una, lo que tratan de conseguir es una mejora sobre esta, con la esperanza de que tras aplicar dicha operación de mejora durante en un determinado número de veces, la solución resultante se encuentre mucho más cercana al valor óptimo desconocido.
+
+        \begin{algorithm}[ht]
+          \SetAlgoLined
+          \KwIn{$initial$}
+          \KwResult{$current$}
+          $current \gets initial$\;
+          \While{$condition$}{
+            $current \gets nextNeighbor(current)$\;
+          }
+          \caption{Estrategia de resolución genérica basada en \emph{búsqueda local}.}
+          \label{code:solving_local_search}
+        \end{algorithm}
+
+        \paragraph{}
+        En el \cref{code:solving_local_search} se incluye una versión simplificada a partir de pseudo-código acerca del funcionamiento general de la heurística. Tal y como se ha comentado, partiendo de una solución inicial generada externamente, se aplican distintas transformaciones representadas en este caso mediante la función $nextNeighbor$ (posteriormente se comentan algunas de las posibles transformaciones). Dicha operación se lleva a cabo hasta que se cumpla una determinada condición de parada, que típicamente está relacionada con el alcanzamiento de un determinado umbral de mejora o reglas similares.
+
+        \paragraph{}
+        Antes de profundizar en las transformaciones más populares en heurísticas de \emph{búsqueda local} (cuya descripción se enfocará en aquellas aplicables a problemas de rutas y el problema \emph{Dial-a-Ride}) es necesario comentar el concepto de \emph{vecindario de soluciones}. Tal y como se ha indicado en anteriores apartados, la optimización de problemas de optimización combinatoria puede ser vista como la búsqueda de la solución óptima donde esta es representada como un punto del espacio de todas las posibles soluciones, al cual se puede llegar a través de un camino generado por transformaciones llevadas a cabo a otras soluciones de manera incremental. De esta forma, se genera un grafo donde cada solución representa un vértice y cada transformación una arista. La dificultad en este caso surge debido al inmenso tamaño de este grafo, que se hace inabordable desde un punto de vista práctico. La tarea se convierte entonces en tratar de explorar dicho grafo de la manera más inteligente posible, de tal forma que el camino generado termine en vértices (o soluciones) lo más cercanas a la deseada solución óptima.
+
+        \paragraph{}
+        El término \emph{vecindario} surge como el conjunto de aristas incidentes respecto del vértice que representa la solución actual. El vecindario de una solución representa por tanto el conjunto de todas aquellas soluciones alcanzadas a partir de una transformación llevada a cabo sobre la solución actual. Es de especial importancia darse cuenta de que los vecindarios relativos a cada vértice dependen en gran medida de las operaciones de transformación permitidas durante el proceso de búsqueda local y, como es natural, habrá operaciones que generarán grafos conexos mientras que otras pueden dar lugar a grafos con estructuras de isla, lo cual no es deseable en procesos de optimización.
+
+        \paragraph{}
+        En cuanto al conjunto de transformaciones posibles, existe un gran número de técnicas utilizadas extensivamente para resolver este tipo de problemas. Sin embargo, es necesario remarcar, al igual que ocurría con los criterios de selección en \emph{heurísticas greedy}, que en este caso también son altamente dependientes del tipo de problema a resolver. Como es obvio, no es posible definir estrategias que permitan generalizar problemas de rutas, problemas de programación de tares o problemas de aprovechamiento de espacio de una manera adecuada. Por esta razón, dado que el trabajo se ha enfocado en el problema \emph{Dial-a-Ride}, el resto del apartado se enfoca en transformaciones validas sobre problemas de rutas de vehículos.
+
+        \paragraph{}
+        Antes de proceder con las tranformaciones más comunes, es necesario realizar una diferenciación entre las dos categorías en que estas se pueden dividir. Por un lado, existen transformaciones basadas en realizar variaciones dentro de una misma ruta, esto es, aplicables de manera independiente entre vehículos. Por otro lado, existen transformaciones enfocadas en realizar variaciones relativas a varias rutas de manera simultánea, esto es, cuando se modifican las correspondientes rutas relativas a varios vehículos. Como es natural, en estas últimas se espera encontrar ratios de mejora mayores. Sin embargo, ambas son relevantes para alcanzar soluciones lo más cercanas al óptimo.
+
+        \subsubsection{Dentro de una Ruta}
+        \label{sec:solving_local_search_inner}
+
+          \paragraph{}
+          Las transformaciones dentro de una ruta consisten en la variación del orden de paradas llevadas a cabo por un vehículo. La mayoría de ellas son heredadas del estudio del \emph{problema del viajero}, aplicando ciertas variaciones en algunos casos para poder seguir proporcionando resultados interesantes aún con la mayor complejidad desde el punto de vista de las restricciones que presentan otros problemas más complejos. A continuación se enumeran algunas de las más destacadas:
+
+          \begin{itemize}
+
+            \item \textbf{k-Shift}: Consiste en el desplazamiento de una determinada parada $k$ posiciones hacia delante o hacia atrás con la esperanza de obtener una reducción en el coste global de la ruta. Se comporta bien en problemas donde las restricciones de orden entre paradas así como las ventanas temporales no son lo suficientemente ajustadas. Sin embargo, en casos como el problema \emph{Dial-a-Ride} la capacidad de mejora con estas tranformaciones se reduce drásticamente.
+
+            \item \textbf{k-OPT}: Se trata de una estrategia inspirada en la necesidad de eliminar nudos de la ruta, los cuales se refieren a cruces entre las aristas de la ruta que tienden a generar costes innecesarios. Para ello, se divide la ruta a partir de $k$ divisiones y seguidamente se realizan variaciones entre dichos segmentos (tales como inversiones) con la esperanza de encontrar reuducciones de coste. Es especialmente popular la transformación \emph{2-OPT}, que divide la ruta entres segmentos y posteriormente invierte el que se forma en el medio. Al igual que ocurre con la transformación \emph{k-Shift}, esta se comporta bien cuando el margen de movimiento entre visitas es amplio.
+
+          \end{itemize}
+
+          \paragraph{}
+          Tal y como se ha comentado, las transformaciones dentro de una ruta son una herramienta intersante en la búsqueda de soluciones. Sin embargo, por las restricciones que presentan los problemas de optimización de rutas más avanzados, el impacto de estas se reduce drásticamente.
+
+        \subsubsection{Entre Rutas}
+        \label{sec:solving_local_search_outer}
+
+          \paragraph{}
+          Las tranformaciones relativas a operaciones entre rutas se basan principalment en intercambios entre paradas inicialmente contenidas en rutas diferentes. Como es natural, para que este tipo de tranformaciones tengan sentido, la instancia del problema debe estar compuesta por al menos dos vehículos. Este tipo de transformaciones tienden a generar mejoras drásticas en el resultado y, a largo plazo, proporcionar mejoras también a nivel de dentro de la ruta ya que asumiendo transitividad en la mejora entre rutas, se puede demostrar que también se producirán mejoras dentro de la propia ruta. A continuación se enumeran algunas de las operaciones más populares:
+
+          \begin{itemize}
+
+            \item \textbf{Reasignación Unitaria}: Se trata de selecionar una parada relativa a una ruta y tratar de moverla a otra ruta diferente con la esperanza de que el coste final se reduzca. De esta manera, se eliminan trayectos innecesariamente largos que pueden ser satisfechos por otro vehículo al que la parada le supone un incremento menor en el coste de ruta.
+
+            \item \textbf{Reasignación de Secuencia}: En este caso, en lugar de mover una única parada entre rutas, se trata de mover una subsecuencia de paradas. La intuicción en este caso es que se pueden dar situaciones en que el movimiento de una única parada no proporciona una reducción de costes (a pesar de ser tener sentido a largo plazo). Por tanto, para tratar de paliar dicho efecto, la operación de tranformación mueve una determinada subsecuencia de paradas.
+
+            \item \textbf{Intercambio Unitario}: Asumiendo que el problema a resolver es muy ajustado respecto de la capacidad de variación que se puede dar en la solución, existen operaciones de intercambio de paradas entre viajes que tratan de evitar posibles cruces, pero en esta ocasión entre rutas. A pesar de que sea cierto que esto es equivalente a llevar a cabo dos operaciones de intercambio, hay que tener en cuenta que si estas no se ven de forma conjunta puede darse el caso de que generen un sobre coste en lugar de una reducción.
+
+            \item \textbf{Intercambio de Secuencia}: Dicha operación se corresponde con una combinación de las anteriores: por un lado se lleva a cabo a partir de una secuencia de visitas (tratando de evitar posibles situaciones ventajosas pero que no se corresponden con reducciones de coste) en forma de intercambio (tratando de no \say{sobrecargar}) demasiado una de las rutas de tal manera que se convierta en infatible. Esta alternativa es la que mejores resultados proporciona. Sin embargo, es también la que mayor coste computacional requiere si que desea explorar todos los posibles intercambios de secuencias.
+
+          \end{itemize}
+
+          \paragraph{}
+          Además de las operaciones comentadas durante este apartado, existen una gran cantidad de técnicas que tratan de llevar a cabo variaciones entre varias rutas tomando ventaja de algúna carcaterística concreta, tales como la de definir el proceso de búsqueda local como una rotación de paradas entre rutas, u otras operacines más avanzadas. Si se desea profundizar más en el tema, se recomienda consultar \cite{funke2005local}.
+
+        \paragraph{}
+        Tal y como se ha podido apreciar a lo largo del apartado dedicado a la heurística de \emph{búsqueda local}, este tipo de técnicas son capaces de proporcionar mejoras muy interesantes dada una solución. Sin embargo, para su correcta aplicación es necesario tener muy en cuenta el concepto de \emph{vecindario de soluciones}. Además, es muy importante elegir de manera adecuada la operación a realizar durante el proceso de búsqueda local. Relacionado con esto, es especialmente interesante destacar que muchas de las estrategias de resolución que aplican búsqueda en la actualidad se decantan por un enfoque variables, en el que la operación cambia tras cada iteración generando vecindarios con distintas características. Esta técnica se conoce como \emph{Variable Neighborhood Search} y se comenta en el \cref{sec:solving_vns}.
+
       \subsection{Redes Neuronales}
       \label{sec:solving_neural_networks}
 
@@ -278,12 +352,6 @@
 
         \paragraph{}
         Dichas estrategias presentan un gran potencial sobre aquellos problemas que presenten las características comentadas anteriormente. Sin embargo, hasta la fecha dichas ideas se encuentran todavía en fases muy tempranas de investigación por lo que no son aplicables en situaciones reales (en \cite{bello2016neural} fueron necesarias 7 horas de computación para resolver una instancia del problema del viajero de $50$ localizaciones). Sin embargo, si que forman parte de un interesante nicho de investigación que podría ser muy prometedor en el futuro.
-
-      \subsection{Búsqueda Local}
-      \label{sec:solving_local_search}
-
-        \paragraph{}
-        [TODO]
 
       \paragraph{}
       En este apartado se han descrito las principales estrategias heurísticas utilizadas en problemas de optimización de rutas, las cuales sirven de base para resolver las características concretas que se presentan en el problema \emph{Dial-a-Ride}. Tal y como se comentó al principio del mismo, estas estrategias destacan por su relativa sencillez, tanto conceptual como computacional. Sin embargo, en muchas ocasiones no proporcionan resultados suficientemente buenos (desde el punto de vista de su distancia a la solución óptima) como se requiere. Para contrarestrar dicha situación surge una nueva clase de estrategias de optimización compuesta por otras estrategias más sencillas la cuál se discute en el próximo apartado.
@@ -466,3 +534,4 @@
       Tal y como se ha comentado a lo largo del capítulo, estos métodos presentan distintas ventajas y desventajas que, dependiendo de la instancia concreta a resolver pueden ser más o menos perjudiciales. Entre estos factores se encuentran el tamaño del mismo así como los requisitos de exactitud. Por tanto, aplicar estos métodos sobre entornos o situaciones reales se convierte en una decisión relativa al contexto de aplicación donde, en lugar de utilizar la \say{estrategia ganadora}, la tarea consiste en elegir la estrategia que mejor se ajuste a las necesidades, tanto desde el punto de vista de los costes computacionales (sobre todo a nivel de tiempo) como de los requisitos de exactitud tal y como se ha indicado previamente.
 
 \end{document}
+
