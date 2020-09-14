@@ -11,6 +11,33 @@
     \label{sec:introduction_dial_a_ride}
 
       \paragraph{}
+      El problema \emph{Dial-a-Ride} se enmarca dentro del marco de los problemas de generación de rutas de vehículos. Estos consisten, tal y como se puede deducir fácilmente por su nombre, en la tarea de generar un conjunto de rutas o caminos dados unos determinados vehículos, de tal manera que las rutas generadas sean capaces de satisfacer un conjunto de tareas dado. Dichas tareas se caracterizan por poseer como al menos un lugar de realización. Sin embargo, estas también se pueden caracterizar por una cierta cantidad de mercancia que posiblemente haya que desplazar o alguna limitación de naturaleza temporal como horarios de apertura y cierre. Entonces, de la necesidad de satisfacer dichas tareas es de donde surge la necesidad de definir rutas que sean capaces de satisfacerlas. Como es natural, la acción de llevar a cabo un desplazamiento desde un punto a otro del espacio requerirá un determinado coste de ejecución, el cual no será constante, sino que típicamente seguirá una relación de proporcionalidad respecto de alguna medida de distancia. Además, los vehículos disponibles para llevar a cabo las rutas posiblemente presenten ciertas limitaciones, generalmente relacionadas con la capacidad máxima de la que estos disponen (cuando la tarea consiste en mover una cierta mercancia entre determinados puntos), aunque también pueden existir limitaciones relacionadas con la distancia máxima recorrida (y por tanto de combustible o jornada laboral), aunque es fácil imaginar otras limitaciones de naturaleza variada que se pueden dar en este tipo de problemas.
+
+      \paragraph{}
+      Es fácil imaginar situaciones reales que se asemejen a lo descrito en el párrafo anterior donde, por ejemple, cierta empresa dedicada al sector del transporte de mercancias por carretera (posiblemente mediante camiones) tenga la necesidad de indicar a los conductores de su flota de vehículos qué mercancias necesitan cargar en estos, así como en qué lugares deben realizar las correspondientes descargas. Por lo comentado hasta ahora, es posible comprender que la realización de dicha tarea organizativa no es sencilla en casos donde la flota de vehículos es elevada y, además, las características concretas del negocio requieren de tener en cuenta ciertas situaciones complejas.
+
+      \paragraph{}
+      Desde un punto de vista empresarial, no solo es importante ser capaz de poder llevar a cabo la generación de rutas que deberán llevarse a cabo por la flota de vehículos de la correspondiente compañía, sino que además existe una necesidad monetaria de reducción de costes innecesarios. Es entonces cuando surge la necesidad no solo de estudiar técnicas que sean capaces de generar planificaciones de rutas que sean capaces de satisfacer las necesidades requeridas, sino que además parece razonable que dicha tarea de planificación se lleve a cabo reduciendo cierta medida de calidad, que en muchos casos se termina traduciendo en un valor monetario.
+
+      \paragraph{}
+      De lo comentado en el anterior párrafo surgen dos ideas muy interesantes y a la vez bien diferencidas entre sí. En primer lugar se comenta la necesidad de ser capaces de satisfacer ciertas restricciones. Esta tarea se conoce matemáticamente como \emph{Programación con Restricciones (o Constraint Programming)} y la tarea a resolver se limita únicamente a ser capaz de \say{superar} todas las restricciones impuestas por el problema. Como es natural, existen muchos problemas englobables dentro de esta categoría, aunque uno de los ejemplos más notorios de ello se corresponde con el juego \emph{Sudoku}, donde típicamente no se impone ninguna medida de \say{calidad de la solución} más allá de si es o no válida. Volviendo al tema principal, en el párrafo anterior se comenta una segunda idea muy importante (y la cuál representa la base más relevante de este trabajo), la cual trata sobre la necesidad de generar soluciones que no solo sean capaces de satisfacer las restricciones impuestas por el problema, sino que además busca que esta sea \emph{óptima} respecto de una determinada métrica. Este tipo de problemas son conocidos como \emph{Problemas de Optimización (o Optimization Problems)}, de esta forma surgen una gran cantidad de situaciones que se dan en la vida real: desde el problema de organizar la división de una serie de tareas dependientes entre si, dada una cantidad de recursos disponibles tratando de minimizar la duración completa del proceso, hasta la tarea de elegir qué plan de aprovisionamiento permite llevar a cabo el menor incremento de costes para la fabricación de un determinado producto.
+
+      \paragraph{}
+      Ligadas a la idea \emph{Problemas de Optimización (o Optimization Problems)} surgen una serie de estructuras matemáticas que permiten modelar la situación a resolver sobre un entorno cerrado, permitiendo una abstracción del contexto real, lo cual muy ventajoso desde una perspectiva técnica. Dichas estructuras matemáticas son las siguientes:
+      \begin{itemize}
+
+        \item \textbf{Variables de Decisión}: Se encargan de representar una determianda acción desde el punto de vista de la toma de una decisión, la cual puede basarse desde la cantidad producto que utilizar, hasta la de si llevar a cabo o no una determinada tarea.
+
+        \item \textbf{Restricciones}: Se trata de un conjunto de limitaciones que se dan (posiblemente de manera combinada) entre las variables de decisión utilizadas para representar el problema. Por ejemplo, estas pueden basarse en la limitación máxima de utilización de cierto producto.
+
+        \item \textbf{Función Objetivo}: Es aquella que, dada una configuración concreta de variables de decisión sobre un problema bien definido, es capaz de generar una métrica (posiblemente multidimensional) con la cual valorar positiva (o negativamente) unas soluciones frente a otras. Dependiendo del problema concreto, el objetivo puede ser la minimización o maximización de la métrica obtenida.
+
+      \end{itemize}
+
+      \paragraph{}
+      Una vez llevada a cabo la conexión entre los problemas de rutas y las situaciones que se dan en el mundo real, así como realizada una breve introducción acerca de los \emph{Problemas de Optimización}, ya se está en condiciones suficientes como para proceder a una introducción más profunda en el \problema \emph{Dial-a-Ride}.
+
+      \paragraph{}
       [TODO]
 
     \section{Objetivos}
