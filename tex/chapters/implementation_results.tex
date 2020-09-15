@@ -94,7 +94,7 @@
 
           \begin{itemize}
 
-              \item \texttt{dispachers}: La labor que desempecha este módulo consiste en orquestar la comunicación entre \texttt{loaders}, \texttt{models} y \texttt{storers}. Como es natural, la estrategia más sencilla consiste en la comunicación unidireccional que carga una instancia del problema, aplica el proceso de optimización y después exporta los resultados en un medio persistente. Sin embargo, con la extensión de este módulo es posible llevar a cabo otras estrategias que permitan procesos de planificación en tiempo real entre otros.
+              \item \texttt{dispatchers}: La labor que desempecha este módulo consiste en orquestar la comunicación entre \texttt{loaders}, \texttt{models} y \texttt{storers}. Como es natural, la estrategia más sencilla consiste en la comunicación unidireccional que carga una instancia del problema, aplica el proceso de optimización y después exporta los resultados en un medio persistente. Sin embargo, con la extensión de este módulo es posible llevar a cabo otras estrategias que permitan procesos de planificación en tiempo real entre otros.
 
             \item \texttt{solvers}: La responsabilidad que desempeña es la de simplificar el proceso de instanciación necesario para proceder con la optimización. El motivo es que para la mayoría de situaciones, no es neceario llegar a un nivel elevado de detalle para poder utilizar la biblioteca, por lo que este módulo se encarga de simplificar al máximo el proceso.
 
@@ -317,7 +317,7 @@
 
             \item \texttt{GraphPlotStorer}: Se encarga de generar una representación en forma de grafo de la solución generada, el cuál muestra en una ventana independiente del sistema. Es posible configurarlo de tal manera que dicha representación sea exportada a un fichero en caso de que el sistema donde se ejecute la biblioteca no tenga capacidades gráficas.
 
-            \item \texttt{StorerSet}: La utilidad de este \texttt{Storer} consiste en actuar como contenedor de otros. Puesto que la manera en que se ha definido la interfaz de utilización del módulo no permite la asignación de más de un \texttt{Storer} para una misma solución en el \texttt{Dispacher} secuencial, entonces es necesario crear una abstracción que permita obtener dicho comportamiento. En este caso, se ha llevado a cabo a través del \texttt{StorerSet}, que recibe como entrada un conjunto de implementaciones \texttt{Storer} y se encarga de propagar la llamada \verb|store()| a todos ellos con el mismo \texttt{Result}. De esta manera es posible por ejemplo, mostrar una representación gráfica del resultado obtenido, a la vez que se almacena en un fichero el resultado formateado.
+            \item \texttt{StorerSet}: La utilidad de este \texttt{Storer} consiste en actuar como contenedor de otros. Puesto que la manera en que se ha definido la interfaz de utilización del módulo no permite la asignación de más de un \texttt{Storer} para una misma solución en el \texttt{dispatcher} secuencial, entonces es necesario crear una abstracción que permita obtener dicho comportamiento. En este caso, se ha llevado a cabo a través del \texttt{StorerSet}, que recibe como entrada un conjunto de implementaciones \texttt{Storer} y se encarga de propagar la llamada \verb|store()| a todos ellos con el mismo \texttt{Result}. De esta manera es posible por ejemplo, mostrar una representación gráfica del resultado obtenido, a la vez que se almacena en un fichero el resultado formateado.
 
           \end{itemize}
 

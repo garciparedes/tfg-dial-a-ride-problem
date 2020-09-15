@@ -363,7 +363,7 @@
       El concepto de \emph{metaheurística} surge tras la necesidad de desarrollar estrategias de resolución apoyadas en otras (típicamente más sencillas) las cuales, en muchas ocasiones, no son capaces de proporcionar soluciones lo suficientemente satisfactorias por si solas a pesar de basarse en intuiciones coherentes para llegar a soluciones adecuadas pero que a su vez presentan alguna limitación que por si solas no les permite alcanzar el resultado deseado. En esta línea, la función de una \emph{metaheurística} trata de tener en cuenta dichas limitaciones para así tomar las decisiones pertinentes que reduzcan dichos efectos no deseados.
 
       \paragraph{}
-      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_anneling} se describe la idea subyacente tras los métodos basados en \emph{Simulated Anneling}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Gran Vecindario} en los \cref{sec:solving_vns,sec:solving_lns} respectivamente. Finalmente, se comentan brevemente las \emph{metaheurísticas basadas en poblaciones} en el \cref{sec:solving_population_metaheuristics}. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{blum2003metaheuristics,glover2006handbook,boussaid2013survey,ho2018survey}.
+      A modo de ejemplo, este tipo de acciones podría ir desde limitar la voracidad de un algoritmo greedy para evitar caer en mínimos locales, hasta controlar el tiempo de ejecución de un método de resolución exacto, cuando el ratio de mejora relativa obtenido por este alcance una determinada cota mínima. Sin embargo, las \emph{metaheurísticas} uno solo se limitan a este tipo de acciones posibles, sino que abarcan un gran número de posibilidades tal y como se verá a lo largo del apartado, la cual se orienta hacia las más populares en lo relacionado con el \emph{problema Dial-a-Ride}. En primer lugar, en el \cref{sec:solving_grasp} se describirá la estrategia \emph{GRASP}. Posteriormente, en el \cref{sec:solving_simulated_annealing} se describe la idea subyacente tras los métodos basados en \emph{Simulated Annealing}. A continuación se comenta la metaheurística de \emph{Búsqueda Tabú}. Finalmente, se comentan las metaheurísticas basadas en \emph{Busqueda de Vecindarios Variable}, \emph{Búsqueda de Gran Vecindario} en los \cref{sec:solving_vns,sec:solving_lns} respectivamente. Finalmente, se comentan brevemente las \emph{metaheurísticas basadas en poblaciones} en el \cref{sec:solving_population_metaheuristics}. Para una descripción más detallada acerca de las metaheurísticas más comunes, se recomienda consultar \cite{blum2003metaheuristics,glover2006handbook,boussaid2013survey,ho2018survey}.
 
       \subsection{GRASP}
       \label{sec:solving_grasp}
@@ -386,17 +386,17 @@
       \paragraph{}
       En el \cref{code:solving_grasp} se muestra una plantilla para la metaheurística \emph{GRASP}, la cual sigue la misma estructura que se describió en el anterior párrafo. Tal y como se ha comentado, estas estrategias gozan de gran popularidad por su sencillez y buenos resultados. Además, entre otras, presenta la ventaja de poder ser paralelizada de manera muy sencilla dado que el contenido del bucle interno es independiente tras cada etapa (obviando la parte final de comparación con la mejor solución encontrada hasta el momento). Para más información acerca de esta metaheurística se recomienda consultar \cite{resende2016optimization}, dedicado integramente a su estudio y análisis.
 
-      \subsection{Simulated Anneling}
-      \label{sec:solving_simulated_anneling}
+      \subsection{Simulated Annealing}
+      \label{sec:solving_simulated_annealing}
 
         \paragraph{}
-        Las metaheurísticas basadas en \emph{Simulated Anneling} se basan en la mejora continua de una solución inicial, siguiendo unos determinados criterios de parada (y parametrización de la etapa de búsqueda local). Esto se contrapone con la estrategia \emph{GRASP} descrita anteriormente, que se basaba en la generación de soluciones independientes para después elegir la mejor de todas ellas. En este caso, la estrategia consiste en la exploración del \emph{vecindario de soluciones} de tal manera que la opción escogida no tenga por qué ser necesariamente la que más se aproxime a la mejor solución en un primer momento, llegando al punto incluso de poder elegir ciertas opciones que empeoren el la solución actual. La idea detrás de esta estrategia se apoya en la asunción de que en fases tempranas en la etapa de busqueda de la mejor solución, decidir una opción que mueva la solución actual a un punto más lejano de la solución óptima puede ser beneficioso a largo plazo para llegar a un punto más cercano al óptimo. Dicha capacidad de \say{tomar malas decisiones} se aplica con probabilidad decreciente respecto del tiempo de ejecución actual (ya que se asume que en fases más avanzadas de la ejecución dicho comportamiento no es tan beneficioso).
+        Las metaheurísticas basadas en \emph{Simulated Annealing} se basan en la mejora continua de una solución inicial, siguiendo unos determinados criterios de parada (y parametrización de la etapa de búsqueda local). Esto se contrapone con la estrategia \emph{GRASP} descrita anteriormente, que se basaba en la generación de soluciones independientes para después elegir la mejor de todas ellas. En este caso, la estrategia consiste en la exploración del \emph{vecindario de soluciones} de tal manera que la opción escogida no tenga por qué ser necesariamente la que más se aproxime a la mejor solución en un primer momento, llegando al punto incluso de poder elegir ciertas opciones que empeoren el la solución actual. La idea detrás de esta estrategia se apoya en la asunción de que en fases tempranas en la etapa de busqueda de la mejor solución, decidir una opción que mueva la solución actual a un punto más lejano de la solución óptima puede ser beneficioso a largo plazo para llegar a un punto más cercano al óptimo. Dicha capacidad de \say{tomar malas decisiones} se aplica con probabilidad decreciente respecto del tiempo de ejecución actual (ya que se asume que en fases más avanzadas de la ejecución dicho comportamiento no es tan beneficioso).
 
         \paragraph{}
-        Dicha estrategia fue desarrollada tomando como apoyo el comportamiento de ciertos metales durante su proceso de fundición, que si se lleva a cabo bajo unas determinadas condiciones de enfriamiento es posible obtener un mayor grado de resistencia. Este proceso es conocido como \emph{Simulated Anneling} (de ahí el nombre de la metaheurística). En el caso de la metaheurística, se aceptan soluciones negativas con cierta probabilidad dada por el resultado de la \cref{eq:simulated_anneling}, donde $t$ representa la temperatura (o valor decreciente respecto del número de iteraciones) y $f(s1)$ y $f(s2)$ los valores de la función objetivo para las soluciones $s1$ y $s2$ respectivamente. En el \cref{code:solving_simulated_anneling} se incluye el pseudo-código de la metaheurística.
+        Dicha estrategia fue desarrollada tomando como apoyo el comportamiento de ciertos metales durante su proceso de fundición, que si se lleva a cabo bajo unas determinadas condiciones de enfriamiento es posible obtener un mayor grado de resistencia. Este proceso es conocido como \emph{Simulated Annealing} (de ahí el nombre de la metaheurística). En el caso de la metaheurística, se aceptan soluciones negativas con cierta probabilidad dada por el resultado de la \cref{eq:simulated_annealing}, donde $t$ representa la temperatura (o valor decreciente respecto del número de iteraciones) y $f(s1)$ y $f(s2)$ los valores de la función objetivo para las soluciones $s1$ y $s2$ respectivamente. En el \cref{code:solving_simulated_annealing} se incluye el pseudo-código de la metaheurística.
 
         \begin{equation}
-          \label{eq:simulated_anneling}
+          \label{eq:simulated_annealing}
           P(t, f(s1), f(s2)) = exp\left(-\frac{f(s1) - f(s2)}{t}\right)
         \end{equation}
 
@@ -404,7 +404,7 @@
           \SetAlgoLined
           \KwResult{$best$ }
           \While{$condition$}{
-            \While{$annelingCondition$}{
+            \While{$annealingCondition$}{
               $current \gets randomNeighbor(best)$\;
               \If{$f(current) < f(best) \textbf{or} random(0, 1) < P(t, f(current), f(best))$}{
                 $best \gets current$\;
@@ -412,12 +412,12 @@
             }
             $t \gets decrease(t)$\;
           }
-          \caption{Estrategia de resolución basada en metaheurística \emph{Simulated Anneling}.}
-          \label{code:solving_simulated_anneling}
+          \caption{Estrategia de resolución basada en metaheurística \emph{Simulated Annealing}.}
+          \label{code:solving_simulated_annealing}
         \end{algorithm}
 
         \paragraph{}
-        Esta metaheurística ha servido de base para la construcción de otras más avanzadas, como \emph{Microcanonic annealing} basado en la propiedad de equilibrio de la termodinámica, \emph{Threshold accepting method} basado en un threshold de decreciente o \emph{Noising method}. También es fácil darse cuenta de que esta metaheurística puede utilizarse de manera hibrida junto con \emph{GRASP} utilizando \emph{Simulated Anneling} como envoltorio sobre la operación de \emph{Búsqueda Local}. Las técnicas que representan el estado del arte en el área de metaheurísticas de optimización actualmente se componen principalmente de estrategias hibridas como la descrita en este caso.
+        Esta metaheurística ha servido de base para la construcción de otras más avanzadas, como \emph{Microcanonic annealing} basado en la propiedad de equilibrio de la termodinámica, \emph{Threshold accepting method} basado en un threshold de decreciente o \emph{Noising method}. También es fácil darse cuenta de que esta metaheurística puede utilizarse de manera hibrida junto con \emph{GRASP} utilizando \emph{Simulated Annealing} como envoltorio sobre la operación de \emph{Búsqueda Local}. Las técnicas que representan el estado del arte en el área de metaheurísticas de optimización actualmente se componen principalmente de estrategias hibridas como la descrita en este caso.
 
       \subsection{Tabu Search}
       \label{sec:solving_tabu}
