@@ -50,12 +50,54 @@
     \label{sec:introduction_objectives}
 
       \paragraph{}
-      [TODO]
+      Tras llevar a cabo un primer acercamiento al problema \emph{Dial-a-Ride}, a través del cual se han podido introducir algunos de los conceptos básicos comunes a todos los problemas de optimización y que, como es natural, también se aplican al problema en cuestión, lo siguiente es realizar un breve comentario acerca del contexto y los objetivos sobre los cuales se ha llevado a cabo el trabajo que aquí se expone. Dichas aclaraciones se creen pertinentes para así poder comprender en mayor medida el alcance del mismo, así como el nivel de profundización relativo a ciertos conceptos presentados a lo largo de este.
+
+      \paragraph{}
+      En primer lugar, se procede a contextualizar el trabajo. Este se ha realizado como tema de la asignatura \emph{Trabajo de Fin de Grado} presente en la titulación de \emph{Grado en Estadística} ofrecida por la \emph{Universidad de Valladolid}. Esta asignatura ocupa un peso de \emph{6 créditos ECTS}, lo cual equivale aproximadamente a unas \emph{180 horas} de decicación. Sobre este marco, se ha tratado de llevar un trabajo que (con sus correspondientes limitaciones) abarque de la mejor manera posible el tema sobre el cual se centra. A continuación se lleva indican los objetivos más relevantes sobre los cuales este se ha estructurado:
+
+      \begin{itemize}
+
+        \item \textbf{Analizar el problema \emph{Dial-a-Ride} desde una perspectiva matemática}: Ser capaz de reconocer las características que el problema presenta, pudiendo contextualizarlo y relacionarlo con otros problemas de naturaleza similar, así como estudiarlo desde una perspectiva técnica utilizando como apoyo el paradigma de \emph{Programación Lineal Mixta}.
+
+        \item \textbf{Implementar la formulación del mismo en algún sistema de resolución basada en \emph{Programación Lineal Mixta}}: A partir de la formulación establecida por otros autores expertos en la materia, llevar a cabo la resolución de instancias del problema en alguno de los sistemas más populares, tales como \emph{Mosel} o \emph{CPLEX}.
+
+        \item \textbf{Estudiar los métodos de resolución basados en (meta)-heurísticas más relevantes para resolver el problema}: Analizar los recursos bibliográficos que exponen distintas técnicas de resolución basadas en estrategias heurísticas, pudiendo comprender hacer una exposición acerca de estas así como relacionar unas con otras cuando aparezcan relaciones entre ellas.
+
+        \item \textbf{Llevar a cabo una implementación propia de alguna de las estrategias de resolución disponibles}: A partir de los conceptos estudiados en los recursos bibliográficos, proceder con la implementación en algún lenguaje de programación de alguna de las técnicas que son capaces de resolver el problema, generando soluciones factibles y tratando de alcanzar el valor óptimo de la correspondiente instancia.
+
+        \item \textbf{Diseñar una estrategia de evaluación de resultados de manera metódica que permita hacer una valoración objetiva de los mismos}: Exponer de manera clara cómo se ha llevado a cabo el análisis acerca de la implementación realizada, indicando qué instancias se han utilizado, de qué manera se comparan las soluciones óptimas con respecto de los resultados obtenidos y qué métricas se han utilizado para medir la calidad estos.
+
+      \end{itemize}
+
+      \paragraph{}
+      Además de los objetivos principales que se acaban de indicar, también es de vital importancia para el correcto desarrollo del trabajo otros requisitos de carácter más troncal, tales como: \begin{enumerate*}[label=(\alph*)] \item ser capaz de comprender y razonar sobre otros trabajos científicos relacionados con el tema principal de tal forma que estos puedan ser utilizados como referencias que apoyen conceptos comentados a lo largo del trabajo, \item expresar ideas y conceptos técnicos de una manera comprensible por un lector con conocimientos relacionados en la materia y \item llevar a cabo implementaciones de código que sean legibles, mantenibles, bien documentadas y probadas \end{enumerate*}.
+
+      \paragraph{}
+      Es importante remarcar que el trabajo se enmarca dentro del contexto académico, pero desde una perspectiva de análisis y exposición del problema \emph{Dial-a-Ride}, de tal manera que esto permita alcanzar un nivel de maduración y conocimiento del problema suficiente, para posteriormente poder aplicarlo en situaciones reales, o incluso servir de base para futuros trabajos con una orientación más enfocada en la investigación. Por estas razones, este trabajo no busca llegar a resultados novedosos en la materia, lo cual es necesario aclarar. No obstante, se cree que la base de trabajo que es posible adquirir mediante este ejercicio puede ser muy enriquecedora en futuros trabajos con un objetivo más orientado en el descubrimiento que en la exposición.
+
+      \paragraph{}
+      Una vez indicados los objetivos del trabajo, lo siguiente es comentar la metodología seguida a lo largo del mismo para conseguir que esto sean satisfechos. Para ello, se destina el siguiente apartado.
 
     \section{Metodología}
     \label{sec:introduction_metodology}
 
       \paragraph{}
-      [TODO]
+      La metodología seguida a lo largo del trabajo sigue una correlación de orden natural respecto de los capítulos en los cuales se subdivide este documento. Siguiendo dicho orden, a continuación se comenta brevemente el contenido de cada uno de estos así como una justificación acerca de la importancia que estos tienen en el estudio del problema y, por tanto, en la completitud del trabajo.
+
+      \paragraph{}
+      En el \cref{chap:formulation} se lleva a cabo un análisis acerca de la \emph{Formulación del Problema}. En este se comienza contextualizando el problema, desde una perspectiva general, para poco a poco ir incrementando el grado de concretización hasta alcanzar la definición formal del problema \emph{Dial-a-Ride}. En este capítulo también se abarca la definición de los términos más relevantes que después se utilizarán en el resto del documento y finalmente se lleva a cabo una exposición detallada sobre la \emph{fomulación básica} del problema mediante un \emph{modelo de programación lineal mixta}, donde se indican tanto las variables de decisión como las restricciones y la función objetivo. A través de este capítulo se pretende ser capaz de razonar sobre el problema en cuestión desde una perpectiva matemática.
+
+      \paragraph{}
+      En el \cref{chap:solving} se estudian los \emph{Métodos de Resolución} más destacado para la generación de soluciones del problema \emph{Dial-a-Ride}. En este caso, se comienza enfocándose en los métodos que proporcionan garantías de optimalidad (o exactos). Seguidamente, se estudian los métodos basados en heurísticas para después exponer cómo la combinación de esta permite construir otros métodos más sofisticados basados en metaheurísticas. Durante todo el capítulo se trata de comentar las ventajas y desventajas que presenta cada estrategia para así poder hacer elecciones apropiadas según los requisitos específicos de la instancia concreta a resolver. Se pretende que este capítulo sirva como base de conocimiento acerca de la taxonomía generada por todas aquellas técnicas de resolución, de tal manera que la elección de unas u otras se pueda llevar a cabo teniendo en cuenta tanto su alcance como sus ventajas y desventajas.
+
+      \paragraph{}
+      En el \cref{chap:implementation_results} se llevan a cabo dos tareas de especial relevancia para el trabajo, las cuales consisten en el estudio y análisis de la \emph{Implementación y Resultados}. En lo relativo a la implementación realizada, se lleva a cabo una división en dos niveles acerca de las decisiones tomadas. Por un lado se comentan aquellas características que están relacionadas con factores de \emph{Alto Nivel} sin entrar en detalles relativos al desarrollo de código fuente, mientras que en el apartado referido a las decisiones de \emph{Bajo Nivel} se tratan de clarificar en la medida de lo posible los detalles más relevantes en lo relativo al desarrollo del código fuente. Respecto del apartado dedicado a \emph{Resultados}, en este se comenta la estrategia utilizada para llevar a cabo el proceso de experimentación basado en la ejecución de un conjunto de instancias usadas por otros autores reconocidos, para posteriormente analizar los resultados obtenidos. En este capítulo se pretende poner en práctica todos aquellos conceptos estudiados desde una perspectiva teórica en anteriores capítulos, desde la resolución mediante la formulación como \emph{problema de programación lineal mixta} hasta el análisis de resultados obtenidos mediante la resolución de soluciones a partir de la implementación propia de una metaheurística \emph{GRASP}.
+
+      \paragraph{}
+      En el \cref{chap:conclusions} se incluyen las \emph{Conclusiones Generales y Próximos Pasos} en lo relativo al trabajo, llevando a cabo un comentario final acerca del mismo, tanto del problema en cuestión como del proceso de estudio llevado a cabo. Además, se indican un conjunto de próximos pasos que parecen interesantes para continuar trabajando en la materia.
+
+    \paragraph{}
+     Una vez llevada a cabo una introducción al problema \emph{Dial-a-Ride}, indicados los objetivos del trabajo y enumerados los puntos a seguir como metodología del mismo ya se está en condiciones necesarias para proceder con el contenido propio de este. En el siguiente capítulo se estudia la formulación del problema.
+
 
 \end{document}
