@@ -245,7 +245,7 @@
 
                       \item \texttt{TailInsertionStrategy}: La estrategia de inserción de cola consiste en tratar de insertar el viaje al final de la ruta. En este caso tan solo se crea una nueva ruta por lo que, en términos de eficiencia computacional, es la mejor de todas. Sin embargo, en este caso no se aprovecha la posibilidad de \emph{compartir vehículo} por varios viajes de manera simultanea. Este método es interesante para generar soluciones iniciales de manera eficiente que después puedan ser mejoradas por otras (meta-)heurísticas más avanzadas.
 
-                      \item \texttt{SamplingInsertionStrategy}: Para tratar de equilibrar la estrategia de inserción intensiva (de alto coste computacional pero buenos resultados) con la de cola (de reducido coste computacional pero generalmente resultados mucho peores), se ha incluye una estratgia basada en sampleo de un número determinado de pares $(i, j)$ a evaluar, de tal manera que la insercción sea sobre un espacio de búsqueda más amplio pero a la vez se mantenga asequible sobre problemas de gran tamaño.
+                      \item \texttt{SamplingInsertionStrategy}: Para tratar de equilibrar la estrategia de inserción intensiva (de alto coste computacional pero buenos resultados) con la de cola (de reducido coste computacional pero generalmente resultados mucho peores), se ha incluye una estrategia basada en sampleo de un número determinado de pares $(i, j)$ a evaluar, de tal manera que la insercción sea sobre un espacio de búsqueda más amplio pero a la vez se mantenga asequible sobre problemas de gran tamaño.
 
                   \end{itemize}
 
