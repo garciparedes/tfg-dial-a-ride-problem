@@ -1,0 +1,185 @@
+\documentclass[8pt]{beamer}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[
+  english,
+  spanish,
+  es-tabla,
+  es-nodecimaldot
+]{babel}
+\selectlanguage{spanish}
+
+\usepackage{dirtytalk}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[spanish]{cleveref}
+\usepackage{thelinearprogramming}
+\usepackage{tabu}
+
+\usepackage[newfloat]{minted}
+\setminted[python]{tabsize=1,fontsize=\footnotesize}
+
+\title{Métodos escalables de resolución para el \\ Dial-a-Ride Problem (DARP)}
+\subtitle{Sergio García Prado}
+
+\usecolortheme{dove}
+\begin{document}
+
+  \begin{frame}
+		\titlepage
+  \end{frame}
+
+  \begin{frame}{Introducción}
+		\say{The Dial-a-Ride Problem (DARP) consists of designing vehicle routes and schedules for n users who specify pickup and delivery requests between origins and destinations. The aim is to plan a set of m minimum cost vehicle routes capable of accommodating as many users as possible, under a set of constraints. The most common example arises in door-to-door transportation for elderly or disabled people.}
+    \rightline{{\rm --- Jean-François Cordeau \& Gilbert Laporte}}
+  \end{frame}
+
+  \begin{frame}{Formulación}
+      \begin{equation*}
+        \begin{array}{rr@{}ll}
+          \text{Minimizar}
+            & \displaystyle\sum\limits_{k \in K}\sum\limits_{j \in V}\sum\limits_{i \in V}  c_{ij}^{k}x_{ij}^{k} &
+              & \\
+          \text{sujeto a}
+            & \displaystyle\sum\limits_{k \in K}\sum\limits_{j \in V} x_{ij}^{k} \ &= 1,
+              & \forall i \in P \\
+            & \displaystyle\sum\limits_{i \in V} x_{0i}^{k}  \ &= 1,
+              & \forall k \in K \\
+            & \displaystyle\sum\limits_{i \in V} x_{i,2n+1}^{k}  \ &= 1,
+              & \forall k \in K \\
+            & \displaystyle\sum\limits_{j \in V} x_{ij}^{k} - \sum\limits_{j \in V} x_{n+i,j}^{k} \ &= 0,
+              & \forall i \in P, \forall k \in K \\
+            & \displaystyle\sum\limits_{j \in V} x_{ji}^{k} - \sum\limits_{j \in V} x_{ij}^{k} \ &= 0,
+              & \forall i \in P \cup D, \forall k \in K \\
+            & u_{i}^{k} + d_{i} + t_{ij} - M_{ij}^k (1 - x_{ij}^k) \ &\leq u_{j}^{k},
+              & \forall i,j \in V, \forall k \in K \\
+            & w_{i}^{k} + q_{j} - W_{ij}^k (1 - x_{ij}^k) \ &\leq w_{j}^{k},
+              & \forall i,j \in V, \forall k \in K \\
+            & u_{2n+1}^{k} - u_{0}^{k} \ &\leq T_{k},
+              & \forall k \in K \\
+            & e_{i} \ &\leq u_{i}^{k},
+              & \forall i \in V, \forall k \in K \\
+            & u_{i}^{k} \ &\leq l_{i},
+              & \forall i \in V, \forall k \in K \\
+            & t_{i, n + i}^{k} \ &\leq u_{n+i}^{k} - (u_{i}^{k} + d_{i}),
+              & \forall i \in P, \forall k \in K \\
+            & u_{n+i}^{k} - (u_{i}^{k} + d_{i}) \ &\leq L_{k},
+              & \forall i \in P, \forall k \in K \\
+            & max\{0, q_{i}\} \ &\leq w_{i}^{k},
+              & \forall i \in V, \forall k \in K \\
+            & w_{i}^{k} \ &\leq Q_{k} + min\{0, q_{i}\},
+              & \forall i \in V, \forall k \in K \\
+            & x_{ij}^k \ &\in \{0,1\},
+              & \forall i,j \in V, \forall k \in K \\
+        \end{array}
+      \end{equation*}
+  \end{frame}
+
+  \begin{frame}{Métodos de Resolución}
+    \begin{itemize}
+      \item Exactos:
+        \begin{itemize}
+          \item \emph{Branch and Bound}: Se basa en la resolución una versión relajada del problema para después añadir restricciones adiccionales (valores binarios, etc.) a partir de un proceso de ramificación.
+        \end{itemize}
+      \item Heurísticos:
+        \begin{itemize}
+          \item \emph{Fuerza Bruta}: Mediante un proceso iterativo probar todas las posibles combinaciones de soluciones hasta llegar a la mejor solución.
+          \item \emph{Selección Aleatoria}: Generación iterativa de soluciones incrementales tomando decisiones aleatorias en cada paso.
+          \item \emph{Greedy}: Generación iterativa de soluciones incrementales tomando la mejor decisión en cada paso del algoritmo con la esperanza de que la solución final sea lo suficientemente buena.
+          \item \emph{Clarke and Wright}: Algoritmo clásico de generación de rutas, partiendo de una por viaje para después realizar combinaciones entre estas mientras sea posible.
+          \item \emph{Búsqueda Local}: Estrategia de mejora, dada una solución inicial, se trata de aplicar transformaciones sobre esta de tal manera que mejore respecto de una determinada métrica.
+          \item \emph{Redes Neuronales}: Apoyadas en la relación de cercanía entre nodos del grafo generado, en los últimos años se han propuesto métodos de resolución para problemas básicos mediante \emph{SOM}.
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Métodos de Resolución}
+    \begin{itemize}
+      \item Meta-Heurísticos:
+        \begin{itemize}
+          \item \emph{GRASP}: Estrategia combinada basada en generación de soluciones \emph{Greedy} para su posterior mejora mediante \emph{Local Search}.
+          \item \emph{Simulated Annealing}: Para tratar de reducir la problemática de caer en mínimos locales, en las primeras etapas de ejecución del algoritmo se aceptan ciertas soluciones \say{contraproducentes} para después hacer más estricto dicho criterio conforme aumentan las iteraciones.
+          \item \emph{Tabu Search}: Se permite alcanzar soluciones peores que la actual, siempre y cuando estas no se hayan visitado previamente (para ello se almacena la secuencia de últimas soluciones generadas).
+          \item \emph{Variable Neighborhood Search}: En cada iteracción de la estrategia se utiliza una heurística diferente con la esperanza de que la combinación de ambas permita alcanzar resultados mejores.
+          \item \emph{Large Neighborhood Search}: La generación de soluciones iniciales se basa en la recombinación y/o fusión de las soluciones obtenidas en anteriores iteraciones del algoritmo.
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Implementación y Resultados (I)}
+    \begin{figure}[!hb]
+      \centering
+      \inputminted[frame=single]{python}{./code/minimal_solve.py}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}{Implementación y Resultados (II)}
+    \begin{table}[!ht]
+      \centering
+      \begin{tabu}{ | c | c | c | c |}
+        \hline
+        &\bfseries R & \bfseries A & \bfseries B
+        \\\hline Finalización & 20.0\% & 38.09\% & 42.85\%
+        \\\hline
+      \end{tabu}
+      \caption{Indicadores relativos al \emph{porcentaje de finalización} antes de las dos horas obtenido durante el experimento.}
+      \label{table:ending_summary}
+    \end{table}
+
+    \begin{table}[!ht]
+      \centering
+      \begin{tabu}{ | c | c | c | c |}
+        \hline
+        &\bfseries R & \bfseries A & \bfseries B
+        \\\hline Promedio & 50.18\% & 14.55\% & 10.34\%
+        \\\hline Desviación Estándar & 29.08 & 10.68 & 10.02
+        \\\hline
+      \end{tabu}
+      \caption{Indicadores relativos a la \emph{diferencia de costes} respecto del mejor valor conocido obtenido durante el experimento.}
+      \label{table:costs_summary}
+    \end{table}
+
+    \begin{table}[!ht]
+      \centering
+      \begin{tabu}{ | c | c | c | c |}
+        \hline
+        &\bfseries R & \bfseries A & \bfseries B
+        \\\hline Promedio & 94.85\% & 99.24\% & 98.82\%
+        \\\hline Desviación Estándar & 6.43 & 1.62 & 1.79
+        \\\hline
+      \end{tabu}
+      \caption{Indicadores relativos al \emph{nivel de servicio} obtenido durante el experimento.}
+      \label{table:service_summary}
+    \end{table}
+  \end{frame}
+
+  \begin{frame}{Conclusiones y Próximos Pasos}
+    \begin{itemize}
+      \item \emph{Conclusiones}:
+        \begin{itemize}
+          \item El estudio del problema \emph{Dial-a-Ride} representa un reto interesante, tanto por su complejidad desde el punto de vista teórico como del punto de vista de la implementación de métodos de resolución.
+
+          \item La definición de una buena metodología de trabajo en proyectos científicos es de vital importancia para el correcto desarrollo de los mismos.
+
+        \end{itemize}
+      \item \emph{Próximos Pasos}:
+        \begin{itemize}
+
+          \item Profundización en el análisis y posible implementación de los métodos de resolución que representan el actual \emph{estado del arte} en la materia.
+
+          \item Mejora de la implementación llevada a cabo, aumentando su escalabilidad de tal manera que sea utilizable en instancias de tamaño más realista.
+
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \begin{center}
+      \begin{huge}
+        ¿Preguntas?
+      \end{huge}
+    \end{center}
+	\end{frame}
+
+\end{document}
